@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "976674345292",
+    "project_id": "visionary-journey-app",
+    "storage_bucket": "visionary-journey-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976674345292:android:9b20b3dbc285708d52ffe9",
+        "android_client_info": {
+          "package_name": "com.visionary_journey.wecan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjrFDyIqcvSwW2wRSmlA7n_N-PHhso98c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyACh187AS1iO_AzlMQNqJlNG09iYNTycRs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>976674345292</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.visionaryJourneyApp</string>
+	<key>PROJECT_ID</key>
+	<string>visionary-journey-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>visionary-journey-app.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:976674345292:ios:c3721c70f1e4cfab52ffe9</string>
+</dict>
+</plist>
