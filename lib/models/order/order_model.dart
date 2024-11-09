@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:visionary_journey_app/helper/geo_point_serializer.dart';
+import 'package:visionary_journey_app/helper/time_stamp_serializer.dart';
 
 import '../../utils/enums.dart';
 
@@ -10,10 +11,12 @@ part 'order_model.g.dart';
 @unfreezed
 class OrderModel with _$OrderModel {
   factory OrderModel({
-    @Default('') String createdAt,
+    @TimestampSerializer() DateTime? createdAt,
     @Default('') String id,
+    @Default('') String userId,
     @Default('') String status,
-    Destination? pickUp,
+    // Destination? pickUp,
+    GeoModel? pickUp,
     GeoModel? arrivalGeoPoint,
     Driver? driver,
   }) = _OrderModel;
@@ -37,6 +40,7 @@ class Driver with _$Driver {
   factory Driver({
     @Default('') String id,
     @Default(DriverStatus.available) String status,
+    String? orderId,
     GeoModel? currentGeoPoint,
     @Default('') String firstName,
     @Default('') String lastName,

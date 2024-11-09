@@ -11,15 +11,12 @@ class UserModel with _$UserModel {
   factory UserModel({
     @TimestampSerializer() DateTime? createdAt,
     String? id,
-    String? displayName,
     String? email,
     String? phone,
-    String? photoURL,
     String? deviceToken,
-    String? provider,
     String? phoneCountryCode,
+    String? orderId,
     @Default(false) bool blocked,
-    @Default([]) List<String> favorites,
     @Default(LanguageEnum.english) String languageCode,
   }) = _UserModel;
 

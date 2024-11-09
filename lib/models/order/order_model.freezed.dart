@@ -20,14 +20,20 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OrderModel {
-  String get createdAt => throw _privateConstructorUsedError;
-  set createdAt(String value) => throw _privateConstructorUsedError;
+  @TimestampSerializer()
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  @TimestampSerializer()
+  set createdAt(DateTime? value) => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   set id(String value) => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  set userId(String value) => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  set status(String value) => throw _privateConstructorUsedError;
-  Destination? get pickUp => throw _privateConstructorUsedError;
-  set pickUp(Destination? value) => throw _privateConstructorUsedError;
+  set status(String value) =>
+      throw _privateConstructorUsedError; // Destination? pickUp,
+  GeoModel? get pickUp =>
+      throw _privateConstructorUsedError; // Destination? pickUp,
+  set pickUp(GeoModel? value) => throw _privateConstructorUsedError;
   GeoModel? get arrivalGeoPoint => throw _privateConstructorUsedError;
   set arrivalGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
   Driver? get driver => throw _privateConstructorUsedError;
@@ -50,14 +56,15 @@ abstract class $OrderModelCopyWith<$Res> {
       _$OrderModelCopyWithImpl<$Res, OrderModel>;
   @useResult
   $Res call(
-      {String createdAt,
+      {@TimestampSerializer() DateTime? createdAt,
       String id,
+      String userId,
       String status,
-      Destination? pickUp,
+      GeoModel? pickUp,
       GeoModel? arrivalGeoPoint,
       Driver? driver});
 
-  $DestinationCopyWith<$Res>? get pickUp;
+  $GeoModelCopyWith<$Res>? get pickUp;
   $GeoModelCopyWith<$Res>? get arrivalGeoPoint;
   $DriverCopyWith<$Res>? get driver;
 }
@@ -77,21 +84,26 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? id = null,
+    Object? userId = null,
     Object? status = null,
     Object? pickUp = freezed,
     Object? arrivalGeoPoint = freezed,
     Object? driver = freezed,
   }) {
     return _then(_value.copyWith(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -100,7 +112,7 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
       pickUp: freezed == pickUp
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
-              as Destination?,
+              as GeoModel?,
       arrivalGeoPoint: freezed == arrivalGeoPoint
           ? _value.arrivalGeoPoint
           : arrivalGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -116,12 +128,12 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $DestinationCopyWith<$Res>? get pickUp {
+  $GeoModelCopyWith<$Res>? get pickUp {
     if (_value.pickUp == null) {
       return null;
     }
 
-    return $DestinationCopyWith<$Res>(_value.pickUp!, (value) {
+    return $GeoModelCopyWith<$Res>(_value.pickUp!, (value) {
       return _then(_value.copyWith(pickUp: value) as $Val);
     });
   }
@@ -164,15 +176,16 @@ abstract class _$$OrderModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String createdAt,
+      {@TimestampSerializer() DateTime? createdAt,
       String id,
+      String userId,
       String status,
-      Destination? pickUp,
+      GeoModel? pickUp,
       GeoModel? arrivalGeoPoint,
       Driver? driver});
 
   @override
-  $DestinationCopyWith<$Res>? get pickUp;
+  $GeoModelCopyWith<$Res>? get pickUp;
   @override
   $GeoModelCopyWith<$Res>? get arrivalGeoPoint;
   @override
@@ -192,21 +205,26 @@ class __$$OrderModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createdAt = null,
+    Object? createdAt = freezed,
     Object? id = null,
+    Object? userId = null,
     Object? status = null,
     Object? pickUp = freezed,
     Object? arrivalGeoPoint = freezed,
     Object? driver = freezed,
   }) {
     return _then(_$OrderModelImpl(
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       status: null == status
           ? _value.status
@@ -215,7 +233,7 @@ class __$$OrderModelImplCopyWithImpl<$Res>
       pickUp: freezed == pickUp
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
-              as Destination?,
+              as GeoModel?,
       arrivalGeoPoint: freezed == arrivalGeoPoint
           ? _value.arrivalGeoPoint
           : arrivalGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -232,8 +250,9 @@ class __$$OrderModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$OrderModelImpl implements _OrderModel {
   _$OrderModelImpl(
-      {this.createdAt = '',
+      {@TimestampSerializer() this.createdAt,
       this.id = '',
+      this.userId = '',
       this.status = '',
       this.pickUp,
       this.arrivalGeoPoint,
@@ -243,16 +262,20 @@ class _$OrderModelImpl implements _OrderModel {
       _$$OrderModelImplFromJson(json);
 
   @override
-  @JsonKey()
-  String createdAt;
+  @TimestampSerializer()
+  DateTime? createdAt;
   @override
   @JsonKey()
   String id;
   @override
   @JsonKey()
-  String status;
+  String userId;
   @override
-  Destination? pickUp;
+  @JsonKey()
+  String status;
+// Destination? pickUp,
+  @override
+  GeoModel? pickUp;
   @override
   GeoModel? arrivalGeoPoint;
   @override
@@ -260,7 +283,7 @@ class _$OrderModelImpl implements _OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(createdAt: $createdAt, id: $id, status: $status, pickUp: $pickUp, arrivalGeoPoint: $arrivalGeoPoint, driver: $driver)';
+    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUp: $pickUp, arrivalGeoPoint: $arrivalGeoPoint, driver: $driver)';
   }
 
   /// Create a copy of OrderModel
@@ -281,10 +304,11 @@ class _$OrderModelImpl implements _OrderModel {
 
 abstract class _OrderModel implements OrderModel {
   factory _OrderModel(
-      {String createdAt,
+      {@TimestampSerializer() DateTime? createdAt,
       String id,
+      String userId,
       String status,
-      Destination? pickUp,
+      GeoModel? pickUp,
       GeoModel? arrivalGeoPoint,
       Driver? driver}) = _$OrderModelImpl;
 
@@ -292,17 +316,22 @@ abstract class _OrderModel implements OrderModel {
       _$OrderModelImpl.fromJson;
 
   @override
-  String get createdAt;
-  set createdAt(String value);
+  @TimestampSerializer()
+  DateTime? get createdAt;
+  @TimestampSerializer()
+  set createdAt(DateTime? value);
   @override
   String get id;
   set id(String value);
   @override
-  String get status;
-  set status(String value);
+  String get userId;
+  set userId(String value);
   @override
-  Destination? get pickUp;
-  set pickUp(Destination? value);
+  String get status;
+  set status(String value); // Destination? pickUp,
+  @override
+  GeoModel? get pickUp; // Destination? pickUp,
+  set pickUp(GeoModel? value);
   @override
   GeoModel? get arrivalGeoPoint;
   set arrivalGeoPoint(GeoModel? value);
@@ -523,6 +552,8 @@ mixin _$Driver {
   set id(String value) => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   set status(String value) => throw _privateConstructorUsedError;
+  String? get orderId => throw _privateConstructorUsedError;
+  set orderId(String? value) => throw _privateConstructorUsedError;
   GeoModel? get currentGeoPoint => throw _privateConstructorUsedError;
   set currentGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
   String get firstName => throw _privateConstructorUsedError;
@@ -551,6 +582,7 @@ abstract class $DriverCopyWith<$Res> {
   $Res call(
       {String id,
       String status,
+      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       String lastName,
@@ -578,6 +610,7 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
   $Res call({
     Object? id = null,
     Object? status = null,
+    Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
     Object? lastName = null,
@@ -593,6 +626,10 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       currentGeoPoint: freezed == currentGeoPoint
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -655,6 +692,7 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
   $Res call(
       {String id,
       String status,
+      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       String lastName,
@@ -682,6 +720,7 @@ class __$$DriverImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? status = null,
+    Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
     Object? lastName = null,
@@ -697,6 +736,10 @@ class __$$DriverImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       currentGeoPoint: freezed == currentGeoPoint
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -727,6 +770,7 @@ class _$DriverImpl implements _Driver {
   _$DriverImpl(
       {this.id = '',
       this.status = DriverStatus.available,
+      this.orderId,
       this.currentGeoPoint,
       this.firstName = '',
       this.lastName = '',
@@ -743,6 +787,8 @@ class _$DriverImpl implements _Driver {
   @JsonKey()
   String status;
   @override
+  String? orderId;
+  @override
   GeoModel? currentGeoPoint;
   @override
   @JsonKey()
@@ -758,7 +804,7 @@ class _$DriverImpl implements _Driver {
 
   @override
   String toString() {
-    return 'Driver(id: $id, status: $status, currentGeoPoint: $currentGeoPoint, firstName: $firstName, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
+    return 'Driver(id: $id, status: $status, orderId: $orderId, currentGeoPoint: $currentGeoPoint, firstName: $firstName, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
   }
 
   /// Create a copy of Driver
@@ -781,6 +827,7 @@ abstract class _Driver implements Driver {
   factory _Driver(
       {String id,
       String status,
+      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       String lastName,
@@ -795,6 +842,9 @@ abstract class _Driver implements Driver {
   @override
   String get status;
   set status(String value);
+  @override
+  String? get orderId;
+  set orderId(String? value);
   @override
   GeoModel? get currentGeoPoint;
   set currentGeoPoint(GeoModel? value);

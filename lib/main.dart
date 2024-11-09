@@ -90,15 +90,6 @@ class _MyAppState extends State<MyApp> {
         return MultiProvider(
           providers: [
             StreamProvider<UserModel?>.value(
-              // key: ValueKey(userProvider.isAuthenticated),
-              value: null,
-              initialData: null,
-              lazy: false,
-              updateShouldNotify: (initialValue, value) {
-                return true;
-              },
-            ),
-            StreamProvider<UserModel?>.value(
               key: ValueKey(userProvider.isAuthenticated),
               value: userProvider.isAuthenticated ? _userProvider.userStream.map((event) => event.data()) : null,
               initialData: MySharedPreferences.user,
@@ -117,6 +108,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ],
           child: MaterialApp(
+            navigatorKey: rootNavigatorKey,
             builder: (context, child) {
               // do your initialization here
               child = EasyLoading.init()(context, child);

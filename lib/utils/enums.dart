@@ -12,65 +12,10 @@ class ThemeEnum {
   static const String dark = 'dark';
 }
 
-class AuthProviders {
-  static const String google = 'google';
-  static const String apple = 'apple';
-  static const String phone = 'phone';
-  static const String email = 'email';
-}
-
-class BuildingType {
-  static const String house = '1';
-  static const String apartment = '2';
-  static const String office = '3';
-}
-
-class OrderStatusEnum {
-  static const String placed = 'placed';
-  static const String preparing = 'preparing';
-  static const String outForDelivery = 'outForDelivery';
-  static const String readyForPickUp = 'readyForPickup';
-  static const String completed = 'completed';
-  static const String canceled = 'canceled';
-}
-
-class MealOptionEnum {
-  static const String optional = 'optional';
-  static const String required = 'required';
-}
-
-class PostType {
-  static const String list = 'list';
-  static const String banner = 'banner';
-  static const String carousel = 'carousel';
-}
-
-class OrderType {
-  static const String pickUp = 'pickUp';
-  static const String delivery = 'delivery';
-}
-
-class EmailJsEnum {
-  static const link = 'https://api.emailjs.com/api/v1.0/email/send';
-  static const serviceId = "service_85zuv8l"; // service_dga8ga8
-  static const templateId = "template_4w6bflf"; //template_kibj8m3
-  static const userId = "QIWycTMidTmWWH1ro"; //kdJ4pcQ38XFqx54Lk
-}
-
-class AddressPath {
-  static const String basketToCheckout = 'basketToCheckout';
-  static const String back = 'back';
-}
-
 class NotificationsType {
   static const String? general = null;
   static const String product = 'product';
   static const String category = 'category';
-}
-
-class PaymentMethod {
-  static const String cash = 'cash';
-  static const String credit = 'credit';
 }
 
 class OrderStatus {

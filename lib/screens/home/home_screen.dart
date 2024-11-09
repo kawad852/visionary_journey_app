@@ -1,16 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/alerts/errors/app_error_widget.dart';
-import 'package:visionary_journey_app/controllers/map_controller.dart';
 import 'package:visionary_journey_app/network/api_service.dart';
 import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
+import 'package:visionary_journey_app/screens/maps/order_screen.dart';
+import 'package:visionary_journey_app/screens/maps/search_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
+import 'package:visionary_journey_app/utils/database_utils.dart';
 import 'package:visionary_journey_app/widgets/custom_future_builder.dart';
-import 'package:visionary_journey_app/widgets/map_bubble.dart';
 
 import '../../models/user/user_model.dart';
 import '../../notifications/cloud_messaging_service.dart';
@@ -25,9 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final cloudMessagingService = CloudMessagingService();
-  late MapController _mapController;
   late Future<List<dynamic>> _futures;
-  LocationProvider get _locationProvider => context.locationProvider;
 
   OrderProvider get _orderProvider => context.orderProvider;
 
@@ -49,16 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // cloudMessagingService.init(context);
     // cloudMessagingService.requestPermission();
     // _userProvider.updateDeviceToken(context);
-    // _locationProvider.determinePosition(context);
-    _mapController = MapController(context, lat: null, lng: null);
-    _orderProvider.getNearestDriver();
+    _orderProvider.getNearestDriver(32.10052482284217, 36.097777226987525);
     _initialize();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _mapController.dispose();
   }
 
   @override
@@ -67,37 +57,42 @@ class _HomeScreenState extends State<HomeScreen> {
         future: _futures,
         onComplete: (context, snapshot) {
           final marker = snapshot.data![0] as Uint8List;
-          return Consumer<OrderProvider>(
-            builder: (context, orderProvider, child) {
+          return Consumer2<UserModel?, LocationProvider>(
+            builder: (context, user, locationProvider, child) {
+              if (user == null) {
+                return const SizedBox.shrink();
+              }
+
+              if (!locationProvider.isLocationGranted) {
+                return const GrantLocationCard(
+                  onPermissionGranted: null,
+                );
+              }
+
+              final hasOrder = user.orderId != null;
+
               return Scaffold(
                 appBar: AppBar(),
-                // floatingActionButton: FloatingActionButton(
-                //   onPressed: () {
-                //     DatabaseUtils().init();
-                //   },
-                // ),
-                body: Consumer2<UserModel?, LocationProvider>(
-                  builder: (context, user, locationProvider, child) {
-                    if (!locationProvider.isLocationGranted) {
-                      return const GrantLocationCard(
-                        onPermissionGranted: null,
-                      );
-                    }
-
-                    return MapBubble(
-                      controller: _mapController,
-                      markers: orderProvider.drivers.map((e) {
-                        final geoPoint = e.currentGeoPoint!.geoPoint!;
-                        return Marker(
-                          markerId: MarkerId(e.id),
-                          position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                          icon: BitmapDescriptor.fromBytes(marker),
-                          consumeTapEvents: true,
-                        );
-                      }).toSet(),
+                floatingActionButton: _orderProvider.drivers.isNotEmpty
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          DatabaseUtils().createFakeOrder(context);
+                        },
+                      )
+                    : null,
+                body: Builder(builder: (context) {
+                  if (hasOrder) {
+                    return OrderScreen(
+                      icon: marker,
+                      orderId: user.orderId!,
                     );
-                  },
-                ),
+                  }
+                  return SearchScreen(
+                    icon: marker,
+                    lat: 32.10052482284217,
+                    lng: 36.097777226987525,
+                  );
+                }),
               );
             },
           );

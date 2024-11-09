@@ -26,24 +26,18 @@ mixin _$UserModel {
   set createdAt(DateTime? value) => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
   set id(String? value) => throw _privateConstructorUsedError;
-  String? get displayName => throw _privateConstructorUsedError;
-  set displayName(String? value) => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   set email(String? value) => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   set phone(String? value) => throw _privateConstructorUsedError;
-  String? get photoURL => throw _privateConstructorUsedError;
-  set photoURL(String? value) => throw _privateConstructorUsedError;
   String? get deviceToken => throw _privateConstructorUsedError;
   set deviceToken(String? value) => throw _privateConstructorUsedError;
-  String? get provider => throw _privateConstructorUsedError;
-  set provider(String? value) => throw _privateConstructorUsedError;
   String? get phoneCountryCode => throw _privateConstructorUsedError;
   set phoneCountryCode(String? value) => throw _privateConstructorUsedError;
+  String? get orderId => throw _privateConstructorUsedError;
+  set orderId(String? value) => throw _privateConstructorUsedError;
   bool get blocked => throw _privateConstructorUsedError;
   set blocked(bool value) => throw _privateConstructorUsedError;
-  List<String> get favorites => throw _privateConstructorUsedError;
-  set favorites(List<String> value) => throw _privateConstructorUsedError;
   String get languageCode => throw _privateConstructorUsedError;
   set languageCode(String value) => throw _privateConstructorUsedError;
 
@@ -65,15 +59,12 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {@TimestampSerializer() DateTime? createdAt,
       String? id,
-      String? displayName,
       String? email,
       String? phone,
-      String? photoURL,
       String? deviceToken,
-      String? provider,
       String? phoneCountryCode,
+      String? orderId,
       bool blocked,
-      List<String> favorites,
       String languageCode});
 }
 
@@ -94,15 +85,12 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? createdAt = freezed,
     Object? id = freezed,
-    Object? displayName = freezed,
     Object? email = freezed,
     Object? phone = freezed,
-    Object? photoURL = freezed,
     Object? deviceToken = freezed,
-    Object? provider = freezed,
     Object? phoneCountryCode = freezed,
+    Object? orderId = freezed,
     Object? blocked = null,
-    Object? favorites = null,
     Object? languageCode = null,
   }) {
     return _then(_value.copyWith(
@@ -114,10 +102,6 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      displayName: freezed == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -126,30 +110,22 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: freezed == photoURL
-          ? _value.photoURL
-          : photoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
       deviceToken: freezed == deviceToken
           ? _value.deviceToken
           : deviceToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      provider: freezed == provider
-          ? _value.provider
-          : provider // ignore: cast_nullable_to_non_nullable
               as String?,
       phoneCountryCode: freezed == phoneCountryCode
           ? _value.phoneCountryCode
           : phoneCountryCode // ignore: cast_nullable_to_non_nullable
               as String?,
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       blocked: null == blocked
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool,
-      favorites: null == favorites
-          ? _value.favorites
-          : favorites // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       languageCode: null == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -169,15 +145,12 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {@TimestampSerializer() DateTime? createdAt,
       String? id,
-      String? displayName,
       String? email,
       String? phone,
-      String? photoURL,
       String? deviceToken,
-      String? provider,
       String? phoneCountryCode,
+      String? orderId,
       bool blocked,
-      List<String> favorites,
       String languageCode});
 }
 
@@ -196,15 +169,12 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? createdAt = freezed,
     Object? id = freezed,
-    Object? displayName = freezed,
     Object? email = freezed,
     Object? phone = freezed,
-    Object? photoURL = freezed,
     Object? deviceToken = freezed,
-    Object? provider = freezed,
     Object? phoneCountryCode = freezed,
+    Object? orderId = freezed,
     Object? blocked = null,
-    Object? favorites = null,
     Object? languageCode = null,
   }) {
     return _then(_$UserModelImpl(
@@ -216,10 +186,6 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      displayName: freezed == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -228,30 +194,22 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoURL: freezed == photoURL
-          ? _value.photoURL
-          : photoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
       deviceToken: freezed == deviceToken
           ? _value.deviceToken
           : deviceToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      provider: freezed == provider
-          ? _value.provider
-          : provider // ignore: cast_nullable_to_non_nullable
               as String?,
       phoneCountryCode: freezed == phoneCountryCode
           ? _value.phoneCountryCode
           : phoneCountryCode // ignore: cast_nullable_to_non_nullable
               as String?,
+      orderId: freezed == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String?,
       blocked: null == blocked
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool,
-      favorites: null == favorites
-          ? _value.favorites
-          : favorites // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       languageCode: null == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -266,15 +224,12 @@ class _$UserModelImpl implements _UserModel {
   _$UserModelImpl(
       {@TimestampSerializer() this.createdAt,
       this.id,
-      this.displayName,
       this.email,
       this.phone,
-      this.photoURL,
       this.deviceToken,
-      this.provider,
       this.phoneCountryCode,
+      this.orderId,
       this.blocked = false,
-      this.favorites = const [],
       this.languageCode = LanguageEnum.english});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -286,32 +241,25 @@ class _$UserModelImpl implements _UserModel {
   @override
   String? id;
   @override
-  String? displayName;
-  @override
   String? email;
   @override
   String? phone;
   @override
-  String? photoURL;
-  @override
   String? deviceToken;
-  @override
-  String? provider;
   @override
   String? phoneCountryCode;
   @override
-  @JsonKey()
-  bool blocked;
+  String? orderId;
   @override
   @JsonKey()
-  List<String> favorites;
+  bool blocked;
   @override
   @JsonKey()
   String languageCode;
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, id: $id, displayName: $displayName, email: $email, phone: $phone, photoURL: $photoURL, deviceToken: $deviceToken, provider: $provider, phoneCountryCode: $phoneCountryCode, blocked: $blocked, favorites: $favorites, languageCode: $languageCode)';
+    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, blocked: $blocked, languageCode: $languageCode)';
   }
 
   /// Create a copy of UserModel
@@ -334,15 +282,12 @@ abstract class _UserModel implements UserModel {
   factory _UserModel(
       {@TimestampSerializer() DateTime? createdAt,
       String? id,
-      String? displayName,
       String? email,
       String? phone,
-      String? photoURL,
       String? deviceToken,
-      String? provider,
       String? phoneCountryCode,
+      String? orderId,
       bool blocked,
-      List<String> favorites,
       String languageCode}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -357,32 +302,23 @@ abstract class _UserModel implements UserModel {
   String? get id;
   set id(String? value);
   @override
-  String? get displayName;
-  set displayName(String? value);
-  @override
   String? get email;
   set email(String? value);
   @override
   String? get phone;
   set phone(String? value);
   @override
-  String? get photoURL;
-  set photoURL(String? value);
-  @override
   String? get deviceToken;
   set deviceToken(String? value);
-  @override
-  String? get provider;
-  set provider(String? value);
   @override
   String? get phoneCountryCode;
   set phoneCountryCode(String? value);
   @override
+  String? get orderId;
+  set orderId(String? value);
+  @override
   bool get blocked;
   set blocked(bool value);
-  @override
-  List<String> get favorites;
-  set favorites(List<String> value);
   @override
   String get languageCode;
   set languageCode(String value);

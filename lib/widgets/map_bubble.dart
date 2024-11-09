@@ -11,7 +11,10 @@ class MapBubble extends StatefulWidget {
   final Function(LatLng latLng)? onTap;
   final bool zoomGesturesEnabled;
   final Set<Marker> markers;
+  final Set<Polyline> polyLines;
   final MapController controller;
+  final bool showMyPin;
+  final Function()? onMapCreated;
 
   const MapBubble({
     Key? key,
@@ -21,6 +24,9 @@ class MapBubble extends StatefulWidget {
     this.zoomGesturesEnabled = true,
     this.markers = const {},
     required this.controller,
+    this.showMyPin = true,
+    this.polyLines = const {},
+    this.onMapCreated,
   }) : super(key: key);
 
   @override
@@ -59,25 +65,30 @@ class _MapBubbleState extends State<MapBubble> {
             target: LatLng(_controller.latitude, _controller.longitude),
             zoom: widget.zoom,
           ),
+          polylines: widget.polyLines,
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
           mapToolbarEnabled: false,
           zoomGesturesEnabled: widget.zoomGesturesEnabled,
           onMapCreated: (GoogleMapController controller) {
             _controller.googleMapCtrl.complete(controller);
+            if (widget.onMapCreated != null) {
+              widget.onMapCreated!();
+            }
           },
           onCameraMove: widget.onCameraMove,
           onTap: widget.onTap,
           markers: widget.markers,
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 36),
-          child: Icon(
-            Icons.location_pin,
-            size: 40,
-            color: context.colorScheme.surfaceTint,
+        if (widget.showMyPin)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 36),
+            child: Icon(
+              Icons.location_pin,
+              size: 40,
+              color: context.colorScheme.surfaceTint,
+            ),
           ),
-        ),
         if (_loading)
           Padding(
             padding: const EdgeInsets.all(10),

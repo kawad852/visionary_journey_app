@@ -1,11 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../models/country/country_model.dart';
-import '../../utils/base_extensions.dart';
 import '../../utils/countries.dart';
-import '../../utils/enums.dart';
 
 class UiHelper {
   static String getFlag(String code) => 'assets/flags/${code.toLowerCase()}.svg';
@@ -18,57 +15,24 @@ class UiHelper {
         scrollPhysics: const NeverScrollableScrollPhysics(),
       );
 
-  static IconData getUserProviderIcon(String provider) {
-    switch (provider) {
-      case AuthProviders.google:
-        return FontAwesomeIcons.google;
-      case AuthProviders.apple:
-        return FontAwesomeIcons.apple;
-      case AuthProviders.phone:
-        return FontAwesomeIcons.phone;
-      default:
-        return FontAwesomeIcons.user;
-    }
-  }
-
-  static Color orderStatusColor(BuildContext context, String status) {
-    switch (status) {
-      case OrderStatusEnum.canceled:
-        return context.colorScheme.error;
-      default:
-        return context.colorScheme.secondary;
-    }
-  }
-
-  static IconData getBuildingIcon(String type) {
-    switch (type) {
-      case BuildingType.apartment:
-        return FontAwesomeIcons.apartment;
-      case BuildingType.office:
-        return FontAwesomeIcons.chairOffice;
-      default:
-        return FontAwesomeIcons.house;
-    }
-  }
-
-  static String orderStatusName(BuildContext context, String status) {
-    switch (status) {
-      case OrderStatusEnum.placed:
-        return context.appLocalization.statusPlaced;
-      case OrderStatusEnum.preparing:
-        return context.appLocalization.statusPreparing;
-      case OrderStatusEnum.outForDelivery:
-        return context.appLocalization.statusOutForDelivery;
-      case OrderStatusEnum.readyForPickUp:
-        return context.appLocalization.readyForPickup;
-      case OrderStatusEnum.completed:
-        return context.appLocalization.statusCompleted;
-      case OrderStatusEnum.canceled:
-        return context.appLocalization.statusCanceled;
-      default:
-        return '';
-    }
-  }
+  // static String orderStatusName(BuildContext context, String status) {
+  //   switch (status) {
+  //     case OrderStatusEnum.placed:
+  //       return context.appLocalization.statusPlaced;
+  //     case OrderStatusEnum.preparing:
+  //       return context.appLocalization.statusPreparing;
+  //     case OrderStatusEnum.outForDelivery:
+  //       return context.appLocalization.statusOutForDelivery;
+  //     case OrderStatusEnum.readyForPickUp:
+  //       return context.appLocalization.readyForPickup;
+  //     case OrderStatusEnum.completed:
+  //       return context.appLocalization.statusCompleted;
+  //     case OrderStatusEnum.canceled:
+  //       return context.appLocalization.statusCanceled;
+  //     default:
+  //       return '';
+  //   }
+  // }
 
   static TimeOfDay convertStringToTimeOfDay(String timeString) {
     final parts = timeString.split(':');

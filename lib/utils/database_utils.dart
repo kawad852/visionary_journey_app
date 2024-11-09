@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:visionary_journey_app/models/order/order_model.dart';
 import 'package:visionary_journey_app/models/user/user_model.dart';
+import 'package:visionary_journey_app/utils/app_constants.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 import '../network/fire_queries.dart';
 
@@ -29,11 +33,10 @@ class DatabaseUtils {
       final user = UserModel(
         id: "dxqfEg8kaTb97tNibPDXlkm8H7Q2",
         createdAt: DateTime.now(),
-        displayName: "Khaled Awad",
         email: "kawad852@gmail.com",
-        photoURL:
-            "https://media.licdn.com/dms/image/v2/C4E03AQEEZUPHzQoE0A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1623677348445?e=2147483647&v=beta&t=sqDxbsOL6qHX3U123nNUJ1EWY6noIQIEN7DuCRBtSos",
-        languageCode: "en",
+        phoneCountryCode: kFallBackCountryCode,
+        phone: "791595029",
+        languageCode: LanguageEnum.english,
       );
 
       await FirebaseFirestore.instance.users.doc(user.id).set(user);
@@ -90,6 +93,46 @@ class DatabaseUtils {
       debugPrint("FINISHED SUCCESSFULLY");
     } catch (e) {
       debugPrint("error: $e");
+    }
+  }
+
+  void createFakeOrder(BuildContext context) {
+    const pickUpGeo = GeoFirePoint(GeoPoint(32.10052482284217, 36.097777226987525));
+    const arrivalGeo = GeoFirePoint(GeoPoint(32.071723624584614, 36.10014366249384));
+    final order = OrderModel(
+      id: '1',
+      userId: MySharedPreferences.user!.id!,
+      status: OrderStatus.driverAssigned,
+      createdAt: DateTime.now(),
+      driver: context.orderProvider.drivers.first,
+      pickUp: GeoModel(
+        geoHash: pickUpGeo.geohash,
+        geoPoint: pickUpGeo.geopoint,
+      ),
+      arrivalGeoPoint: GeoModel(
+        geoHash: arrivalGeo.geohash,
+        geoPoint: arrivalGeo.geopoint,
+      ),
+    );
+
+    FirebaseFirestore.instance.orders.doc(order.id).set(order);
+  }
+
+  void createUser(BuildContext context) {
+    const email = "${kFallBackCountryCode}791595029_mail@visinory.com";
+    try {
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: "123456",
+      )
+          .then((value) {
+        if (context.mounted) {
+          context.userProvider.register(context, value);
+        }
+      });
+    } catch (e) {
+      print("error:: $e");
     }
   }
 }

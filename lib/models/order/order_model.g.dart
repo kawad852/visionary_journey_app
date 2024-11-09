@@ -8,12 +8,13 @@ part of 'order_model.dart';
 
 _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
     _$OrderModelImpl(
-      createdAt: json['createdAt'] as String? ?? '',
+      createdAt: const TimestampSerializer().fromJson(json['createdAt']),
       id: json['id'] as String? ?? '',
+      userId: json['userId'] as String? ?? '',
       status: json['status'] as String? ?? '',
       pickUp: json['pickUp'] == null
           ? null
-          : Destination.fromJson(json['pickUp'] as Map<String, dynamic>),
+          : GeoModel.fromJson(json['pickUp'] as Map<String, dynamic>),
       arrivalGeoPoint: json['arrivalGeoPoint'] == null
           ? null
           : GeoModel.fromJson(json['arrivalGeoPoint'] as Map<String, dynamic>),
@@ -24,8 +25,9 @@ _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
     <String, dynamic>{
-      'createdAt': instance.createdAt,
+      'createdAt': const TimestampSerializer().toJson(instance.createdAt),
       'id': instance.id,
+      'userId': instance.userId,
       'status': instance.status,
       'pickUp': instance.pickUp?.toJson(),
       'arrivalGeoPoint': instance.arrivalGeoPoint?.toJson(),
@@ -51,6 +53,7 @@ Map<String, dynamic> _$$DestinationImplToJson(_$DestinationImpl instance) =>
 _$DriverImpl _$$DriverImplFromJson(Map<String, dynamic> json) => _$DriverImpl(
       id: json['id'] as String? ?? '',
       status: json['status'] as String? ?? DriverStatus.available,
+      orderId: json['orderId'] as String?,
       currentGeoPoint: json['currentGeoPoint'] == null
           ? null
           : GeoModel.fromJson(json['currentGeoPoint'] as Map<String, dynamic>),
@@ -66,6 +69,7 @@ Map<String, dynamic> _$$DriverImplToJson(_$DriverImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'status': instance.status,
+      'orderId': instance.orderId,
       'currentGeoPoint': instance.currentGeoPoint?.toJson(),
       'firstName': instance.firstName,
       'lastName': instance.lastName,

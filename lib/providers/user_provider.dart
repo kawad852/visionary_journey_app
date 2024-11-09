@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/utils/app_constants.dart';
 
 import '../alerts/feedback/app_feedback.dart';
 import '../models/user/user_model.dart';
@@ -19,7 +20,8 @@ class UserProvider extends ChangeNotifier {
 
   User? get user => _firebaseAuth.currentUser;
   String? get userUid => user?.uid;
-  bool get isAuthenticated => user != null && !user!.isAnonymous && user!.emailVerified;
+  bool get isAuthenticated => user != null;
+  // bool get isAuthenticated => MySharedPreferences.user != null;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
 
@@ -35,23 +37,17 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> register(
     BuildContext context,
-    UserCredential auth, {
-    required String provider,
-    required String? guestRoute,
-    String? phoneCountryCode,
-    String? displayName,
-  }) async {
+    UserCredential auth,
+  ) async {
     await ApiService.fetch(
       context,
       callBack: () async {
         final user = UserModel();
-        user.provider = provider;
         user.id = auth.user?.uid;
         user.email = auth.user?.email;
-        user.phoneCountryCode = phoneCountryCode;
+        user.phoneCountryCode = kFallBackCountryCode;
         user.phone = auth.user?.phoneNumber;
-        user.displayName = displayName ?? auth.user?.displayName;
-        user.deviceToken = await _getDeviceToken();
+        // user.deviceToken = await _getDeviceToken();
         user.languageCode = MySharedPreferences.language;
         final userDocument = await _firebaseFirestore.users.doc(user.id).get();
         if (!userDocument.exists) {
