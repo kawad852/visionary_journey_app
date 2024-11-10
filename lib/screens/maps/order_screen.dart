@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:visionary_journey_app/helper/services.dart';
 import 'package:visionary_journey_app/network/fire_queries.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
@@ -16,13 +17,15 @@ import '../../utils/app_constants.dart';
 import '../../widgets/map_bubble.dart';
 
 class OrderScreen extends StatefulWidget {
-  final Uint8List icon;
+  final Uint8List carIcon;
+  final Uint8List circleIcon;
   final String orderId;
 
   const OrderScreen({
     super.key,
-    required this.icon,
+    required this.carIcon,
     required this.orderId,
+    required this.circleIcon,
   });
 
   @override
@@ -33,6 +36,8 @@ class _OrderScreenState extends State<OrderScreen> {
   late MapController _mapController;
   late Stream<DocumentSnapshot<OrderModel>> _stream;
   Polyline? polyline;
+  Timer? _timer;
+
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
 
   void _getOrder() {
@@ -68,6 +73,24 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
+  void _updatePoints({
+    required Function() onUpdate,
+  }) {
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        if (polyline!.points.isEmpty) {
+          timer.cancel();
+          setState(() {
+            polyline = null;
+          });
+        } else {
+          onUpdate();
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -79,6 +102,7 @@ class _OrderScreenState extends State<OrderScreen> {
   void dispose() {
     super.dispose();
     _mapController.dispose();
+    _timer?.cancel();
   }
 
   @override
@@ -89,17 +113,29 @@ class _OrderScreenState extends State<OrderScreen> {
           stream: _stream,
           onComplete: (context, snapshot) {
             final order = snapshot.data!.data()!;
-            final pickUp = order.pickUp;
-            final arrival = order.arrivalGeoPoint;
+            final pickUpGeo = order.pickUp;
+            var driverGeo = order.driver!.currentGeoPoint;
+            final arrivalGeo = order.arrivalGeoPoint;
 
-            final points = [pickUp, arrival];
+            var points = [pickUpGeo, driverGeo];
             return MapBubble(
               controller: _mapController,
               showMyPin: false,
               onMapCreated: () {
                 _getPolyLines(
-                  pickUp: pickUp!.geoPoint!,
-                  arrival: arrival!.geoPoint!,
+                  pickUp: pickUpGeo!.geoPoint!,
+                  arrival: driverGeo!.geoPoint!,
+                );
+                _updatePoints(
+                  onUpdate: () {
+                    setState(() {
+                      final point = polyline!.points.last;
+                      print("point::: ${point.latitude}");
+                      driverGeo = AppServices.getGeoModel(point.latitude, point.longitude);
+                      polyline!.points.removeLast();
+                      points = [pickUpGeo, driverGeo];
+                    });
+                  },
                 );
               },
               polyLines: polyline != null
@@ -107,12 +143,13 @@ class _OrderScreenState extends State<OrderScreen> {
                       polyline!,
                     }
                   : {},
-              markers: points.map((e) {
-                final geoPoint = e!.geoPoint!;
+              markers: List.generate(points.length, (index) {
+                final point = points[index]!;
+                final geoPoint = point.geoPoint!;
                 return Marker(
-                  markerId: MarkerId(e.geoHash),
+                  markerId: MarkerId(point.geoHash),
                   position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                  icon: BitmapDescriptor.fromBytes(widget.icon),
+                  icon: BitmapDescriptor.fromBytes(index == 0 ? widget.circleIcon : widget.carIcon),
                   consumeTapEvents: true,
                 );
               }).toSet(),

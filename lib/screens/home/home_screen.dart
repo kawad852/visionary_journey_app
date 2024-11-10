@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomFutureBuilder(
       future: _futures,
       onComplete: (context, snapshot) {
-        final marker = snapshot.data![0] as Uint8List;
+        final markers = snapshot.data![0] as List<Uint8List>;
+        final carMarker = markers[0];
+        final circleMarker = markers[1];
         return Consumer2<UserModel?, LocationProvider>(
           builder: (context, user, locationProvider, child) {
             if (user == null) {
@@ -75,19 +77,22 @@ class _HomeScreenState extends State<HomeScreen> {
               appBar: AppBar(),
               floatingActionButton: _orderProvider.drivers.isNotEmpty
                   ? FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _orderProvider.orderDriver(context);
+                      },
                     )
                   : null,
               body: Builder(
                 builder: (context) {
                   if (hasOrder) {
                     return OrderScreen(
-                      icon: marker,
+                      carIcon: carMarker,
+                      circleIcon: circleMarker,
                       orderId: user.orderId!,
                     );
                   }
                   return SearchScreen(
-                    icon: marker,
+                    icon: carMarker,
                     lat: 32.10052482284217,
                     lng: 36.097777226987525,
                   );

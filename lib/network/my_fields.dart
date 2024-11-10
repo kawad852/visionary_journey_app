@@ -84,4 +84,5 @@ class MyFields {
   static const String topic = "topic";
   static const String variations = "variations";
   static const String currentGeoPoint = "currentGeoPoint";
+  static const String orderId = "orderId";
 }

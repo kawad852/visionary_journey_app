@@ -15,7 +15,7 @@ class AppProvider extends ChangeNotifier {
   Locale appLocale = Locale(MySharedPreferences.language);
   String appTheme = MySharedPreferences.theme;
   static String countryCode = MySharedPreferences.countryCode;
-  late Future<Uint8List> markerFuture;
+  late Future<List<Uint8List>> markerFuture;
   late StatefulNavigationShell navigationShell;
 
   void goToDiscoverBranch() {
@@ -58,19 +58,17 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  Future<Uint8List> getBytesFromAsset(
+    String path, {
+    int width = 150,
+  }) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
-  Future<Uint8List> _createPin() async {
-    final Uint8List markerIcon = await getBytesFromAsset(MyImages.car, 150);
-    return markerIcon;
-  }
-
   void initializeMarker() {
-    markerFuture = _createPin();
+    markerFuture = Future.wait([getBytesFromAsset(MyImages.car), getBytesFromAsset(MyImages.circle, width: 75)]);
   }
 }

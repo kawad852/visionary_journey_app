@@ -5,4 +5,5 @@ class MyImages {
   static const String placeHolder = '${_path}place_holder.webp';
   static const String background = '${_path}background.jpg';
   static const String car = '${_path}car.png';
+  static const String circle = '${_path}circle.png';
 }

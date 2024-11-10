@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:visionary_journey_app/helper/my_factory.dart';
+import 'package:visionary_journey_app/helper/services.dart';
 import 'package:visionary_journey_app/models/order/order_model.dart';
+import 'package:visionary_journey_app/network/api_service.dart';
 import 'package:visionary_journey_app/network/fire_queries.dart';
 import 'package:visionary_journey_app/network/my_fields.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
@@ -33,11 +35,31 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
-  GeoModel _getGeo(double lat, double lng) {
-    final geoFirePoint = GeoFirePoint(GeoPoint(lat, lng));
-    return GeoModel(
-      geoHash: geoFirePoint.geohash,
-      geoPoint: GeoPoint(geoFirePoint.latitude, geoFirePoint.longitude),
+  void orderDriver(BuildContext context) {
+    final locationProvider = context.locationProvider;
+    final userProvider = context.userProvider;
+    final driver = AppServices.findNearestDriver(drivers, locationProvider.latitude!, locationProvider.longitude!);
+    ApiService.fetch(
+      context,
+      callBack: () async {
+        /// timer
+        final order = OrderModel(
+          id: "1",
+          createdAt: MyFactory.dateTime,
+          driver: driver,
+          userId: userProvider.user!.uid,
+          status: OrderStatus.driverAssigned,
+          pickUp: AppServices.getGeoModel(locationProvider.latitude!, locationProvider.longitude!),
+          arrivalGeoPoint: AppServices.getGeoModel(32.06599735085158, 36.04489915449214),
+        );
+        _firebaseFirestore.orders.add(order);
+        userProvider.userDocRef.update({
+          MyFields.orderId: order.id,
+        });
+        _firebaseFirestore.drivers.doc(driver.id).update({
+          MyFields.orderId: order.id,
+        });
+      },
     );
   }
 
@@ -45,7 +67,7 @@ class OrderProvider extends ChangeNotifier {
     final locationProvider = context.locationProvider;
     for (int i = 0; i < MyDrivers.drivers.length; i++) {
       final coordinates = MyFactory.generateRandomCoordinates(locationProvider.latitude!, locationProvider.longitude!);
-      MyDrivers.drivers[i].currentGeoPoint = _getGeo(coordinates.latitude, coordinates.longitude);
+      MyDrivers.drivers[i].currentGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
     }
 
     for (var e in MyDrivers.drivers) {
