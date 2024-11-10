@@ -9,8 +9,8 @@ import '../alerts/loading/app_over_loader.dart';
 import '../utils/base_extensions.dart';
 
 class LocationProvider extends ChangeNotifier {
-  double? latitude = 32.1005881543013;
-  double? longitude = 36.09778758465576;
+  double? latitude;
+  double? longitude;
   bool isLoading = false;
 
   bool get isLocationGranted => latitude != null && longitude != null;

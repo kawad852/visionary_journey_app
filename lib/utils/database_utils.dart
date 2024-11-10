@@ -41,54 +41,9 @@ class DatabaseUtils {
 
       await FirebaseFirestore.instance.users.doc(user.id).set(user);
 
-      final drivers = [
-        Driver(
-          id: "R123",
-          status: DriverStatus.available,
-          currentGeoPoint: _getGeo(_raiiPoints[0].latitude, _raiiPoints[0].longitude),
-          firstName: "John",
-          lastName: "Doe",
-          photoURL: "https://example.com/johndoe.jpg",
-          carDetails: CarDetails(
-            name: "Toyota Prius",
-            color: "Blue",
-            plateNum: "ABC123",
-            phoneNum: "+1234567890",
-          ),
-        ),
-        Driver(
-          id: "R456",
-          status: DriverStatus.available,
-          currentGeoPoint: _getGeo(_raiiPoints[1].latitude, _raiiPoints[1].longitude),
-          firstName: "Alice",
-          lastName: "Smith",
-          photoURL: "https://example.com/alicesmith.jpg",
-          carDetails: CarDetails(
-            name: "Honda Civic",
-            color: "Red",
-            plateNum: "XYZ789",
-            phoneNum: "+0987654321",
-          ),
-        ),
-        Driver(
-          id: "R789",
-          status: DriverStatus.available,
-          currentGeoPoint: _getGeo(_raiiPoints[2].latitude, _raiiPoints[2].longitude),
-          firstName: "Bob",
-          lastName: "Johnson",
-          photoURL: "https://example.com/bobjohnson.jpg",
-          carDetails: CarDetails(
-            name: "Ford Focus",
-            color: "Black",
-            plateNum: "LMN456",
-            phoneNum: "+1122334455",
-          ),
-        ),
-      ];
-
-      for (var e in drivers) {
-        await FirebaseFirestore.instance.drivers.doc(e.id).set(e);
-      }
+      // for (var e in drivers) {
+      //   await FirebaseFirestore.instance.drivers.doc(e.id).set(e);
+      // }
 
       debugPrint("FINISHED SUCCESSFULLY");
     } catch (e) {

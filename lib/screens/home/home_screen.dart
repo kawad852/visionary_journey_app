@@ -9,7 +9,6 @@ import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/screens/maps/order_screen.dart';
 import 'package:visionary_journey_app/screens/maps/search_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
-import 'package:visionary_journey_app/utils/database_utils.dart';
 import 'package:visionary_journey_app/widgets/custom_future_builder.dart';
 
 import '../../models/user/user_model.dart';
@@ -32,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<dynamic>> _fetchFutures() {
     return ApiService.build<List<dynamic>>(
       callBack: () async {
-        return Future.wait([context.appProvider.markerFuture]);
+        final locationFuture = context.locationProvider.determinePosition(context);
+        return Future.wait([context.appProvider.markerFuture, locationFuture]);
       },
     );
   }
@@ -54,33 +54,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-        future: _futures,
-        onComplete: (context, snapshot) {
-          final marker = snapshot.data![0] as Uint8List;
-          return Consumer2<UserModel?, LocationProvider>(
-            builder: (context, user, locationProvider, child) {
-              if (user == null) {
-                return const SizedBox.shrink();
-              }
+      future: _futures,
+      onComplete: (context, snapshot) {
+        final marker = snapshot.data![0] as Uint8List;
+        return Consumer2<UserModel?, LocationProvider>(
+          builder: (context, user, locationProvider, child) {
+            if (user == null) {
+              return const SizedBox.shrink();
+            }
 
-              if (!locationProvider.isLocationGranted) {
-                return const GrantLocationCard(
-                  onPermissionGranted: null,
-                );
-              }
+            if (!locationProvider.isLocationGranted) {
+              return const GrantLocationCard(
+                onPermissionGranted: null,
+              );
+            }
 
-              final hasOrder = user.orderId != null;
+            final hasOrder = user.orderId != null;
 
-              return Scaffold(
-                appBar: AppBar(),
-                floatingActionButton: _orderProvider.drivers.isNotEmpty
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          DatabaseUtils().createFakeOrder(context);
-                        },
-                      )
-                    : null,
-                body: Builder(builder: (context) {
+            return Scaffold(
+              appBar: AppBar(),
+              floatingActionButton: _orderProvider.drivers.isNotEmpty
+                  ? FloatingActionButton(
+                      onPressed: () {},
+                    )
+                  : null,
+              body: Builder(
+                builder: (context) {
                   if (hasOrder) {
                     return OrderScreen(
                       icon: marker,
@@ -92,20 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     lat: 32.10052482284217,
                     lng: 36.097777226987525,
                   );
-                }),
-              );
-            },
-          );
-        },
-        onError: (error) {
-          return AppErrorWidget(
-            error: error,
-            onRetry: () {
-              setState(() {
-                _initialize();
-              });
-            },
-          );
-        });
+                },
+              ),
+            );
+          },
+        );
+      },
+      onError: (error) {
+        return AppErrorWidget(
+          error: error,
+          onRetry: () {
+            setState(() {
+              _initialize();
+            });
+          },
+        );
+      },
+    );
   }
 }

@@ -7,7 +7,9 @@ import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/network/fire_queries.dart';
+import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
@@ -36,10 +38,12 @@ class _SearchScreenState extends State<SearchScreen> {
   late Stream<List<DocumentSnapshot<Driver>>> _stream;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
+  LocationProvider get _locationProvider => context.locationProvider;
+  OrderProvider get _orderProvider => context.orderProvider;
 
-  void _getNearestDriver(double lat, double lng) {
+  void _getNearestDrivers() {
     _stream = GeoCollectionReference<Driver>(_firebaseFirestore.drivers).subscribeWithin(
-      center: GeoFirePoint(GeoPoint(lat, lng)),
+      center: GeoFirePoint(GeoPoint(_locationProvider.latitude!, _locationProvider.longitude!)),
       radiusInKm: 50,
       field: MyFields.currentGeoPoint,
       geopointFrom: (driver) => driver.currentGeoPoint!.geoPoint!,
@@ -50,8 +54,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _mapController = MapController(context, lat: null, lng: null);
-    _getNearestDriver(32.10052482284217, 36.097777226987525);
+    _mapController = MapController(context, lat: _locationProvider.latitude, lng: _locationProvider.longitude);
+    _orderProvider.generateDrivers(context);
+    _getNearestDrivers();
   }
 
   @override
