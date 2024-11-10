@@ -24,8 +24,8 @@ class AppServices {
 
   static Driver findNearestDriver(List<Driver> drivers, double myLatitude, double myLongitude) {
     drivers.sort((a, b) {
-      final distanceA = AppServices.calculateDistance(myLatitude, myLongitude, a.currentGeoPoint!.geoPoint!.latitude, a.currentGeoPoint!.geoPoint!.longitude);
-      final distanceB = AppServices.calculateDistance(myLatitude, myLongitude, b.currentGeoPoint!.geoPoint!.latitude, b.currentGeoPoint!.geoPoint!.longitude);
+      final distanceA = calculateDistance(myLatitude, myLongitude, a.currentGeoPoint!.geoPoint!.latitude, a.currentGeoPoint!.geoPoint!.longitude);
+      final distanceB = calculateDistance(myLatitude, myLongitude, b.currentGeoPoint!.geoPoint!.latitude, b.currentGeoPoint!.geoPoint!.longitude);
       return distanceA.compareTo(distanceB);
     });
 

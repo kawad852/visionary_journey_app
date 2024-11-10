@@ -37,6 +37,7 @@ class _OrderScreenState extends State<OrderScreen> {
   late Stream<DocumentSnapshot<OrderModel>> _stream;
   Polyline? polyline;
   Timer? _timer;
+  GeoModel? driverGeo;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
 
@@ -114,26 +115,25 @@ class _OrderScreenState extends State<OrderScreen> {
           onComplete: (context, snapshot) {
             final order = snapshot.data!.data()!;
             final pickUpGeo = order.pickUp;
-            var driverGeo = order.driver!.currentGeoPoint;
+            final driverGeo = order.driver!.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
-
-            var points = [pickUpGeo, driverGeo];
             return MapBubble(
               controller: _mapController,
               showMyPin: false,
               onMapCreated: () {
                 _getPolyLines(
-                  pickUp: pickUpGeo!.geoPoint!,
-                  arrival: driverGeo!.geoPoint!,
+                  pickUp: pickUpGeo.geoPoint!,
+                  arrival: driverGeo.geoPoint!,
                 );
                 _updatePoints(
                   onUpdate: () {
+                    final point = polyline!.points.last;
+                    final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
+                    _firebaseFirestore.orders.doc(order.id).update({
+                      'driver.currentGeoPoint': geoModel.toJson(),
+                    });
                     setState(() {
-                      final point = polyline!.points.last;
-                      print("point::: ${point.latitude}");
-                      driverGeo = AppServices.getGeoModel(point.latitude, point.longitude);
                       polyline!.points.removeLast();
-                      points = [pickUpGeo, driverGeo];
                     });
                   },
                 );
@@ -143,16 +143,20 @@ class _OrderScreenState extends State<OrderScreen> {
                       polyline!,
                     }
                   : {},
-              markers: List.generate(points.length, (index) {
-                final point = points[index]!;
-                final geoPoint = point.geoPoint!;
-                return Marker(
-                  markerId: MarkerId(point.geoHash),
-                  position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                  icon: BitmapDescriptor.fromBytes(index == 0 ? widget.circleIcon : widget.carIcon),
+              markers: {
+                Marker(
+                  markerId: MarkerId(pickUpGeo!.geoHash),
+                  position: LatLng(pickUpGeo.geoPoint!.latitude, pickUpGeo.geoPoint!.longitude),
+                  icon: BitmapDescriptor.fromBytes(widget.circleIcon),
                   consumeTapEvents: true,
-                );
-              }).toSet(),
+                ),
+                Marker(
+                  markerId: MarkerId(driverGeo!.geoHash),
+                  position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
+                  icon: BitmapDescriptor.fromBytes(widget.carIcon),
+                  consumeTapEvents: true,
+                ),
+              },
             );
           },
         );
