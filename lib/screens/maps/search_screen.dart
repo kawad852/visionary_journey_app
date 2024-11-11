@@ -20,13 +20,10 @@ import '../../widgets/map_bubble.dart';
 
 class SearchScreen extends StatefulWidget {
   final Uint8List icon;
-  final double lat, lng;
 
   const SearchScreen({
     super.key,
     required this.icon,
-    required this.lat,
-    required this.lng,
   });
 
   @override

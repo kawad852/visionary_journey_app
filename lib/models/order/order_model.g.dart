@@ -58,6 +58,7 @@ _$DriverImpl _$$DriverImplFromJson(Map<String, dynamic> json) => _$DriverImpl(
           ? null
           : GeoModel.fromJson(json['currentGeoPoint'] as Map<String, dynamic>),
       firstName: json['firstName'] as String? ?? '',
+      bearing: (json['bearing'] as num?)?.toDouble() ?? 0.0,
       lastName: json['lastName'] as String? ?? '',
       photoURL: json['photoURL'] as String? ?? '',
       carDetails: json['carDetails'] == null
@@ -72,6 +73,7 @@ Map<String, dynamic> _$$DriverImplToJson(_$DriverImpl instance) =>
       'orderId': instance.orderId,
       'currentGeoPoint': instance.currentGeoPoint?.toJson(),
       'firstName': instance.firstName,
+      'bearing': instance.bearing,
       'lastName': instance.lastName,
       'photoURL': instance.photoURL,
       'carDetails': instance.carDetails?.toJson(),

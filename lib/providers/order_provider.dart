@@ -50,9 +50,9 @@ class OrderProvider extends ChangeNotifier {
           userId: userProvider.user!.uid,
           status: OrderStatus.driverAssigned,
           pickUp: AppServices.getGeoModel(locationProvider.latitude!, locationProvider.longitude!),
-          arrivalGeoPoint: AppServices.getGeoModel(32.06599735085158, 36.04489915449214),
+          arrivalGeoPoint: AppServices.getGeoModel(32.048212423411975, 35.89053467532778),
         );
-        _firebaseFirestore.orders.add(order);
+        _firebaseFirestore.orders.doc(order.id).set(order);
         userProvider.userDocRef.update({
           MyFields.orderId: order.id,
         });

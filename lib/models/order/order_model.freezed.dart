@@ -558,6 +558,8 @@ mixin _$Driver {
   set currentGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
   String get firstName => throw _privateConstructorUsedError;
   set firstName(String value) => throw _privateConstructorUsedError;
+  double get bearing => throw _privateConstructorUsedError;
+  set bearing(double value) => throw _privateConstructorUsedError;
   String get lastName => throw _privateConstructorUsedError;
   set lastName(String value) => throw _privateConstructorUsedError;
   String get photoURL => throw _privateConstructorUsedError;
@@ -585,6 +587,7 @@ abstract class $DriverCopyWith<$Res> {
       String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
+      double bearing,
       String lastName,
       String photoURL,
       CarDetails? carDetails});
@@ -613,6 +616,7 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
     Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
+    Object? bearing = null,
     Object? lastName = null,
     Object? photoURL = null,
     Object? carDetails = freezed,
@@ -638,6 +642,10 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
               as String,
+      bearing: null == bearing
+          ? _value.bearing
+          : bearing // ignore: cast_nullable_to_non_nullable
+              as double,
       lastName: null == lastName
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
@@ -695,6 +703,7 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
       String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
+      double bearing,
       String lastName,
       String photoURL,
       CarDetails? carDetails});
@@ -723,6 +732,7 @@ class __$$DriverImplCopyWithImpl<$Res>
     Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
+    Object? bearing = null,
     Object? lastName = null,
     Object? photoURL = null,
     Object? carDetails = freezed,
@@ -748,6 +758,10 @@ class __$$DriverImplCopyWithImpl<$Res>
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
               as String,
+      bearing: null == bearing
+          ? _value.bearing
+          : bearing // ignore: cast_nullable_to_non_nullable
+              as double,
       lastName: null == lastName
           ? _value.lastName
           : lastName // ignore: cast_nullable_to_non_nullable
@@ -773,6 +787,7 @@ class _$DriverImpl implements _Driver {
       this.orderId,
       this.currentGeoPoint,
       this.firstName = '',
+      this.bearing = 0.0,
       this.lastName = '',
       this.photoURL = '',
       this.carDetails});
@@ -795,6 +810,9 @@ class _$DriverImpl implements _Driver {
   String firstName;
   @override
   @JsonKey()
+  double bearing;
+  @override
+  @JsonKey()
   String lastName;
   @override
   @JsonKey()
@@ -804,7 +822,7 @@ class _$DriverImpl implements _Driver {
 
   @override
   String toString() {
-    return 'Driver(id: $id, status: $status, orderId: $orderId, currentGeoPoint: $currentGeoPoint, firstName: $firstName, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
+    return 'Driver(id: $id, status: $status, orderId: $orderId, currentGeoPoint: $currentGeoPoint, firstName: $firstName, bearing: $bearing, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
   }
 
   /// Create a copy of Driver
@@ -830,6 +848,7 @@ abstract class _Driver implements Driver {
       String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
+      double bearing,
       String lastName,
       String photoURL,
       CarDetails? carDetails}) = _$DriverImpl;
@@ -851,6 +870,9 @@ abstract class _Driver implements Driver {
   @override
   String get firstName;
   set firstName(String value);
+  @override
+  double get bearing;
+  set bearing(double value);
   @override
   String get lastName;
   set lastName(String value);

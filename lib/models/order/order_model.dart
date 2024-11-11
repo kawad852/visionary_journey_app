@@ -43,6 +43,7 @@ class Driver with _$Driver {
     String? orderId,
     GeoModel? currentGeoPoint,
     @Default('') String firstName,
+    @Default(0.0) double bearing,
     @Default('') String lastName,
     @Default('') String photoURL,
     CarDetails? carDetails,

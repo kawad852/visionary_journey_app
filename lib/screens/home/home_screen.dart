@@ -93,8 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                   return SearchScreen(
                     icon: carMarker,
-                    lat: 32.10052482284217,
-                    lng: 36.097777226987525,
                   );
                 },
               ),

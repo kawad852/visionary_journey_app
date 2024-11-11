@@ -4,11 +4,14 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/helper/services.dart';
 import 'package:visionary_journey_app/network/fire_queries.dart';
+import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
@@ -37,9 +40,9 @@ class _OrderScreenState extends State<OrderScreen> {
   late Stream<DocumentSnapshot<OrderModel>> _stream;
   Polyline? polyline;
   Timer? _timer;
-  GeoModel? driverGeo;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
+  LocationProvider get _locationProvider => context.locationProvider;
 
   void _getOrder() {
     _stream = _firebaseFirestore.orders.doc(widget.orderId).snapshots();
@@ -95,7 +98,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     super.initState();
-    _mapController = MapController(context, lat: 32.10052482284217, lng: 36.097777226987525);
+    _mapController = MapController(context, lat: _locationProvider.latitude, lng: _locationProvider.longitude);
     _getOrder();
   }
 
@@ -114,9 +117,11 @@ class _OrderScreenState extends State<OrderScreen> {
           stream: _stream,
           onComplete: (context, snapshot) {
             final order = snapshot.data!.data()!;
+            final driver = order.driver!;
             final pickUpGeo = order.pickUp;
-            final driverGeo = order.driver!.currentGeoPoint;
+            final driverGeo = driver.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
+
             return MapBubble(
               controller: _mapController,
               showMyPin: false,
@@ -129,8 +134,15 @@ class _OrderScreenState extends State<OrderScreen> {
                   onUpdate: () {
                     final point = polyline!.points.last;
                     final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
+                    final bearing = Geolocator.bearingBetween(
+                      pickUpGeo.geoPoint!.latitude,
+                      pickUpGeo.geoPoint!.longitude,
+                      geoModel.geoPoint!.latitude,
+                      geoModel.geoPoint!.longitude,
+                    );
                     _firebaseFirestore.orders.doc(order.id).update({
                       'driver.currentGeoPoint': geoModel.toJson(),
+                      "driver.bearing": bearing,
                     });
                     setState(() {
                       polyline!.points.removeLast();
@@ -153,6 +165,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 Marker(
                   markerId: MarkerId(driverGeo!.geoHash),
                   position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
+                  rotation: driver.bearing,
                   icon: BitmapDescriptor.fromBytes(widget.carIcon),
                   consumeTapEvents: true,
                 ),
