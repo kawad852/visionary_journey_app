@@ -17,6 +17,7 @@ import 'models/user/user_model.dart';
 import 'providers/app_provider.dart';
 import 'providers/location_provider.dart';
 import 'providers/user_provider.dart';
+import 'screens/login/login_screen.dart';
 import 'utils/base_extensions.dart';
 import 'utils/enums.dart';
 import 'utils/my_theme.dart';
@@ -128,7 +129,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: appProvider.appLocale,
             theme: MyTheme().materialTheme(context, seedColorScheme),
-            home: const HomeScreen(),
+            home: const LoginScreen(),
           ),
         );
       },
