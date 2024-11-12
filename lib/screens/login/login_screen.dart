@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visionary_journey_app/utils/my_images.dart';
+import 'package:visionary_journey_app/controllers/phone_controller.dart';
+import 'package:visionary_journey_app/screens/login/widgets/login_side.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,6 +10,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late PhoneController phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    phoneController = PhoneController(context);
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Image.asset(MyImages.visionaryJourney),
-                  ),
-                ],
-              ),
+            SliverFillRemaining(
+              child: LoginSide(controller: phoneController),
             ),
           ],
         ),

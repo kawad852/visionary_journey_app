@@ -52,23 +52,23 @@ class MyTheme {
         filled: true,
         isDense: true,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
-          borderSide: BorderSide(color: colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(radiusTertiary),
+          borderSide: const BorderSide(color: Colors.white),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
-          borderSide: BorderSide(color: colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(radiusTertiary),
+          borderSide: const BorderSide(color: Colors.white),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
-          borderSide: BorderSide(color: colorScheme.primary),
+          borderRadius: BorderRadius.circular(radiusTertiary),
+          borderSide: const BorderSide(color: Colors.white),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
+          borderRadius: BorderRadius.circular(radiusTertiary),
           borderSide: BorderSide(color: colorScheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
+          borderRadius: BorderRadius.circular(radiusTertiary),
           borderSide: BorderSide(color: colorScheme.error),
         ),
       ),

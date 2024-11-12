@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:visionary_journey_app/utils/color_palette.dart';
 
 import '../alerts/loading/app_loading_indicators.dart';
 import '../providers/app_provider.dart';
@@ -31,7 +32,12 @@ extension AppLoadingIncidatorExtension on BuildContext {
 
 extension ThemeExtension on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  ColorPalette get colorPalette => ColorPalette.of(this);
   TextTheme get textTheme => Theme.of(this).textTheme;
+}
+
+extension MediaQueryExtension on BuildContext {
+  Size get mediaQuery => MediaQuery.sizeOf(this);
 }
 
 extension ProvidersExtension on BuildContext {

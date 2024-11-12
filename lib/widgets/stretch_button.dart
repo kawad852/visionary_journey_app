@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/utils/my_theme.dart';
 
 import '../utils/base_extensions.dart';
 
@@ -22,7 +23,11 @@ class StretchedButton extends StatelessWidget {
         child: FilledButton(
           onPressed: onPressed,
           style: FilledButton.styleFrom(
-            minimumSize: Size.fromHeight(context.systemButtonHeight + 4),
+            backgroundColor: context.colorPalette.black1D,
+            minimumSize: Size.fromHeight(context.systemButtonHeight + 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+            ),
           ),
           child: child,
         ),
