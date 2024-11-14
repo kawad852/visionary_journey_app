@@ -56,6 +56,9 @@ class MySharedPreferences {
   static String get countryCode => _sharedPreferences.getString('countryCode') ?? kFallBackCountryCode;
   static set countryCode(String value) => _sharedPreferences.setString('countryCode', value);
 
+  static String get appDirction => _sharedPreferences.getString('appDirction') ?? AppDirction.normal;
+  static set appDirction(String value) => _sharedPreferences.setString('appDirction', value);
+
   static List<String> get suggestions {
     var value = _sharedPreferences.getString('suggestions');
     List<String> suggestions = [];

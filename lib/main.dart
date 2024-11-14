@@ -12,6 +12,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/screens/card/card_screen.dart';
 import 'package:visionary_journey_app/screens/home/home_screen.dart';
+import 'package:visionary_journey_app/screens/intro/intro_screen.dart';
 
 import 'firebase_options.dart';
 import 'models/user/user_model.dart';
@@ -130,7 +131,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: appProvider.appLocale,
             theme: MyTheme().materialTheme(context, seedColorScheme),
-            home: const CardScreen(),
+            home: const IntroScreen(),
           ),
         );
       },

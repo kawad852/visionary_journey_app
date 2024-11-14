@@ -8,6 +8,12 @@ class MyIcons {
   static const String coffee = '${_path}coffee.svg';
   static const String weight = '${_path}weight.svg';
   static const String location = '${_path}location.svg';
+  static const String headphone = '${_path}headphone.svg';
+  static const String dash = '${_path}dash.svg';
+  static const String calling = '${_path}calling.svg';
+  static const String volume = '${_path}volume.svg';
+  static const String star = '${_path}star.svg';
+
 
 }
 

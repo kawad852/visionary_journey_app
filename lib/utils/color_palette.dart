@@ -23,4 +23,5 @@ class ColorPalette {
 
   //grey
   Color get greyFB => const Color(0xFFFBFBFB);
+  Color get grey66 => const Color(0xFF666666);
 }

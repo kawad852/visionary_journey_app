@@ -6,6 +6,7 @@ import '../utils/base_extensions.dart';
 class StretchedButton extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
+  final Color? backgroundColor;
   final EdgeInsetsGeometry? margin;
 
   const StretchedButton({
@@ -13,6 +14,7 @@ class StretchedButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     this.margin,
+    this.backgroundColor,
   });
 
   @override
@@ -23,7 +25,7 @@ class StretchedButton extends StatelessWidget {
         child: FilledButton(
           onPressed: onPressed,
           style: FilledButton.styleFrom(
-            backgroundColor: context.colorPalette.black1D,
+            backgroundColor: backgroundColor ?? context.colorPalette.black1D,
             minimumSize: Size.fromHeight(context.systemButtonHeight + 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),

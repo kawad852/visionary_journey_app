@@ -2,7 +2,11 @@ enum SortAction { recommended, newest, priceHigh, priceLow, popularity }
 
 enum ActionType { add, edit, delete }
 
-enum AppDirction{ normal, left, right }
+class AppDirction{ 
+  static const String normal = 'normal';
+  static const String left = 'left';
+  static const String right = 'right';
+ }
 
 class LanguageEnum {
   static const String english = 'en';

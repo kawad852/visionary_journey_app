@@ -3,13 +3,13 @@ import 'package:visionary_journey_app/screens/card/widgets/home_bubble.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/editors/base_editor.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
 class HomeCard extends StatefulWidget {
-  final AppDirction appDirction;
-  const HomeCard({super.key, required this.appDirction});
+  const HomeCard({super.key});
 
   @override
   State<HomeCard> createState() => _HomeCardState();
@@ -19,17 +19,17 @@ class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: widget.appDirction == AppDirction.right
+      alignment: MySharedPreferences.appDirction == AppDirction.right
           ? AlignmentDirectional.centerEnd
-          : widget.appDirction == AppDirction.left
+          : MySharedPreferences.appDirction == AppDirction.left
               ? AlignmentDirectional.centerStart
               : AlignmentDirectional.center,
       child: SizedBox(
-        width: widget.appDirction == AppDirction.normal
+        width: MySharedPreferences.appDirction == AppDirction.normal
             ? double.infinity
             : context.mediaQuery.width * 0.65,
         child: Column(
-          mainAxisAlignment: widget.appDirction == AppDirction.normal
+          mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.normal
               ? MainAxisAlignment.end
               : MainAxisAlignment.center,
           children: [
@@ -59,7 +59,7 @@ class _HomeCardState extends State<HomeCard> {
               width: double.infinity,
               height: 210,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              margin: widget.appDirction != AppDirction.normal
+              margin: MySharedPreferences.appDirction != AppDirction.normal
                   ? const EdgeInsets.symmetric(horizontal: 10)
                   : EdgeInsets.zero,
               decoration: BoxDecoration(
@@ -67,10 +67,10 @@ class _HomeCardState extends State<HomeCard> {
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(30),
                   topRight: const Radius.circular(30),
-                  bottomLeft: widget.appDirction != AppDirction.normal
+                  bottomLeft: MySharedPreferences.appDirction != AppDirction.normal
                       ? const Radius.circular(30)
                       : const Radius.circular(0),
-                  bottomRight: widget.appDirction != AppDirction.normal
+                  bottomRight: MySharedPreferences.appDirction != AppDirction.normal
                       ? const Radius.circular(30)
                       : const Radius.circular(0),
                 ),

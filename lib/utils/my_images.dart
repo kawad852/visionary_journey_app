@@ -7,5 +7,5 @@ class MyImages {
   static const String car = '${_path}car.png';
   static const String circle = '${_path}circle.png';
   static const String visionaryJourney = '${_path}visionary_journey.png';
-
+  static const String logoText = '${_path}logo_text.png';
 }

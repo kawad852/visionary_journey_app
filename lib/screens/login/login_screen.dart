@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/controllers/phone_controller.dart';
+import 'package:visionary_journey_app/screens/login/widgets/login_normal.dart';
 import 'package:visionary_journey_app/screens/login/widgets/login_side.dart';
+import 'package:visionary_journey_app/utils/enums.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -41,7 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
-              child: LoginSide(controller: phoneController),
+              child: MySharedPreferences.appDirction == AppDirction.normal 
+              ? LoginNormal(controller: phoneController)
+              : LoginSide(controller: phoneController),
             ),
           ],
         ),
