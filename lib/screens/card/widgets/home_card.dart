@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/card/widgets/home_bubble.dart';
+import 'package:visionary_journey_app/screens/places_search_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
@@ -8,14 +9,14 @@ import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/editors/base_editor.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
-class HomeCard extends StatefulWidget {
-  const HomeCard({super.key});
+class HomeCard extends StatelessWidget {
+  final VoidCallback onBook;
 
-  @override
-  State<HomeCard> createState() => _HomeCardState();
-}
+  const HomeCard({
+    super.key,
+    required this.onBook,
+  });
 
-class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -25,13 +26,9 @@ class _HomeCardState extends State<HomeCard> {
               ? AlignmentDirectional.centerStart
               : AlignmentDirectional.center,
       child: SizedBox(
-        width: MySharedPreferences.appDirction == AppDirction.normal
-            ? double.infinity
-            : context.mediaQuery.width * 0.65,
+        width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.65,
         child: Column(
-          mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.normal
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.center,
+          mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.normal ? MainAxisAlignment.end : MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -59,38 +56,20 @@ class _HomeCardState extends State<HomeCard> {
               width: double.infinity,
               height: 210,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              margin: MySharedPreferences.appDirction != AppDirction.normal
-                  ? const EdgeInsets.symmetric(horizontal: 10)
-                  : EdgeInsets.zero,
+              margin: MySharedPreferences.appDirction != AppDirction.normal ? const EdgeInsets.symmetric(horizontal: 10) : EdgeInsets.zero,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(30),
                   topRight: const Radius.circular(30),
-                  bottomLeft: MySharedPreferences.appDirction != AppDirction.normal
-                      ? const Radius.circular(30)
-                      : const Radius.circular(0),
-                  bottomRight: MySharedPreferences.appDirction != AppDirction.normal
-                      ? const Radius.circular(30)
-                      : const Radius.circular(0),
+                  bottomLeft: MySharedPreferences.appDirction != AppDirction.normal ? const Radius.circular(30) : const Radius.circular(0),
+                  bottomRight: MySharedPreferences.appDirction != AppDirction.normal ? const Radius.circular(30) : const Radius.circular(0),
                 ),
               ),
               child: Column(
                 children: [
-                  BaseEditor(
-                    initialValue: null,
-                    filled: true,
-                    fillColor: context.colorPalette.greyFB,
-                    hintText: "Your current location",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: context.colorPalette.borderColor),
-                    ),
-                    prefixIcon: const IconButton(
-                      onPressed: null,
-                      icon: CustomSvg(MyIcons.location),
-                    ),
-                    onChanged: (value) {},
+                  PlacesSearchScreen(
+                    callBack: (v, a) async {},
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -100,8 +79,7 @@ class _HomeCardState extends State<HomeCard> {
                       fillColor: context.colorPalette.greyFB,
                       hintText: "location requested",
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: context.colorPalette.borderColor),
+                        borderSide: BorderSide(color: context.colorPalette.borderColor),
                       ),
                       prefixIcon: const IconButton(
                         onPressed: null,
@@ -111,7 +89,7 @@ class _HomeCardState extends State<HomeCard> {
                     ),
                   ),
                   StretchedButton(
-                    onPressed: () {},
+                    onPressed: onBook,
                     child: Text(
                       "Book Now",
                       style: TextStyle(

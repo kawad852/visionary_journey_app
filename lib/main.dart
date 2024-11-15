@@ -10,24 +10,19 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
-import 'package:visionary_journey_app/screens/card/card_screen.dart';
+import 'package:visionary_journey_app/providers/user_provider.dart';
 import 'package:visionary_journey_app/screens/home/home_screen.dart';
-import 'package:visionary_journey_app/screens/intro/intro_screen.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
+import 'package:visionary_journey_app/utils/enums.dart';
+import 'package:visionary_journey_app/utils/my_theme.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 import 'firebase_options.dart';
 import 'models/user/user_model.dart';
 import 'providers/app_provider.dart';
 import 'providers/location_provider.dart';
-import 'providers/user_provider.dart';
-import 'screens/login/login_screen.dart';
-import 'utils/base_extensions.dart';
-import 'utils/enums.dart';
-import 'utils/my_theme.dart';
-import 'utils/shared_pref.dart';
 
-// web-design BRANCH
-
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @pragma('vm:entry-point')
 Future<void> onBackgroundMessage(RemoteMessage message) async {
@@ -131,7 +126,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: appProvider.appLocale,
             theme: MyTheme().materialTheme(context, seedColorScheme),
-            home: const IntroScreen(),
+            home: const HomeScreen(),
           ),
         );
       },

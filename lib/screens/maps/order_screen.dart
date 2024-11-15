@@ -12,12 +12,15 @@ import 'package:visionary_journey_app/network/fire_queries.dart';
 import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
+import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
 import '../../models/order/order_model.dart';
+import '../../network/my_fields.dart';
 import '../../utils/app_constants.dart';
 import '../../widgets/map_bubble.dart';
+import '../card/widgets/order_wating_driver_horizontal.dart';
 
 class OrderScreen extends StatefulWidget {
   final Uint8List carIcon;
@@ -48,17 +51,17 @@ class _OrderScreenState extends State<OrderScreen> {
     _stream = _firebaseFirestore.orders.doc(widget.orderId).snapshots();
   }
 
-  void _getPolyLines({
-    required GeoPoint pickUp,
-    required GeoPoint arrival,
+  Future<void> _createPolyline({
+    required GeoPoint start,
+    required GeoPoint end,
   }) async {
     try {
       PolylinePoints polylinePoints = PolylinePoints();
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleApiKey: kGoogleMapKey,
         request: PolylineRequest(
-          origin: PointLatLng(pickUp.latitude, pickUp.longitude),
-          destination: PointLatLng(arrival.latitude, arrival.longitude),
+          origin: PointLatLng(start.latitude, start.longitude),
+          destination: PointLatLng(end.latitude, end.longitude),
           mode: TravelMode.driving,
           // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
         ),
@@ -79,6 +82,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _updatePoints({
     required Function() onUpdate,
+    required Function() onEnd,
   }) {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -88,11 +92,99 @@ class _OrderScreenState extends State<OrderScreen> {
           setState(() {
             polyline = null;
           });
+          onEnd();
         } else {
           onUpdate();
         }
       },
     );
+  }
+
+  Future<void> _handleOrder({
+    required OrderModel order,
+    required String status,
+  }) async {
+    final driver = order.driver!;
+    final pickUpGeo = order.pickUp!;
+    final driverGeo = driver.currentGeoPoint!;
+    final arrivalGeo = order.arrivalGeoPoint!;
+
+    print("status::: $status");
+
+    if (status == OrderStatus.driverAssigned) {
+      await _createPolyline(
+        start: pickUpGeo.geoPoint!,
+        end: driverGeo.geoPoint!,
+      );
+      _updatePoints(
+        onUpdate: () {
+          final point = polyline!.points.last;
+          final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
+          final bearing = Geolocator.bearingBetween(
+            pickUpGeo.geoPoint!.latitude,
+            pickUpGeo.geoPoint!.longitude,
+            pointGeo.geoPoint!.latitude,
+            pointGeo.geoPoint!.longitude,
+          );
+          _firebaseFirestore.orders.doc(order.id).update({
+            'driver.currentGeoPoint': pointGeo.toJson(),
+            "driver.bearing": bearing,
+          });
+          setState(() {
+            polyline!.points.removeLast();
+          });
+        },
+        onEnd: () async {
+          setState(() {
+            polyline = null;
+          });
+          await _firebaseFirestore.orders.doc(order.id).update({
+            MyFields.status: OrderStatus.driverArrived,
+          });
+          await Future.delayed(
+            const Duration(seconds: 3),
+          );
+          await _firebaseFirestore.orders.doc(order.id).update({
+            MyFields.status: OrderStatus.inProgress,
+          });
+          _handleOrder(order: order, status: OrderStatus.inProgress);
+        },
+      );
+    }
+
+    ///
+
+    if (status == OrderStatus.inProgress) {
+      await _createPolyline(
+        start: pickUpGeo.geoPoint!,
+        end: arrivalGeo.geoPoint!,
+      );
+      _updatePoints(
+        onUpdate: () {
+          final point = polyline!.points.last;
+          final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
+          final bearing = Geolocator.bearingBetween(
+            pickUpGeo.geoPoint!.latitude,
+            pickUpGeo.geoPoint!.longitude,
+            pointGeo.geoPoint!.latitude,
+            pointGeo.geoPoint!.longitude,
+          );
+          _firebaseFirestore.orders.doc(order.id).update({
+            'driver.currentGeoPoint': pointGeo.toJson(),
+            "driver.bearing": bearing,
+          });
+          setState(() {
+            polyline!.points.removeLast();
+          });
+        },
+        onEnd: () async {
+          await _firebaseFirestore.orders.doc(order.id).update({
+            MyFields.status: OrderStatus.completed,
+          });
+          //..
+        },
+      );
+    }
   }
 
   @override
@@ -122,54 +214,108 @@ class _OrderScreenState extends State<OrderScreen> {
             final driverGeo = driver.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
 
-            return MapBubble(
-              controller: _mapController,
-              showMyPin: false,
-              onMapCreated: () {
-                _getPolyLines(
-                  pickUp: pickUpGeo.geoPoint!,
-                  arrival: driverGeo.geoPoint!,
-                );
-                _updatePoints(
-                  onUpdate: () {
-                    final point = polyline!.points.last;
-                    final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
-                    final bearing = Geolocator.bearingBetween(
-                      pickUpGeo.geoPoint!.latitude,
-                      pickUpGeo.geoPoint!.longitude,
-                      geoModel.geoPoint!.latitude,
-                      geoModel.geoPoint!.longitude,
-                    );
-                    _firebaseFirestore.orders.doc(order.id).update({
-                      'driver.currentGeoPoint': geoModel.toJson(),
-                      "driver.bearing": bearing,
-                    });
-                    setState(() {
-                      polyline!.points.removeLast();
-                    });
-                  },
-                );
-              },
-              polyLines: polyline != null
-                  ? {
-                      polyline!,
-                    }
-                  : {},
-              markers: {
-                Marker(
-                  markerId: MarkerId(pickUpGeo!.geoHash),
-                  position: LatLng(pickUpGeo.geoPoint!.latitude, pickUpGeo.geoPoint!.longitude),
-                  icon: BitmapDescriptor.fromBytes(widget.circleIcon),
-                  consumeTapEvents: true,
-                ),
-                Marker(
-                  markerId: MarkerId(driverGeo!.geoHash),
-                  position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
-                  rotation: driver.bearing,
-                  icon: BitmapDescriptor.fromBytes(widget.carIcon),
-                  consumeTapEvents: true,
-                ),
-              },
+            return Scaffold(
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                forceMaterialTransparency: true,
+              ),
+              body: Stack(
+                children: [
+                  MapBubble(
+                    controller: _mapController,
+                    showMyPin: false,
+                    onMapCreated: () async {
+                      _handleOrder(order: order, status: order.status);
+                      // _updatePoints(
+                      //   onEnd: () {},
+                      //   onUpdate: () async {
+                      //     if (order.status == OrderStatus.driverAssigned) {
+                      //       await _createPolyline(
+                      //         pickUp: pickUpGeo.geoPoint!,
+                      //         arrival: driverGeo!.geoPoint!,
+                      //       );
+                      //       final point = polyline!.points.last;
+                      //       final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
+                      //       final bearing = Geolocator.bearingBetween(
+                      //         pickUpGeo.geoPoint!.latitude,
+                      //         pickUpGeo.geoPoint!.longitude,
+                      //         geoModel.geoPoint!.latitude,
+                      //         geoModel.geoPoint!.longitude,
+                      //       );
+                      //       _firebaseFirestore.orders.doc(order.id).update({
+                      //         'driver.currentGeoPoint': geoModel.toJson(),
+                      //         "driver.bearing": bearing,
+                      //       });
+                      //       setState(() {
+                      //         polyline!.points.removeLast();
+                      //       });
+                      //       if (polyline!.points.isEmpty) {
+                      //         setState(() {
+                      //           polyline = null;
+                      //         });
+                      //         await Future.delayed(
+                      //           const Duration(seconds: 2),
+                      //         );
+                      //         await _firebaseFirestore.orders.doc(order.id).update({
+                      //           MyFields.status: OrderStatus.inProgress,
+                      //         });
+                      //       }
+                      //     }
+                      //     if (order.status == OrderStatus.inProgress) {
+                      //       await _createPolyline(
+                      //         pickUp: pickUpGeo.geoPoint!,
+                      //         arrival: arrivalGeo!.geoPoint!,
+                      //       );
+                      //       final point = polyline!.points.last;
+                      //       final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
+                      //       final bearing = Geolocator.bearingBetween(
+                      //         pickUpGeo.geoPoint!.latitude,
+                      //         pickUpGeo.geoPoint!.longitude,
+                      //         arrivalGeo.geoPoint!.latitude,
+                      //         arrivalGeo.geoPoint!.longitude,
+                      //       );
+                      //       _firebaseFirestore.orders.doc(order.id).update({
+                      //         'driver.currentGeoPoint': geoModel.toJson(),
+                      //         'arrivalGeoPoint': geoModel.toJson(),
+                      //         "driver.bearing": bearing,
+                      //       });
+                      //     }
+                      //   },
+                      // );
+                    },
+                    polyLines: polyline != null
+                        ? {
+                            polyline!,
+                          }
+                        : {},
+                    markers: {
+                      Marker(
+                        markerId: MarkerId(pickUpGeo!.geoHash),
+                        position: LatLng(pickUpGeo.geoPoint!.latitude, pickUpGeo.geoPoint!.longitude),
+                        icon: BitmapDescriptor.fromBytes(widget.circleIcon),
+                        consumeTapEvents: true,
+                      ),
+                      Marker(
+                        markerId: MarkerId(driverGeo!.geoHash),
+                        position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
+                        rotation: driver.bearing,
+                        icon: BitmapDescriptor.fromBytes(widget.carIcon),
+                        consumeTapEvents: true,
+                      ),
+                      if (order.status == OrderStatus.inProgress)
+                        Marker(
+                          markerId: MarkerId(arrivalGeo!.geoHash),
+                          position: LatLng(arrivalGeo.geoPoint!.latitude, arrivalGeo.geoPoint!.longitude),
+                          icon: BitmapDescriptor.fromBytes(widget.circleIcon),
+                          consumeTapEvents: true,
+                        ),
+                    },
+                  ),
+                  OrderWatingDriverHorizontal(
+                    orderStatus: order.status,
+                  ),
+                ],
+              ),
             );
           },
         );

@@ -74,14 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
             final hasOrder = user.orderId != null;
 
             return Scaffold(
-              appBar: AppBar(),
-              floatingActionButton: _orderProvider.drivers.isNotEmpty
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        _orderProvider.orderDriver(context);
-                      },
-                    )
-                  : null,
+              // appBar: AppBar(),
+
+              // floatingActionButton: _orderProvider.drivers.isNotEmpty
+              //     ? FloatingActionButton(
+              //         onPressed: () {
+              //           _orderProvider.orderDriver(context);
+              //         },
+              //       )
+              //     : null,
               body: Builder(
                 builder: (context) {
                   if (hasOrder) {
