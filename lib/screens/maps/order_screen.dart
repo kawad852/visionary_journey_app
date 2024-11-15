@@ -133,19 +133,19 @@ class _OrderScreenState extends State<OrderScreen> {
           });
         },
         onEnd: () async {
-          // setState(() {
-          //   polyline = null;
-          // });
-          // await _firebaseFirestore.orders.doc(order.id).update({
-          //   MyFields.status: OrderStatus.driverArrived,
-          // });
-          // await Future.delayed(
-          //   const Duration(seconds: 3),
-          // );
-          // await _firebaseFirestore.orders.doc(order.id).update({
-          //   MyFields.status: OrderStatus.inProgress,
-          // });
-          // _handleOrder(order: order, status: OrderStatus.inProgress);
+          setState(() {
+            polyline = null;
+          });
+          await _firebaseFirestore.orders.doc(order.id).update({
+            MyFields.status: OrderStatus.driverArrived,
+          });
+          await Future.delayed(
+            const Duration(seconds: 3),
+          );
+          await _firebaseFirestore.orders.doc(order.id).update({
+            MyFields.status: OrderStatus.inProgress,
+          });
+          _handleOrder(order: order, status: OrderStatus.inProgress);
         },
       );
     }
