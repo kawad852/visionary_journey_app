@@ -11,6 +11,7 @@ import 'package:visionary_journey_app/helper/services.dart';
 import 'package:visionary_journey_app/network/fire_queries.dart';
 import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
+import 'package:visionary_journey_app/providers/user_provider.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
@@ -46,6 +47,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   LocationProvider get _locationProvider => context.locationProvider;
+  UserProvider get _userProvider => context.userProvider;
 
   void _getOrder() {
     _stream = _firebaseFirestore.orders.doc(widget.orderId).snapshots();
@@ -179,7 +181,12 @@ class _OrderScreenState extends State<OrderScreen> {
           await _firebaseFirestore.orders.doc(order.id).update({
             MyFields.status: OrderStatus.completed,
           });
-          //..
+          await await Future.delayed(
+            const Duration(seconds: 5),
+          );
+          await _userProvider.userDocRef.update({
+            MyFields.orderId: null,
+          });
         },
       );
     }
