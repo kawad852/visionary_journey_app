@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/models/order/order_model.dart';
+import 'package:visionary_journey_app/screens/card/widgets/driver_info.dart';
 import 'package:visionary_journey_app/screens/card/widgets/location_info.dart';
-import 'package:visionary_journey_app/screens/card/widgets/user_info.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
@@ -9,15 +10,14 @@ import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
-class OrderWatingDriverHorizontal extends StatefulWidget {
-  final String orderStatus;
-  const OrderWatingDriverHorizontal({super.key, required this.orderStatus});
+class OrderWaitingDriverHorizontal extends StatelessWidget {
+  final OrderModel order;
 
-  @override
-  State<OrderWatingDriverHorizontal> createState() => _OrderWatingDriverHorizontalState();
-}
+  const OrderWaitingDriverHorizontal({
+    super.key,
+    required this.order,
+  });
 
-class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizontal> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +37,9 @@ class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizonta
           ),
           child: Column(
             children: [
-              const UserInfo(),
+              DriverInfo(
+                driver: order.driver!,
+              ),
               Container(
                 width: double.infinity,
                 height: 246,
@@ -55,7 +57,7 @@ class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizonta
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(
-                        widget.orderStatus == OrderStatus.completed
+                        order.status == OrderStatus.completed
                             ? "You have arrived at your destination.The cost of the ride is"
                             : "The driver will arrive at your location within 2 minutes",
                         overflow: TextOverflow.ellipsis,
@@ -68,7 +70,7 @@ class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizonta
                         ),
                       ),
                     ),
-                    if (widget.orderStatus != OrderStatus.completed)
+                    if (order.status != OrderStatus.completed)
                       Container(
                         width: double.infinity,
                         height: 50,
@@ -91,9 +93,7 @@ class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizonta
                                       child: Container(
                                         height: 2,
                                         width: 1,
-                                        color: index % 2 == 0
-                                            ? Colors.transparent
-                                            : Colors.black,
+                                        color: index % 2 == 0 ? Colors.transparent : Colors.black,
                                       ),
                                     ),
                                   ),
@@ -111,7 +111,7 @@ class _OrderWatingDriverHorizontalState extends State<OrderWatingDriverHorizonta
                           ],
                         ),
                       ),
-                    if (widget.orderStatus == OrderStatus.completed)
+                    if (order.status == OrderStatus.completed)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

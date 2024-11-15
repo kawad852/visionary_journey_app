@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:visionary_journey_app/models/order/order_model.dart';
+import 'package:visionary_journey_app/screens/card/widgets/driver_info.dart';
 import 'package:visionary_journey_app/screens/card/widgets/location_info.dart';
-import 'package:visionary_journey_app/screens/card/widgets/user_info.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/widgets/editors/text_editor.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
@@ -34,7 +35,9 @@ class _ReviewCardState extends State<ReviewCard> {
           ),
           child: Column(
             children: [
-              const UserInfo(),
+              DriverInfo(
+                driver: Driver(),
+              ),
               Container(
                 width: double.infinity,
                 height: 306,

@@ -224,62 +224,6 @@ class _OrderScreenState extends State<OrderScreen> {
                     showMyPin: false,
                     onMapCreated: () async {
                       _handleOrder(order: order, status: order.status);
-                      // _updatePoints(
-                      //   onEnd: () {},
-                      //   onUpdate: () async {
-                      //     if (order.status == OrderStatus.driverAssigned) {
-                      //       await _createPolyline(
-                      //         pickUp: pickUpGeo.geoPoint!,
-                      //         arrival: driverGeo!.geoPoint!,
-                      //       );
-                      //       final point = polyline!.points.last;
-                      //       final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
-                      //       final bearing = Geolocator.bearingBetween(
-                      //         pickUpGeo.geoPoint!.latitude,
-                      //         pickUpGeo.geoPoint!.longitude,
-                      //         geoModel.geoPoint!.latitude,
-                      //         geoModel.geoPoint!.longitude,
-                      //       );
-                      //       _firebaseFirestore.orders.doc(order.id).update({
-                      //         'driver.currentGeoPoint': geoModel.toJson(),
-                      //         "driver.bearing": bearing,
-                      //       });
-                      //       setState(() {
-                      //         polyline!.points.removeLast();
-                      //       });
-                      //       if (polyline!.points.isEmpty) {
-                      //         setState(() {
-                      //           polyline = null;
-                      //         });
-                      //         await Future.delayed(
-                      //           const Duration(seconds: 2),
-                      //         );
-                      //         await _firebaseFirestore.orders.doc(order.id).update({
-                      //           MyFields.status: OrderStatus.inProgress,
-                      //         });
-                      //       }
-                      //     }
-                      //     if (order.status == OrderStatus.inProgress) {
-                      //       await _createPolyline(
-                      //         pickUp: pickUpGeo.geoPoint!,
-                      //         arrival: arrivalGeo!.geoPoint!,
-                      //       );
-                      //       final point = polyline!.points.last;
-                      //       final geoModel = AppServices.getGeoModel(point.latitude, point.longitude);
-                      //       final bearing = Geolocator.bearingBetween(
-                      //         pickUpGeo.geoPoint!.latitude,
-                      //         pickUpGeo.geoPoint!.longitude,
-                      //         arrivalGeo.geoPoint!.latitude,
-                      //         arrivalGeo.geoPoint!.longitude,
-                      //       );
-                      //       _firebaseFirestore.orders.doc(order.id).update({
-                      //         'driver.currentGeoPoint': geoModel.toJson(),
-                      //         'arrivalGeoPoint': geoModel.toJson(),
-                      //         "driver.bearing": bearing,
-                      //       });
-                      //     }
-                      //   },
-                      // );
                     },
                     polyLines: polyline != null
                         ? {
@@ -309,8 +253,8 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                     },
                   ),
-                  OrderWatingDriverHorizontal(
-                    orderStatus: order.status,
+                  OrderWaitingDriverHorizontal(
+                    order: order,
                   ),
                 ],
               ),

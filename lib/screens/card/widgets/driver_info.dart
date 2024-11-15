@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:visionary_journey_app/models/order/order_model.dart';
 import 'package:visionary_journey_app/screens/card/widgets/user_text.dart';
-import 'package:visionary_journey_app/utils/app_constants.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/widgets/custom_network_image.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 
-class UserInfo extends StatelessWidget {
-  const UserInfo({super.key});
+class DriverInfo extends StatelessWidget {
+  final Driver driver;
+
+  const DriverInfo({
+    super.key,
+    required this.driver,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +30,8 @@ class UserInfo extends StatelessWidget {
               color: context.colorPalette.white,
               borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
             ),
-            child: const CustomNetworkImage(
-              kFakeImage,
+            child: CustomNetworkImage(
+              driver.photoURL,
               width: 60,
               height: 60,
               radius: MyTheme.radiusTertiary,
@@ -36,18 +42,20 @@ class UserInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const UserText("Mohammed Ahmed"),
-                const UserText("Vehicle number: 42-13821"),
+                UserText("${driver.firstName} ${driver.lastName}"),
+                UserText("Vehicle number: ${driver.carDetails!.plateNum}"),
                 Row(
                   children: [
-                    const Flexible(child: UserText("Toyota Camry")),
+                    Flexible(
+                      child: UserText(driver.carDetails!.name),
+                    ),
                     Container(
                       width: 18,
                       height: 18,
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: context.colorPalette.white,
+                        color: HexColor(driver.carDetails!.color),
                       ),
                     ),
                   ],
