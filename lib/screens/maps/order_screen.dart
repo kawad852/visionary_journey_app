@@ -115,16 +115,16 @@ class _OrderScreenState extends State<OrderScreen> {
         end: pickUpGeo.geoPoint!,
       );
       _updatePoints(
-        onUpdate: () {
+        onUpdate: () async {
           final point = polyline!.points.last;
           final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
           final bearing = Geolocator.bearingBetween(
-            pickUpGeo.geoPoint!.latitude,
-            pickUpGeo.geoPoint!.longitude,
             pointGeo.geoPoint!.latitude,
             pointGeo.geoPoint!.longitude,
+            pickUpGeo.geoPoint!.latitude,
+            pickUpGeo.geoPoint!.longitude,
           );
-          _firebaseFirestore.orders.doc(order.id).update({
+          await _firebaseFirestore.orders.doc(order.id).update({
             'driver.currentGeoPoint': pointGeo.toJson(),
             "driver.bearing": bearing,
           });
@@ -162,10 +162,10 @@ class _OrderScreenState extends State<OrderScreen> {
           final point = polyline!.points.last;
           final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
           final bearing = Geolocator.bearingBetween(
-            pickUpGeo.geoPoint!.latitude,
-            pickUpGeo.geoPoint!.longitude,
             pointGeo.geoPoint!.latitude,
             pointGeo.geoPoint!.longitude,
+            pickUpGeo.geoPoint!.latitude,
+            pickUpGeo.geoPoint!.longitude,
           );
           _firebaseFirestore.orders.doc(order.id).update({
             'driver.currentGeoPoint': pointGeo.toJson(),
