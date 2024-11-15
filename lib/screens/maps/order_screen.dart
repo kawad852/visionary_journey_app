@@ -109,8 +109,6 @@ class _OrderScreenState extends State<OrderScreen> {
     final driverGeo = driver.currentGeoPoint!;
     final arrivalGeo = order.arrivalGeoPoint!;
 
-    print("status::: $status");
-
     if (status == OrderStatus.driverAssigned) {
       await _createPolyline(
         start: pickUpGeo.geoPoint!,
@@ -156,8 +154,8 @@ class _OrderScreenState extends State<OrderScreen> {
 
     if (status == OrderStatus.inProgress) {
       await _createPolyline(
-        start: pickUpGeo.geoPoint!,
-        end: arrivalGeo.geoPoint!,
+        start: arrivalGeo.geoPoint!,
+        end: pickUpGeo.geoPoint!,
       );
       _updatePoints(
         onUpdate: () {
