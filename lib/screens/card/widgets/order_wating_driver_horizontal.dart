@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:visionary_journey_app/models/order/order_model.dart';
 import 'package:visionary_journey_app/screens/card/widgets/driver_info.dart';
 import 'package:visionary_journey_app/screens/card/widgets/location_info.dart';
@@ -12,14 +13,38 @@ import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
 class OrderWaitingDriverHorizontal extends StatelessWidget {
   final OrderModel order;
+  final int initialPointsLength;
+  final int pointsLength;
 
   const OrderWaitingDriverHorizontal({
     super.key,
     required this.order,
+    required this.pointsLength,
+    required this.initialPointsLength,
   });
+
+  int calculateETA(int distanceInMeters) {
+    // Calculate ETA in minutes and round to the nearest integer
+    double eta = (distanceInMeters / 8.33) / 60;
+    return eta.round();
+  }
+
+  double mapToRange(int number, int minOriginal, int maxOriginal, double minNew, double maxNew) {
+    return ((number - minOriginal) / (maxOriginal - minOriginal)) * (maxNew - minNew) + minNew;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final driver = order.driver!;
+    final distance = Geolocator.distanceBetween(
+      driver.currentGeoPoint!.geoPoint!.latitude,
+      driver.currentGeoPoint!.geoPoint!.longitude,
+      order.pickUp!.geoPoint!.latitude,
+      order.pickUp!.geoPoint!.longitude,
+    );
+    final time = calculateETA(distance.toInt());
+    final sliderValue = mapToRange(pointsLength, 0, 30, 1, -1);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -59,7 +84,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                       child: Text(
                         order.status == OrderStatus.completed
                             ? "You have arrived at your destination.The cost of the ride is"
-                            : "The driver will arrive at your location within 2 minutes",
+                            : "The driver will arrive at your location within ${time == 0 ? 1 : time} minutes",
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         maxLines: 2,
@@ -100,8 +125,8 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Positioned(
-                              top: 10,
+                            Align(
+                              alignment: AlignmentDirectional(sliderValue, 0),
                               child: Image.asset(MyImages.car),
                             ),
                             const Align(
