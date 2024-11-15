@@ -52,16 +52,16 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   Future<void> _createPolyline({
-    required GeoPoint start,
     required GeoPoint end,
+    required GeoPoint start,
   }) async {
     try {
       PolylinePoints polylinePoints = PolylinePoints();
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleApiKey: kGoogleMapKey,
         request: PolylineRequest(
-          origin: PointLatLng(start.latitude, start.longitude),
-          destination: PointLatLng(end.latitude, end.longitude),
+          origin: PointLatLng(end.latitude, end.longitude),
+          destination: PointLatLng(start.latitude, start.longitude),
           mode: TravelMode.driving,
           // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
         ),
@@ -111,8 +111,8 @@ class _OrderScreenState extends State<OrderScreen> {
 
     if (status == OrderStatus.driverAssigned) {
       await _createPolyline(
-        start: pickUpGeo.geoPoint!,
-        end: driverGeo.geoPoint!,
+        start: driverGeo.geoPoint!,
+        end: pickUpGeo.geoPoint!,
       );
       _updatePoints(
         onUpdate: () {
@@ -154,8 +154,8 @@ class _OrderScreenState extends State<OrderScreen> {
 
     if (status == OrderStatus.inProgress) {
       await _createPolyline(
-        start: arrivalGeo.geoPoint!,
-        end: pickUpGeo.geoPoint!,
+        start: pickUpGeo.geoPoint!,
+        end: arrivalGeo.geoPoint!,
       );
       _updatePoints(
         onUpdate: () {
