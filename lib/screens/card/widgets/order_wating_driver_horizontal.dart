@@ -30,7 +30,23 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
   }
 
   double mapToRange(int number, int minOriginal, int maxOriginal, double minNew, double maxNew) {
-    return ((number - minOriginal) / (maxOriginal - minOriginal)) * (maxNew - minNew) + minNew;
+    final v = ((number - minOriginal) / (maxOriginal - minOriginal)) * (maxNew - minNew) + minNew;
+    if (v < -1) {
+      return -1;
+    }
+    return v;
+  }
+
+  String _getText(BuildContext context, int time) {
+    if (order.status == OrderStatus.driverAssigned) {
+      return context.appLocalization.driverArrivalText1(time);
+    } else if (order.status == OrderStatus.driverArrived) {
+      return context.appLocalization.driverArrivedText;
+    } else if (order.status == OrderStatus.inProgress) {
+      return context.appLocalization.driverArrivalText2(time);
+    } else {
+      return context.appLocalization.driverArrivalText3;
+    }
   }
 
   @override
@@ -82,9 +98,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(
-                        order.status == OrderStatus.completed
-                            ? "You have arrived at your destination.The cost of the ride is"
-                            : "The driver will arrive at your location within ${time == 0 ? 1 : time} minutes",
+                        _getText(context, time),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         maxLines: 2,
