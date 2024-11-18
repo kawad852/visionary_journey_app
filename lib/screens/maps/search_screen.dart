@@ -39,7 +39,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   late MapController _mapController;
   late Stream<List<DocumentSnapshot<Driver>>> _stream;
-  late double _selectedLat, _selectedLng;
   bool _fakeLoading = false;
   OrderModel? _orderModel;
 
@@ -72,30 +71,28 @@ class _SearchScreenState extends State<SearchScreen> {
         _showFakeLoading(false);
       },
     );
-    final driver = AppServices.findNearestDriver(drivers, _selectedLat, _selectedLng);
+    final driver = AppServices.findNearestDriver(drivers, _orderModel!.pickUp!.geoPoint!.latitude, _orderModel!.pickUp!.geoPoint!.longitude);
     _orderModel = _orderModel!.copyWith(
       id: "1",
       createdAt: MyFactory.dateTime,
       driver: driver,
       userId: _userProvider.user!.uid,
       status: OrderStatus.driverAssigned,
-      pickUp: AppServices.getGeoModel(_selectedLat, _selectedLng),
-      arrivalGeoPoint: AppServices.getGeoModel(32.10011378977755, 36.08896290269402),
     );
-    _firebaseFirestore.orders.doc(_orderModel!.id).set(_orderModel!);
-    _userProvider.userDocRef.update({
+    final batch = _firebaseFirestore.batch();
+    batch.set(_firebaseFirestore.orders.doc(_orderModel!.id), _orderModel!);
+    batch.update(_userProvider.userDocRef, {
       MyFields.orderId: _orderModel!.id,
     });
-    _firebaseFirestore.drivers.doc(driver.id).update({
+    batch.update(_firebaseFirestore.drivers.doc(driver.id), {
       MyFields.orderId: _orderModel!.id,
     });
+    batch.commit();
   }
 
   @override
   void initState() {
     super.initState();
-    _selectedLat = _locationProvider.latitude!;
-    _selectedLng = _locationProvider.longitude!;
     _mapController = MapController(context, lat: _locationProvider.latitude, lng: _locationProvider.longitude);
     _orderProvider.generateDrivers(context);
     _getNearestDrivers();
@@ -112,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _orderModel ??= OrderModel(
       pickUpNameEn: context.appLocalization.yourCurrentLocation,
       arrivalNameEn: context.appLocalization.locationRequestedFromDriver,
+      pickUp: AppServices.getGeoModel(_locationProvider.latitude!, _locationProvider.longitude!),
     );
     return Consumer<OrderProvider>(
       builder: (context, orderProvider, child) {
@@ -129,10 +127,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   MapBubble(
                     controller: _mapController,
-                    onCameraMove: (position) {
-                      _selectedLat = position.target.latitude;
-                      _selectedLng = position.target.longitude;
-                    },
+                    // onCameraMove: (position) {
+                    //   _orderModel!.pickUp = AppServices.getGeoModel(position.target.latitude, position.target.longitude);
+                    // },
                     markers: drivers.map((e) {
                       final geoPoint = e.data()!.currentGeoPoint!.geoPoint!;
                       return Marker(
@@ -156,6 +153,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               callBack: (lat, lng, name) async {
                                 setState(() {
                                   _orderModel!.pickUpNameEn = name;
+                                  _orderModel!.pickUp = AppServices.getGeoModel(lat, lng);
                                 });
                               },
                               labelText: _orderModel!.pickUpNameEn!,
@@ -166,6 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 callBack: (lat, lng, name) async {
                                   setState(() {
                                     _orderModel!.arrivalNameEn = name;
+                                    _orderModel!.arrivalGeoPoint = AppServices.getGeoModel(lat, lng);
                                   });
                                 },
                                 labelText: _orderModel!.arrivalNameEn!,
