@@ -40,7 +40,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.backgroundColor,
     this.scale = 1,
     this.ignorePlaceHolder = false,
-    this.clipBehavior=Clip.none,
+    this.clipBehavior = Clip.none,
   });
 
   Widget _buildContainer({
@@ -72,7 +72,7 @@ class CustomNetworkImage extends StatelessWidget {
     );
   }
 
-  ImageProvider get _imagePlaceHolder => const AssetImage('assets/launcher.png');
+  ImageProvider get _imagePlaceHolder => const AssetImage('assets/splash.png');
 
   @override
   Widget build(BuildContext context) {

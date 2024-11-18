@@ -17,6 +17,7 @@ import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
+import '../../helper/my_factory.dart';
 import '../../models/order/order_model.dart';
 import '../../network/my_fields.dart';
 import '../../utils/app_constants.dart';
@@ -109,7 +110,7 @@ class _OrderScreenState extends State<OrderScreen> {
     final driver = order.driver!;
     final pickUpGeo = order.pickUp!;
     final driverGeo = driver.currentGeoPoint!;
-    final arrivalGeo = order.arrivalGeoPoint!;
+    final arrivalGeo = order.arrivalGeoPoint;
 
     if (status == OrderStatus.driverAssigned) {
       await _createPolyline(
@@ -144,8 +145,13 @@ class _OrderScreenState extends State<OrderScreen> {
           await Future.delayed(
             const Duration(seconds: 3),
           );
+          if (order.arrivalGeoPoint == null) {
+            final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
+            order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
+          }
           await _firebaseFirestore.orders.doc(order.id).update({
             MyFields.status: OrderStatus.inProgress,
+            'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
           });
           _handleOrder(order: order, status: OrderStatus.inProgress);
         },
@@ -154,7 +160,9 @@ class _OrderScreenState extends State<OrderScreen> {
 
     ///
 
-    if (status == OrderStatus.inProgress) {
+    print("status::: $status\narrivalGeo:: ${arrivalGeo?.toJson()}");
+    if (status == OrderStatus.inProgress && arrivalGeo != null) {
+      print("herrrreeeeeee");
       await _createPolyline(
         start: pickUpGeo.geoPoint!,
         end: arrivalGeo.geoPoint!,
@@ -251,9 +259,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         icon: BitmapDescriptor.fromBytes(widget.carIcon),
                         consumeTapEvents: true,
                       ),
-                      if (order.status == OrderStatus.inProgress)
+                      if (order.status == OrderStatus.inProgress && arrivalGeo != null)
                         Marker(
-                          markerId: MarkerId(arrivalGeo!.geoHash),
+                          markerId: MarkerId(arrivalGeo.geoHash),
                           position: LatLng(arrivalGeo.geoPoint!.latitude, arrivalGeo.geoPoint!.longitude),
                           icon: BitmapDescriptor.fromBytes(widget.circleIcon),
                           consumeTapEvents: true,
