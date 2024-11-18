@@ -30,6 +30,10 @@ mixin _$OrderModel {
   set userId(String value) => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   set status(String value) => throw _privateConstructorUsedError;
+  int? get pickUpPointsLength => throw _privateConstructorUsedError;
+  set pickUpPointsLength(int? value) => throw _privateConstructorUsedError;
+  int? get arrivalPointsLength => throw _privateConstructorUsedError;
+  set arrivalPointsLength(int? value) => throw _privateConstructorUsedError;
   GeoModel? get pickUp => throw _privateConstructorUsedError;
   set pickUp(GeoModel? value) => throw _privateConstructorUsedError;
   String? get pickUpNameEn => throw _privateConstructorUsedError;
@@ -62,6 +66,8 @@ abstract class $OrderModelCopyWith<$Res> {
       String id,
       String userId,
       String status,
+      int? pickUpPointsLength,
+      int? arrivalPointsLength,
       GeoModel? pickUp,
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
@@ -92,6 +98,8 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
     Object? id = null,
     Object? userId = null,
     Object? status = null,
+    Object? pickUpPointsLength = freezed,
+    Object? arrivalPointsLength = freezed,
     Object? pickUp = freezed,
     Object? pickUpNameEn = freezed,
     Object? arrivalGeoPoint = freezed,
@@ -115,6 +123,14 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      pickUpPointsLength: freezed == pickUpPointsLength
+          ? _value.pickUpPointsLength
+          : pickUpPointsLength // ignore: cast_nullable_to_non_nullable
+              as int?,
+      arrivalPointsLength: freezed == arrivalPointsLength
+          ? _value.arrivalPointsLength
+          : arrivalPointsLength // ignore: cast_nullable_to_non_nullable
+              as int?,
       pickUp: freezed == pickUp
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
@@ -194,6 +210,8 @@ abstract class _$$OrderModelImplCopyWith<$Res>
       String id,
       String userId,
       String status,
+      int? pickUpPointsLength,
+      int? arrivalPointsLength,
       GeoModel? pickUp,
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
@@ -225,6 +243,8 @@ class __$$OrderModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? userId = null,
     Object? status = null,
+    Object? pickUpPointsLength = freezed,
+    Object? arrivalPointsLength = freezed,
     Object? pickUp = freezed,
     Object? pickUpNameEn = freezed,
     Object? arrivalGeoPoint = freezed,
@@ -248,6 +268,14 @@ class __$$OrderModelImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
+      pickUpPointsLength: freezed == pickUpPointsLength
+          ? _value.pickUpPointsLength
+          : pickUpPointsLength // ignore: cast_nullable_to_non_nullable
+              as int?,
+      arrivalPointsLength: freezed == arrivalPointsLength
+          ? _value.arrivalPointsLength
+          : arrivalPointsLength // ignore: cast_nullable_to_non_nullable
+              as int?,
       pickUp: freezed == pickUp
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
@@ -280,6 +308,8 @@ class _$OrderModelImpl implements _OrderModel {
       this.id = '',
       this.userId = '',
       this.status = '',
+      this.pickUpPointsLength,
+      this.arrivalPointsLength,
       this.pickUp,
       this.pickUpNameEn,
       this.arrivalGeoPoint,
@@ -302,6 +332,10 @@ class _$OrderModelImpl implements _OrderModel {
   @JsonKey()
   String status;
   @override
+  int? pickUpPointsLength;
+  @override
+  int? arrivalPointsLength;
+  @override
   GeoModel? pickUp;
   @override
   String? pickUpNameEn;
@@ -314,7 +348,7 @@ class _$OrderModelImpl implements _OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver)';
+    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUpPointsLength: $pickUpPointsLength, arrivalPointsLength: $arrivalPointsLength, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver)';
   }
 
   /// Create a copy of OrderModel
@@ -339,6 +373,8 @@ abstract class _OrderModel implements OrderModel {
       String id,
       String userId,
       String status,
+      int? pickUpPointsLength,
+      int? arrivalPointsLength,
       GeoModel? pickUp,
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
@@ -362,6 +398,12 @@ abstract class _OrderModel implements OrderModel {
   @override
   String get status;
   set status(String value);
+  @override
+  int? get pickUpPointsLength;
+  set pickUpPointsLength(int? value);
+  @override
+  int? get arrivalPointsLength;
+  set arrivalPointsLength(int? value);
   @override
   GeoModel? get pickUp;
   set pickUp(GeoModel? value);

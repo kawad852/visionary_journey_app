@@ -15,6 +15,8 @@ class OrderModel with _$OrderModel {
     @Default('') String id,
     @Default('') String userId,
     @Default('') String status,
+    int? pickUpPointsLength,
+    int? arrivalPointsLength,
     GeoModel? pickUp,
     String? pickUpNameEn,
     GeoModel? arrivalGeoPoint,

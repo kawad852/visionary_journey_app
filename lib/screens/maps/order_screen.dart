@@ -118,6 +118,9 @@ class _OrderScreenState extends State<OrderScreen> {
         start: driverGeo.geoPoint!,
         end: pickUpGeo.geoPoint!,
       );
+      await _firebaseFirestore.orders.doc(order.id).update({
+        'pickUpPointsLength': polyline!.points.length,
+      });
       _updatePoints(
         onUpdate: () async {
           final point = polyline!.points.last;
@@ -166,6 +169,9 @@ class _OrderScreenState extends State<OrderScreen> {
         start: pickUpGeo.geoPoint!,
         end: arrivalGeo.geoPoint!,
       );
+      await _firebaseFirestore.orders.doc(order.id).update({
+        'arrivalPointsLength': polyline!.points.length,
+      });
       _updatePoints(
         onUpdate: () {
           final point = polyline!.points.last;
@@ -280,7 +286,6 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                   OrderWaitingDriverHorizontal(
                     order: order,
-                    initialPointsLength: polyline?.points.length ?? 0,
                     pointsLength: polyline?.points.length ?? 0,
                     pickLabelText: order.pickUpNameEn!,
                     arrivalLabelText: order.arrivalNameEn!,

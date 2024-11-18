@@ -13,7 +13,6 @@ import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
 class OrderWaitingDriverHorizontal extends StatelessWidget {
   final OrderModel order;
-  final int initialPointsLength;
   final int pointsLength;
   final String pickLabelText, arrivalLabelText;
 
@@ -21,7 +20,6 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
     super.key,
     required this.order,
     required this.pointsLength,
-    required this.initialPointsLength,
     required this.pickLabelText,
     required this.arrivalLabelText,
   });
@@ -75,8 +73,13 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
 
     final time = calculateETA(distance.toInt());
 
-    print("length:::: ${pointsLength}");
-    final sliderValue = mapToRange(distance == 0 ? 0 : pointsLength, 0, 40, 1, -1);
+    var length = 40;
+    if (order.status == OrderStatus.driverAssigned) {
+      length = order.pickUpPointsLength ?? length;
+    } else {
+      length = order.arrivalPointsLength ?? length;
+    }
+    final sliderValue = mapToRange(distance == 0 ? 0 : pointsLength, 0, length, 1, -1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
