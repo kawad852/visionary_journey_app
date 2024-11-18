@@ -61,6 +61,7 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
   Future<void> _getPlaceDetails(
     BuildContext context,
     String placeId,
+    String name,
   ) async {
     return await ApiService.fetch(
       context,
@@ -71,10 +72,6 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
           var googlePlaceDetailsModel = GooglePlaceDetailsModel.fromJson(jsonResponse);
           debugPrint("GooglePlaceDetailsModel::: ${googlePlaceDetailsModel.toJson()}");
           if (context.mounted) {
-            String? name;
-            if (googlePlaceDetailsModel.result!.addressComponents!.isNotEmpty) {
-              name = googlePlaceDetailsModel.result!.addressComponents!.first.longName;
-            }
             widget.callBack(googlePlaceDetailsModel.result!.geometry!.location!.lat!, googlePlaceDetailsModel.result!.geometry!.location!.lng!, name);
           }
         }
@@ -135,7 +132,7 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
                     final element = predictions[index];
                     return ListTile(
                       onTap: () {
-                        _getPlaceDetails(context, element.placeId!).then((value) {
+                        _getPlaceDetails(context, element.placeId!, element.description!).then((value) {
                           Navigator.pop(context);
                         });
                       },
