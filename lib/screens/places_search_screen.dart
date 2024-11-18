@@ -70,7 +70,7 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
         if (response.statusCode == 200) {
           Map<String, dynamic> jsonResponse = json.decode(response.body);
           var googlePlaceDetailsModel = GooglePlaceDetailsModel.fromJson(jsonResponse);
-          debugPrint("GooglePlaceDetailsModel::: ${googlePlaceDetailsModel.toJson()}");
+          // debugPrint("GooglePlaceDetailsModel::: ${googlePlaceDetailsModel.toJson()}");
           if (context.mounted) {
             widget.callBack(googlePlaceDetailsModel.result!.geometry!.location!.lat!, googlePlaceDetailsModel.result!.geometry!.location!.lng!, name);
           }

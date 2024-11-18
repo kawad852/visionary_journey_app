@@ -5,7 +5,14 @@ import 'package:visionary_journey_app/widgets/custom_svg.dart';
 
 class LocationInfo extends StatelessWidget {
   final bool isVolume;
-  const LocationInfo({super.key, this.isVolume = true});
+  final String pickLabelText, arrivalLabelText;
+
+  const LocationInfo({
+    super.key,
+    this.isVolume = true,
+    required this.pickLabelText,
+    required this.arrivalLabelText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +34,7 @@ class LocationInfo extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      "Hayya Cultural Center",
+                      pickLabelText,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: context.colorPalette.grey66,
@@ -48,7 +55,7 @@ class LocationInfo extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               Text(
-                "To the location you requested from the driver",
+                arrivalLabelText,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: context.colorPalette.grey66,

@@ -41,6 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late Stream<List<DocumentSnapshot<Driver>>> _stream;
   bool _fakeLoading = false;
   OrderModel? _orderModel;
+  bool _canceled = false;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   LocationProvider get _locationProvider => context.locationProvider;
@@ -71,6 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
         _showFakeLoading(false);
       },
     );
+    if (_canceled) return;
     final driver = AppServices.findNearestDriver(drivers, _orderModel!.pickUp!.geoPoint!.latitude, _orderModel!.pickUp!.geoPoint!.longitude);
     _orderModel = _orderModel!.copyWith(
       id: "1",
@@ -142,7 +144,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   _fakeLoading
                       ? OrderLoading(
-                          onCancel: () {},
+                          pickLabelText: _orderModel!.pickUpNameEn!,
+                          arrivalLabelText: _orderModel!.arrivalNameEn!,
+                          onCancel: () {
+                            _canceled = true;
+                            _userProvider.userDocRef.update({
+                              MyFields.orderId: null,
+                            });
+                          },
                         )
                       : HomeCard(
                           onBook: () {

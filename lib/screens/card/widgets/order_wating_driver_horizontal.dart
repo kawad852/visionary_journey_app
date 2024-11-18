@@ -94,7 +94,10 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const LocationInfo(),
+                    LocationInfo(
+                      pickLabelText: "pickUp",
+                      arrivalLabelText: "Arrival",
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(

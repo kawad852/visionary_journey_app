@@ -25,9 +25,7 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: MySharedPreferences.appDirction == AppDirction.right
-          ? AlignmentDirectional.centerEnd
-          : AlignmentDirectional.centerStart,
+      alignment: MySharedPreferences.appDirction == AppDirction.right ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
       child: SizedBox(
         width: context.mediaQuery.width * 0.58,
         child: Column(
@@ -114,7 +112,11 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                     ),
                     child: Column(
                       children: [
-                        const LocationInfo(isVolume: false),
+                        LocationInfo(
+                          isVolume: false,
+                          pickLabelText: "pickUp",
+                          arrivalLabelText: "Arrival",
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
@@ -156,9 +158,7 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                                         child: Container(
                                           height: 2,
                                           width: 1,
-                                          color: index % 2 == 0
-                                              ? Colors.transparent
-                                              : Colors.black,
+                                          color: index % 2 == 0 ? Colors.transparent : Colors.black,
                                         ),
                                       ),
                                     ),

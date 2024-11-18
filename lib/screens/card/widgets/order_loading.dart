@@ -9,9 +9,13 @@ import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
 class OrderLoading extends StatelessWidget {
   final VoidCallback onCancel;
+  final String pickLabelText, arrivalLabelText;
+
   const OrderLoading({
     super.key,
     required this.onCancel,
+    required this.pickLabelText,
+    required this.arrivalLabelText,
   });
 
   @override
@@ -45,7 +49,11 @@ class OrderLoading extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  const LocationInfo(isVolume: false),
+                  LocationInfo(
+                    isVolume: false,
+                    pickLabelText: pickLabelText,
+                    arrivalLabelText: arrivalLabelText,
+                  ),
                   LoadingAnimationWidget.progressiveDots(
                     color: Colors.blue,
                     size: 70,
@@ -54,7 +62,7 @@ class OrderLoading extends StatelessWidget {
                     onPressed: onCancel,
                     backgroundColor: context.colorPalette.grey66,
                     child: Text(
-                      "Cancel",
+                      context.appLocalization.cancel,
                       style: TextStyle(
                         color: context.colorPalette.white,
                         fontSize: 16,

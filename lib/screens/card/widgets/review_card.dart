@@ -51,7 +51,10 @@ class _ReviewCardState extends State<ReviewCard> {
                 ),
                 child: Column(
                   children: [
-                    const LocationInfo(),
+                    LocationInfo(
+                      pickLabelText: "pickUp",
+                      arrivalLabelText: "Arrival",
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
                       child: RatingBar.builder(
