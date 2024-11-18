@@ -282,6 +282,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     order: order,
                     initialPointsLength: polyline?.points.length ?? 0,
                     pointsLength: polyline?.points.length ?? 0,
+                    pickLabelText: order.pickUpNameEn!,
+                    arrivalLabelText: order.arrivalNameEn!,
                   ),
                 ],
               ),

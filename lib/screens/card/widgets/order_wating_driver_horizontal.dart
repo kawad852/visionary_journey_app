@@ -15,12 +15,15 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
   final OrderModel order;
   final int initialPointsLength;
   final int pointsLength;
+  final String pickLabelText, arrivalLabelText;
 
   const OrderWaitingDriverHorizontal({
     super.key,
     required this.order,
     required this.pointsLength,
     required this.initialPointsLength,
+    required this.pickLabelText,
+    required this.arrivalLabelText,
   });
 
   int calculateETA(int distanceInMeters) {
@@ -39,10 +42,16 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
 
   String _getText(BuildContext context, int time) {
     if (order.status == OrderStatus.driverAssigned) {
+      if (time == 0) {
+        return context.appLocalization.driverAlmostThere;
+      }
       return context.appLocalization.driverArrivalText1(time);
     } else if (order.status == OrderStatus.driverArrived) {
       return context.appLocalization.driverArrivedText;
     } else if (order.status == OrderStatus.inProgress) {
+      if (time == 0) {
+        return context.appLocalization.youAreAlmostThere(context.appLocalization.appName);
+      }
       return context.appLocalization.driverArrivalText2(time);
     } else {
       return context.appLocalization.driverArrivalText3;
@@ -52,14 +61,22 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final driver = order.driver!;
-    final distance = Geolocator.distanceBetween(
-      driver.currentGeoPoint!.geoPoint!.latitude,
-      driver.currentGeoPoint!.geoPoint!.longitude,
-      order.pickUp!.geoPoint!.latitude,
-      order.pickUp!.geoPoint!.longitude,
-    );
+    var distance = 0.0;
+    if (order.status == OrderStatus.driverArrived) {
+      distance = 0;
+    } else {
+      distance = Geolocator.distanceBetween(
+        driver.currentGeoPoint!.geoPoint!.latitude,
+        driver.currentGeoPoint!.geoPoint!.longitude,
+        order.status == OrderStatus.driverAssigned ? order.pickUp!.geoPoint!.latitude : order.arrivalGeoPoint!.geoPoint!.latitude,
+        order.status == OrderStatus.driverAssigned ? order.pickUp!.geoPoint!.longitude : order.arrivalGeoPoint!.geoPoint!.longitude,
+      );
+    }
+
     final time = calculateETA(distance.toInt());
-    final sliderValue = mapToRange(pointsLength, 0, 30, 1, -1);
+
+    print("length:::: ${pointsLength}");
+    final sliderValue = mapToRange(distance == 0 ? 0 : pointsLength, 0, 40, 1, -1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,8 +112,8 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                 child: Column(
                   children: [
                     LocationInfo(
-                      pickLabelText: "pickUp",
-                      arrivalLabelText: "Arrival",
+                      pickLabelText: pickLabelText,
+                      arrivalLabelText: arrivalLabelText,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 20),
