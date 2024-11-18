@@ -103,6 +103,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
+  late GeoModel _lastDriverGeo;
   Future<void> _handleOrder({
     required OrderModel order,
     required String status,
@@ -122,8 +123,8 @@ class _OrderScreenState extends State<OrderScreen> {
           final point = polyline!.points.last;
           final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
           final bearing = Geolocator.bearingBetween(
-            pointGeo.geoPoint!.latitude,
-            pointGeo.geoPoint!.longitude,
+            _lastDriverGeo.geoPoint!.latitude,
+            _lastDriverGeo.geoPoint!.longitude,
             pickUpGeo.geoPoint!.latitude,
             pickUpGeo.geoPoint!.longitude,
           );
@@ -160,9 +161,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
     ///
 
-    print("status::: $status\narrivalGeo:: ${arrivalGeo?.toJson()}");
     if (status == OrderStatus.inProgress && arrivalGeo != null) {
-      print("herrrreeeeeee");
       await _createPolyline(
         start: pickUpGeo.geoPoint!,
         end: arrivalGeo.geoPoint!,
@@ -198,6 +197,15 @@ class _OrderScreenState extends State<OrderScreen> {
         },
       );
     }
+
+    if (status == OrderStatus.completed) {
+      await await Future.delayed(
+        const Duration(seconds: 5),
+      );
+      await _userProvider.userDocRef.update({
+        MyFields.orderId: null,
+      });
+    }
   }
 
   @override
@@ -226,6 +234,8 @@ class _OrderScreenState extends State<OrderScreen> {
             final pickUpGeo = order.pickUp;
             final driverGeo = driver.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
+
+            _lastDriverGeo = driverGeo!;
 
             return Scaffold(
               extendBodyBehindAppBar: true,
@@ -280,5 +290,14 @@ class _OrderScreenState extends State<OrderScreen> {
         );
       },
     );
+  }
+}
+
+extension on double {
+  double get bounded {
+    if (this > 180) {
+      return this - 360;
+    }
+    return this;
   }
 }
