@@ -205,5 +205,9 @@
     "driverArrivalText1": "The driver will arrive at your location within {time} minutes",
     "driverArrivalText2": "You are on your way to your destination You will arrive in {time} minutes",
     "driverArrivalText3": "You have arrived at your destination.The cost of the ride is",
-    "driverArrivedText": "Driver is here, have a safe trip!"
+    "driverArrivedText": "Driver is here, have a safe trip!",
+    "yourCurrentLocation": "Your current location",
+    "locationRequestedFromDriver": "To the location you request from the driver",
+    "bookNow": "Book now"
+
 }

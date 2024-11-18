@@ -15,6 +15,7 @@ class _CardScreenState extends State<CardScreen> {
       backgroundColor: Colors.grey,
       body: HomeCard(
         onBook: () {},
+        children: [],
       ),
     );
   }

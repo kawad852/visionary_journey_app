@@ -15,9 +15,11 @@ _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
       pickUp: json['pickUp'] == null
           ? null
           : GeoModel.fromJson(json['pickUp'] as Map<String, dynamic>),
+      pickUpNameEn: json['pickUpNameEn'] as String?,
       arrivalGeoPoint: json['arrivalGeoPoint'] == null
           ? null
           : GeoModel.fromJson(json['arrivalGeoPoint'] as Map<String, dynamic>),
+      arrivalNameEn: json['arrivalNameEn'] as String?,
       driver: json['driver'] == null
           ? null
           : Driver.fromJson(json['driver'] as Map<String, dynamic>),
@@ -30,7 +32,9 @@ Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
       'userId': instance.userId,
       'status': instance.status,
       'pickUp': instance.pickUp?.toJson(),
+      'pickUpNameEn': instance.pickUpNameEn,
       'arrivalGeoPoint': instance.arrivalGeoPoint?.toJson(),
+      'arrivalNameEn': instance.arrivalNameEn,
       'driver': instance.driver?.toJson(),
     };
 

@@ -29,13 +29,15 @@ mixin _$OrderModel {
   String get userId => throw _privateConstructorUsedError;
   set userId(String value) => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  set status(String value) =>
-      throw _privateConstructorUsedError; // Destination? pickUp,
-  GeoModel? get pickUp =>
-      throw _privateConstructorUsedError; // Destination? pickUp,
+  set status(String value) => throw _privateConstructorUsedError;
+  GeoModel? get pickUp => throw _privateConstructorUsedError;
   set pickUp(GeoModel? value) => throw _privateConstructorUsedError;
+  String? get pickUpNameEn => throw _privateConstructorUsedError;
+  set pickUpNameEn(String? value) => throw _privateConstructorUsedError;
   GeoModel? get arrivalGeoPoint => throw _privateConstructorUsedError;
   set arrivalGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
+  String? get arrivalNameEn => throw _privateConstructorUsedError;
+  set arrivalNameEn(String? value) => throw _privateConstructorUsedError;
   Driver? get driver => throw _privateConstructorUsedError;
   set driver(Driver? value) => throw _privateConstructorUsedError;
 
@@ -61,7 +63,9 @@ abstract class $OrderModelCopyWith<$Res> {
       String userId,
       String status,
       GeoModel? pickUp,
+      String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
+      String? arrivalNameEn,
       Driver? driver});
 
   $GeoModelCopyWith<$Res>? get pickUp;
@@ -89,7 +93,9 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
     Object? userId = null,
     Object? status = null,
     Object? pickUp = freezed,
+    Object? pickUpNameEn = freezed,
     Object? arrivalGeoPoint = freezed,
+    Object? arrivalNameEn = freezed,
     Object? driver = freezed,
   }) {
     return _then(_value.copyWith(
@@ -113,10 +119,18 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
+      pickUpNameEn: freezed == pickUpNameEn
+          ? _value.pickUpNameEn
+          : pickUpNameEn // ignore: cast_nullable_to_non_nullable
+              as String?,
       arrivalGeoPoint: freezed == arrivalGeoPoint
           ? _value.arrivalGeoPoint
           : arrivalGeoPoint // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
+      arrivalNameEn: freezed == arrivalNameEn
+          ? _value.arrivalNameEn
+          : arrivalNameEn // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: freezed == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -181,7 +195,9 @@ abstract class _$$OrderModelImplCopyWith<$Res>
       String userId,
       String status,
       GeoModel? pickUp,
+      String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
+      String? arrivalNameEn,
       Driver? driver});
 
   @override
@@ -210,7 +226,9 @@ class __$$OrderModelImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? status = null,
     Object? pickUp = freezed,
+    Object? pickUpNameEn = freezed,
     Object? arrivalGeoPoint = freezed,
+    Object? arrivalNameEn = freezed,
     Object? driver = freezed,
   }) {
     return _then(_$OrderModelImpl(
@@ -234,10 +252,18 @@ class __$$OrderModelImplCopyWithImpl<$Res>
           ? _value.pickUp
           : pickUp // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
+      pickUpNameEn: freezed == pickUpNameEn
+          ? _value.pickUpNameEn
+          : pickUpNameEn // ignore: cast_nullable_to_non_nullable
+              as String?,
       arrivalGeoPoint: freezed == arrivalGeoPoint
           ? _value.arrivalGeoPoint
           : arrivalGeoPoint // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
+      arrivalNameEn: freezed == arrivalNameEn
+          ? _value.arrivalNameEn
+          : arrivalNameEn // ignore: cast_nullable_to_non_nullable
+              as String?,
       driver: freezed == driver
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
@@ -255,7 +281,9 @@ class _$OrderModelImpl implements _OrderModel {
       this.userId = '',
       this.status = '',
       this.pickUp,
+      this.pickUpNameEn,
       this.arrivalGeoPoint,
+      this.arrivalNameEn,
       this.driver});
 
   factory _$OrderModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -273,17 +301,20 @@ class _$OrderModelImpl implements _OrderModel {
   @override
   @JsonKey()
   String status;
-// Destination? pickUp,
   @override
   GeoModel? pickUp;
   @override
+  String? pickUpNameEn;
+  @override
   GeoModel? arrivalGeoPoint;
+  @override
+  String? arrivalNameEn;
   @override
   Driver? driver;
 
   @override
   String toString() {
-    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUp: $pickUp, arrivalGeoPoint: $arrivalGeoPoint, driver: $driver)';
+    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver)';
   }
 
   /// Create a copy of OrderModel
@@ -309,7 +340,9 @@ abstract class _OrderModel implements OrderModel {
       String userId,
       String status,
       GeoModel? pickUp,
+      String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
+      String? arrivalNameEn,
       Driver? driver}) = _$OrderModelImpl;
 
   factory _OrderModel.fromJson(Map<String, dynamic> json) =
@@ -328,13 +361,19 @@ abstract class _OrderModel implements OrderModel {
   set userId(String value);
   @override
   String get status;
-  set status(String value); // Destination? pickUp,
+  set status(String value);
   @override
-  GeoModel? get pickUp; // Destination? pickUp,
+  GeoModel? get pickUp;
   set pickUp(GeoModel? value);
+  @override
+  String? get pickUpNameEn;
+  set pickUpNameEn(String? value);
   @override
   GeoModel? get arrivalGeoPoint;
   set arrivalGeoPoint(GeoModel? value);
+  @override
+  String? get arrivalNameEn;
+  set arrivalNameEn(String? value);
   @override
   Driver? get driver;
   set driver(Driver? value);

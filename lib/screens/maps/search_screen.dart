@@ -22,6 +22,7 @@ import '../../utils/enums.dart';
 import '../../widgets/map_bubble.dart';
 import '../card/widgets/home_card.dart';
 import '../card/widgets/order_loading.dart';
+import '../places_search_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   final Uint8List icon;
@@ -40,6 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late Stream<List<DocumentSnapshot<Driver>>> _stream;
   late double _selectedLat, _selectedLng;
   bool _fakeLoading = false;
+  OrderModel? _orderModel;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   LocationProvider get _locationProvider => context.locationProvider;
@@ -71,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
       },
     );
     final driver = AppServices.findNearestDriver(drivers, _selectedLat, _selectedLng);
-    final order = OrderModel(
+    _orderModel = _orderModel!.copyWith(
       id: "1",
       createdAt: MyFactory.dateTime,
       driver: driver,
@@ -80,12 +82,12 @@ class _SearchScreenState extends State<SearchScreen> {
       pickUp: AppServices.getGeoModel(_selectedLat, _selectedLng),
       arrivalGeoPoint: AppServices.getGeoModel(32.10011378977755, 36.08896290269402),
     );
-    _firebaseFirestore.orders.doc(order.id).set(order);
+    _firebaseFirestore.orders.doc(_orderModel!.id).set(_orderModel!);
     _userProvider.userDocRef.update({
-      MyFields.orderId: order.id,
+      MyFields.orderId: _orderModel!.id,
     });
     _firebaseFirestore.drivers.doc(driver.id).update({
-      MyFields.orderId: order.id,
+      MyFields.orderId: _orderModel!.id,
     });
   }
 
@@ -107,6 +109,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _orderModel ??= OrderModel(
+      pickUpNameEn: context.appLocalization.yourCurrentLocation,
+      arrivalNameEn: context.appLocalization.locationRequestedFromDriver,
+    );
     return Consumer<OrderProvider>(
       builder: (context, orderProvider, child) {
         return CustomStreamBuilder(
@@ -145,6 +151,27 @@ class _SearchScreenState extends State<SearchScreen> {
                           onBook: () {
                             _order(drivers.map((e) => e.data()!).toList());
                           },
+                          children: [
+                            PlacesSearchScreen(
+                              callBack: (lat, lng, name) async {
+                                setState(() {
+                                  _orderModel!.pickUpNameEn = name;
+                                });
+                              },
+                              labelText: _orderModel!.pickUpNameEn!,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              child: PlacesSearchScreen(
+                                callBack: (lat, lng, name) async {
+                                  setState(() {
+                                    _orderModel!.arrivalNameEn = name;
+                                  });
+                                },
+                                labelText: _orderModel!.arrivalNameEn!,
+                              ),
+                            ),
+                          ],
                         ),
                 ],
               ),

@@ -200,5 +200,7 @@
     "itemNotAvailableMsg": "المنتج غير متوفر",
     "requireRecentLogin": "هذه العملية حساسة وتتطلب مصادقة حديثة. قم بتسجيل الدخول مرة أخرى قبل إعادة محاولة هذا الطلب.",
     "theBasket": "السلة",
-    "size": "المقاس"
+    "size": "المقاس",
+    "yourCurrentLocation": "موقعك الحالي",
+    "locationRequestedFromDriver": "إلى الموقع الذي تطلبه من السائق"
 }

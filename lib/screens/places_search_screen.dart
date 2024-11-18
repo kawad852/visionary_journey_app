@@ -16,11 +16,13 @@ import '../widgets/editors/base_editor.dart';
 import '../widgets/fire_animated_search_bar.dart';
 
 class PlacesSearchScreen extends StatefulWidget {
-  final Future Function(double lat, double lng) callBack;
+  final Future Function(double lat, double lng, String? name) callBack;
+  final String labelText;
 
   const PlacesSearchScreen({
     super.key,
     required this.callBack,
+    required this.labelText,
   });
 
   @override
@@ -69,7 +71,11 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
           var googlePlaceDetailsModel = GooglePlaceDetailsModel.fromJson(jsonResponse);
           debugPrint("GooglePlaceDetailsModel::: ${googlePlaceDetailsModel.toJson()}");
           if (context.mounted) {
-            widget.callBack(googlePlaceDetailsModel.result!.geometry!.location!.lat!, googlePlaceDetailsModel.result!.geometry!.location!.lng!);
+            String? name;
+            if (googlePlaceDetailsModel.result!.addressComponents!.isNotEmpty) {
+              name = googlePlaceDetailsModel.result!.addressComponents!.first.longName;
+            }
+            widget.callBack(googlePlaceDetailsModel.result!.geometry!.location!.lat!, googlePlaceDetailsModel.result!.geometry!.location!.lng!, name);
           }
         }
       },
@@ -99,7 +105,7 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
             controller.openView();
           },
           fillColor: context.colorPalette.greyFB,
-          hintText: "Your current location",
+          hintText: widget.labelText,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: context.colorPalette.borderColor),
           ),

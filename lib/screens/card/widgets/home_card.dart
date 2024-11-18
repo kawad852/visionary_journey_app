@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/card/widgets/home_bubble.dart';
-import 'package:visionary_journey_app/screens/places_search_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
-import 'package:visionary_journey_app/widgets/custom_svg.dart';
-import 'package:visionary_journey_app/widgets/editors/base_editor.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
 class HomeCard extends StatelessWidget {
   final VoidCallback onBook;
+  final List<Widget> children;
 
   const HomeCard({
     super.key,
     required this.onBook,
+    required this.children,
   });
 
   @override
@@ -68,30 +67,11 @@ class HomeCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  PlacesSearchScreen(
-                    callBack: (v, a) async {},
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: BaseEditor(
-                      initialValue: null,
-                      filled: true,
-                      fillColor: context.colorPalette.greyFB,
-                      hintText: "location requested",
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: context.colorPalette.borderColor),
-                      ),
-                      prefixIcon: const IconButton(
-                        onPressed: null,
-                        icon: CustomSvg(MyIcons.location),
-                      ),
-                      onChanged: (value) {},
-                    ),
-                  ),
+                  ...children,
                   StretchedButton(
                     onPressed: onBook,
                     child: Text(
-                      "Book Now",
+                      context.appLocalization.bookNow,
                       style: TextStyle(
                         color: context.colorPalette.white,
                         fontSize: 16,
