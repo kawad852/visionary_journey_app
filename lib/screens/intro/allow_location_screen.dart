@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/notifications/cloud_messaging_service.dart';
+import 'package:visionary_journey_app/screens/login/login_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
@@ -13,6 +15,8 @@ class AllowLocationScreen extends StatefulWidget {
 }
 
 class _AllowLocationScreenState extends State<AllowLocationScreen> {
+  final cloudMessaging = CloudMessagingService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,12 +51,9 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                         ? AlignmentDirectional.centerStart
                         : AlignmentDirectional.center,
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      top: MySharedPreferences.appDirction == AppDirction.normal ? 0 : 50),
+                  padding: EdgeInsets.only(top: MySharedPreferences.appDirction == AppDirction.normal ? 0 : 50),
                   child: SizedBox(
-                    width: MySharedPreferences.appDirction == AppDirction.normal
-                        ? double.infinity
-                        : context.mediaQuery.width * 0.5,
+                    width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -75,7 +76,16 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                           ),
                         ),
                         StretchedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // cloudMessaging.init(context);
+                            // cloudMessaging.requestPermission();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          },
                           margin: const EdgeInsets.only(bottom: 10),
                           child: Text(
                             "Allow location and notifications",

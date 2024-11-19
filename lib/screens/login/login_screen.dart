@@ -44,9 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
-              child: MySharedPreferences.appDirction == AppDirction.normal 
-              ? LoginNormal(controller: phoneController)
-              : LoginSide(controller: phoneController),
+              child: MySharedPreferences.appDirction == AppDirction.normal
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: LoginNormal(controller: phoneController),
+                    )
+                  : LoginSide(controller: phoneController),
             ),
           ],
         ),
