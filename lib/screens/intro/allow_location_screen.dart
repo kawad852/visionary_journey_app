@@ -77,13 +77,20 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                         ),
                         StretchedButton(
                           onPressed: () {
-                            // cloudMessaging.init(context);
-                            // cloudMessaging.requestPermission();
-                            Navigator.pushReplacement(
+                            cloudMessaging.init(context);
+                            cloudMessaging.requestPermission();
+                            context.locationProvider.determinePosition(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
+                              withOverLayLoader: true,
+                              showSnackBar: true,
+                              onPermissionGranted: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ),
+                                );
+                              },
                             );
                           },
                           margin: const EdgeInsets.only(bottom: 10),
