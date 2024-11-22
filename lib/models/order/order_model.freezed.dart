@@ -44,6 +44,8 @@ mixin _$OrderModel {
   set arrivalNameEn(String? value) => throw _privateConstructorUsedError;
   Driver? get driver => throw _privateConstructorUsedError;
   set driver(Driver? value) => throw _privateConstructorUsedError;
+  double? get cost => throw _privateConstructorUsedError;
+  set cost(double? value) => throw _privateConstructorUsedError;
 
   /// Serializes this OrderModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,7 +74,8 @@ abstract class $OrderModelCopyWith<$Res> {
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
-      Driver? driver});
+      Driver? driver,
+      double? cost});
 
   $GeoModelCopyWith<$Res>? get pickUp;
   $GeoModelCopyWith<$Res>? get arrivalGeoPoint;
@@ -105,6 +108,7 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
     Object? arrivalGeoPoint = freezed,
     Object? arrivalNameEn = freezed,
     Object? driver = freezed,
+    Object? cost = freezed,
   }) {
     return _then(_value.copyWith(
       createdAt: freezed == createdAt
@@ -151,6 +155,10 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
               as Driver?,
+      cost: freezed == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -216,7 +224,8 @@ abstract class _$$OrderModelImplCopyWith<$Res>
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
-      Driver? driver});
+      Driver? driver,
+      double? cost});
 
   @override
   $GeoModelCopyWith<$Res>? get pickUp;
@@ -250,6 +259,7 @@ class __$$OrderModelImplCopyWithImpl<$Res>
     Object? arrivalGeoPoint = freezed,
     Object? arrivalNameEn = freezed,
     Object? driver = freezed,
+    Object? cost = freezed,
   }) {
     return _then(_$OrderModelImpl(
       createdAt: freezed == createdAt
@@ -296,6 +306,10 @@ class __$$OrderModelImplCopyWithImpl<$Res>
           ? _value.driver
           : driver // ignore: cast_nullable_to_non_nullable
               as Driver?,
+      cost: freezed == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -314,7 +328,8 @@ class _$OrderModelImpl implements _OrderModel {
       this.pickUpNameEn,
       this.arrivalGeoPoint,
       this.arrivalNameEn,
-      this.driver});
+      this.driver,
+      this.cost});
 
   factory _$OrderModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderModelImplFromJson(json);
@@ -345,10 +360,12 @@ class _$OrderModelImpl implements _OrderModel {
   String? arrivalNameEn;
   @override
   Driver? driver;
+  @override
+  double? cost;
 
   @override
   String toString() {
-    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUpPointsLength: $pickUpPointsLength, arrivalPointsLength: $arrivalPointsLength, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver)';
+    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUpPointsLength: $pickUpPointsLength, arrivalPointsLength: $arrivalPointsLength, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver, cost: $cost)';
   }
 
   /// Create a copy of OrderModel
@@ -379,7 +396,8 @@ abstract class _OrderModel implements OrderModel {
       String? pickUpNameEn,
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
-      Driver? driver}) = _$OrderModelImpl;
+      Driver? driver,
+      double? cost}) = _$OrderModelImpl;
 
   factory _OrderModel.fromJson(Map<String, dynamic> json) =
       _$OrderModelImpl.fromJson;
@@ -419,6 +437,9 @@ abstract class _OrderModel implements OrderModel {
   @override
   Driver? get driver;
   set driver(Driver? value);
+  @override
+  double? get cost;
+  set cost(double? value);
 
   /// Create a copy of OrderModel
   /// with the given fields replaced by the non-null parameter values.

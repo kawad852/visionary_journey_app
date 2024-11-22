@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:visionary_journey_app/screens/card/widgets/location_info.dart';
 import 'package:visionary_journey_app/screens/card/widgets/user_text.dart';
-import 'package:visionary_journey_app/utils/app_constants.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
@@ -14,16 +15,62 @@ import 'package:visionary_journey_app/widgets/custom_network_image.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
-class OrderWatingDriverVertical extends StatefulWidget {
-  const OrderWatingDriverVertical({super.key});
+import '../../../helper/ui_helper.dart';
+import '../../../models/order/order_model.dart';
+import '../../../widgets/cost_bubble.dart';
 
-  @override
-  State<OrderWatingDriverVertical> createState() => _OrderWatingDriverVerticalState();
-}
+class OrderWaitingDriverVertical extends StatelessWidget {
+  final OrderModel order;
+  final int pointsLength;
+  final String pickLabelText, arrivalLabelText;
 
-class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
+  const OrderWaitingDriverVertical({
+    super.key,
+    required this.order,
+    required this.pointsLength,
+    required this.pickLabelText,
+    required this.arrivalLabelText,
+  });
+
+  int calculateETA(int distanceInMeters) {
+    // Calculate ETA in minutes and round to the nearest integer
+    double eta = (distanceInMeters / 8.33) / 60;
+    return eta.round();
+  }
+
+  double mapToRange(int number, int minOriginal, int maxOriginal, double minNew, double maxNew) {
+    final v = ((number - minOriginal) / (maxOriginal - minOriginal)) * (maxNew - minNew) + minNew;
+    if (v < -1) {
+      return -1;
+    }
+    return v;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final driver = order.driver!;
+    var distance = 0.0;
+    if (order.status == OrderStatus.driverArrived) {
+      distance = 0;
+    } else {
+      distance = Geolocator.distanceBetween(
+        driver.currentGeoPoint!.geoPoint!.latitude,
+        driver.currentGeoPoint!.geoPoint!.longitude,
+        order.status == OrderStatus.driverAssigned ? order.pickUp!.geoPoint!.latitude : order.arrivalGeoPoint!.geoPoint!.latitude,
+        order.status == OrderStatus.driverAssigned ? order.pickUp!.geoPoint!.longitude : order.arrivalGeoPoint!.geoPoint!.longitude,
+      );
+    }
+
+    final time = UiHelper.calculateETA(distance.toInt());
+
+    var length = 40;
+    if (order.status == OrderStatus.driverAssigned) {
+      length = order.pickUpPointsLength ?? length;
+    } else {
+      length = order.arrivalPointsLength ?? length;
+    }
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : pointsLength, 0, length, -1, 1);
+
     return Align(
       alignment: MySharedPreferences.appDirction == AppDirction.right ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
       child: SizedBox(
@@ -55,7 +102,7 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                             borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
                           ),
                           child: CustomNetworkImage(
-                            kFakeImage,
+                            driver.photoURL,
                             width: 60,
                             height: 60,
                             alignment: AlignmentDirectional.bottomStart,
@@ -80,23 +127,23 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const UserText("Moh. Ahmed"),
+                              UserText("${driver.firstName} ${driver.lastName}"),
                               Row(
                                 children: [
-                                  const Expanded(
-                                    child: UserText("Camry"),
+                                  Expanded(
+                                    child: UserText(driver.carDetails!.name),
                                   ),
                                   Container(
                                     width: 18,
                                     height: 18,
                                     decoration: BoxDecoration(
-                                      color: context.colorPalette.white,
+                                      color: HexColor(driver.carDetails!.color),
                                       shape: BoxShape.circle,
                                     ),
                                   ),
                                 ],
                               ),
-                              const UserText("42-13821"),
+                              UserText(driver.carDetails!.plateNum),
                             ],
                           ),
                         ),
@@ -114,13 +161,17 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                       children: [
                         LocationInfo(
                           isVolume: false,
-                          pickLabelText: "pickUp",
-                          arrivalLabelText: "Arrival",
+                          pickLabelText: pickLabelText,
+                          arrivalLabelText: arrivalLabelText,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Text(
-                            "The driver will arrive at your location within 2 minutes",
+                            UiHelper.getText(
+                              context,
+                              status: order.status,
+                              time: time,
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: context.colorPalette.black1D,
@@ -136,49 +187,55 @@ class _OrderWatingDriverVerticalState extends State<OrderWatingDriverVertical> {
                             icon: const CustomSvg(MyIcons.volume),
                           ),
                         ),
-                        Container(
-                          width: 50,
-                          height: 340,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            border: Border.all(color: context.colorPalette.black),
-                            borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                          ),
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15),
-                                  child: Column(
-                                    children: List.generate(
-                                      150 ~/ 2,
-                                      (index) => Expanded(
-                                        child: Container(
-                                          height: 2,
-                                          width: 1,
-                                          color: index % 2 == 0 ? Colors.transparent : Colors.black,
+                        if (order.status != OrderStatus.completed)
+                          Container(
+                            width: 50,
+                            height: 340,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(color: context.colorPalette.black),
+                              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
+                                    child: Column(
+                                      children: List.generate(
+                                        150 ~/ 2,
+                                        (index) => Expanded(
+                                          child: Container(
+                                            height: 2,
+                                            width: 1,
+                                            color: index % 2 == 0 ? Colors.transparent : Colors.black,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 20,
-                                child: Transform.rotate(
-                                  angle: -pi / 2,
-                                  child: Image.asset(MyImages.car),
+                                Align(
+                                  alignment: AlignmentDirectional(0, sliderValue),
+                                  child: Transform.rotate(
+                                    angle: -pi / 2,
+                                    child: Image.asset(MyImages.car),
+                                  ),
                                 ),
-                              ),
-                              const Align(
-                                alignment: AlignmentDirectional.topCenter,
-                                child: CustomSvg(MyIcons.location),
-                              ),
-                            ],
+                                const Align(
+                                  alignment: AlignmentDirectional.topCenter,
+                                  child: CustomSvg(MyIcons.location),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        if (order.status == OrderStatus.completed)
+                          CostBubble(
+                            cost: order.cost!,
+                            width: 50,
+                          ),
                       ],
                     ),
                   ),

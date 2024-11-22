@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:visionary_journey_app/helper/ui_helper.dart';
 import 'package:visionary_journey_app/models/order/order_model.dart';
 import 'package:visionary_journey_app/screens/card/widgets/driver_info.dart';
 import 'package:visionary_journey_app/screens/card/widgets/location_info.dart';
@@ -8,6 +9,7 @@ import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
+import 'package:visionary_journey_app/widgets/cost_bubble.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
@@ -24,38 +26,6 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
     required this.arrivalLabelText,
   });
 
-  int calculateETA(int distanceInMeters) {
-    // Calculate ETA in minutes and round to the nearest integer
-    double eta = (distanceInMeters / 8.33) / 60;
-    return eta.round();
-  }
-
-  double mapToRange(int number, int minOriginal, int maxOriginal, double minNew, double maxNew) {
-    final v = ((number - minOriginal) / (maxOriginal - minOriginal)) * (maxNew - minNew) + minNew;
-    if (v < -1) {
-      return -1;
-    }
-    return v;
-  }
-
-  String _getText(BuildContext context, int time) {
-    if (order.status == OrderStatus.driverAssigned) {
-      if (time == 0) {
-        return context.appLocalization.driverAlmostThere;
-      }
-      return context.appLocalization.driverArrivalText1(time);
-    } else if (order.status == OrderStatus.driverArrived) {
-      return context.appLocalization.driverArrivedText;
-    } else if (order.status == OrderStatus.inProgress) {
-      if (time == 0) {
-        return context.appLocalization.youAreAlmostThere(context.appLocalization.appName);
-      }
-      return context.appLocalization.driverArrivalText2(time);
-    } else {
-      return context.appLocalization.driverArrivalText3;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final driver = order.driver!;
@@ -71,7 +41,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
       );
     }
 
-    final time = calculateETA(distance.toInt());
+    final time = UiHelper.calculateETA(distance.toInt());
 
     var length = 40;
     if (order.status == OrderStatus.driverAssigned) {
@@ -79,7 +49,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
     } else {
       length = order.arrivalPointsLength ?? length;
     }
-    final sliderValue = mapToRange(distance == 0 ? 0 : pointsLength, 0, length, 1, -1);
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : pointsLength, 0, length, 1, -1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +91,11 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(
-                        _getText(context, time),
+                        UiHelper.getText(
+                          context,
+                          status: order.status,
+                          time: time,
+                        ),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         maxLines: 2,
@@ -173,29 +147,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (order.status == OrderStatus.completed)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 50,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: context.colorPalette.black1D,
-                              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                            ),
-                            child: Text(
-                              " JOD 3.60",
-                              style: TextStyle(
-                                color: context.colorPalette.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    if (order.status == OrderStatus.completed) CostBubble(cost: order.cost!),
                   ],
                 ),
               ),

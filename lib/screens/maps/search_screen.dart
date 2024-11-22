@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,6 +71,12 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  double _generateRandomDouble() {
+    final random = Random();
+    double randomDouble = 2 + random.nextDouble() * (5 - 2); // Generates a double between 2 and 5
+    return double.parse(randomDouble.toStringAsFixed(2)); // Rounds to 2 decimal places
+  }
+
   Future<void> _order(List<Driver> drivers) async {
     _showFakeLoading(true);
     await Future.delayed(
@@ -86,6 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
       driver: driver,
       userId: _userProvider.user!.uid,
       status: OrderStatus.driverAssigned,
+      cost: _generateRandomDouble(),
     );
     final batch = _firebaseFirestore.batch();
     batch.set(_firebaseFirestore.orders.doc(_orderModel!.id), _orderModel!);

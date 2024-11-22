@@ -12,8 +12,10 @@ import 'package:visionary_journey_app/network/fire_queries.dart';
 import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/providers/user_provider.dart';
+import 'package:visionary_journey_app/screens/card/widgets/order_wating_driver_vertical.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
@@ -284,12 +286,23 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                     },
                   ),
-                  OrderWaitingDriverHorizontal(
-                    order: order,
-                    pointsLength: polyline?.points.length ?? 0,
-                    pickLabelText: order.pickUpNameEn!,
-                    arrivalLabelText: order.arrivalNameEn!,
-                  ),
+                  if (MySharedPreferences.appDirction == AppDirction.normal)
+                    OrderWaitingDriverHorizontal(
+                      order: order,
+                      pointsLength: polyline?.points.length ?? 0,
+                      pickLabelText: order.pickUpNameEn!,
+                      arrivalLabelText: order.arrivalNameEn!,
+                    )
+                  else
+                    Align(
+                      alignment: MySharedPreferences.appDirction == AppDirction.left ? Alignment.centerLeft : Alignment.centerRight,
+                      child: OrderWaitingDriverVertical(
+                        order: order,
+                        pointsLength: polyline?.points.length ?? 0,
+                        pickLabelText: order.pickUpNameEn!,
+                        arrivalLabelText: order.arrivalNameEn!,
+                      ),
+                    )
                 ],
               ),
             );

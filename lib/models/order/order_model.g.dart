@@ -25,6 +25,7 @@ _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
       driver: json['driver'] == null
           ? null
           : Driver.fromJson(json['driver'] as Map<String, dynamic>),
+      cost: (json['cost'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
@@ -40,6 +41,7 @@ Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
       'arrivalGeoPoint': instance.arrivalGeoPoint?.toJson(),
       'arrivalNameEn': instance.arrivalNameEn,
       'driver': instance.driver?.toJson(),
+      'cost': instance.cost,
     };
 
 _$DestinationImpl _$$DestinationImplFromJson(Map<String, dynamic> json) =>

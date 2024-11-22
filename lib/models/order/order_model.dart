@@ -22,6 +22,7 @@ class OrderModel with _$OrderModel {
     GeoModel? arrivalGeoPoint,
     String? arrivalNameEn,
     Driver? driver,
+    double? cost,
   }) = _OrderModel;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
