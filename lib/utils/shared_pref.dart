@@ -53,6 +53,9 @@ class MySharedPreferences {
   static bool get isPassedIntro => _sharedPreferences.getBool('isPassedIntro') ?? false;
   static set isPassedIntro(bool value) => _sharedPreferences.setBool('isPassedIntro', value);
 
+  static double get colorDegree => _sharedPreferences.getDouble('colorDegree') ?? 1;
+  static set colorDegree(double value) => _sharedPreferences.setDouble('colorDegree', value);
+
   static String get countryCode => _sharedPreferences.getString('countryCode') ?? kFallBackCountryCode;
   static set countryCode(String value) => _sharedPreferences.setString('countryCode', value);
 

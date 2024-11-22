@@ -41,7 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
               Text(
-                "Visionary Journey",
+                context.appLocalization.appName,
                 style: TextStyle(
                   color: context.colorPalette.black,
                   fontSize: 25,
@@ -49,7 +49,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
               ),
               Text(
-                "Our project was built to suit individuals with visual impairments and to empower them within the community. We will begin with you by adjusting the app settings to fit your needs.",
+                context.appLocalization.introText,
                 style: TextStyle(
                   color: context.colorPalette.black,
                   fontSize: 16,
@@ -90,7 +90,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      "Select the viewing angle that suits you best.",
+                      context.appLocalization.selectViewText,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: context.colorPalette.black1D,

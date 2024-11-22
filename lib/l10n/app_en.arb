@@ -210,6 +210,10 @@
     "driverArrivedText": "Driver is here, have a safe trip!",
     "yourCurrentLocation": "Your current location",
     "locationRequestedFromDriver": "To the location you request from the driver",
-    "bookNow": "Book now"
+    "bookNow": "Book now",
+    "introText": "Our project was built to suit individuals with visual impairments and to empower them within the community. We will begin with you by adjusting the app settings to fit your needs.",
+    "selectViewText": "Select the viewing angle that suits you best.",
+    "projectBody": "Our project was designed to accommodate individuals with visual impairments and to empower them within the community.\nWe will start by customizing the app settings to suit your needs.",
+    "chooseColorText": "Choose the color contrast level until you reach the best option for you."
 
 }

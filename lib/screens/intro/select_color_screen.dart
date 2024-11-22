@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/intro/widgets/forward_bubble.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
-import 'package:visionary_journey_app/utils/enums.dart';
-import 'package:visionary_journey_app/utils/my_images.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+
+import '../../utils/enums.dart';
+import '../../utils/my_images.dart';
 
 class SelectColorScreen extends StatefulWidget {
   const SelectColorScreen({super.key});
@@ -14,7 +15,6 @@ class SelectColorScreen extends StatefulWidget {
 }
 
 class _SelectColorScreenState extends State<SelectColorScreen> {
-  double colorDegree = 0.2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                 ),
               ),
               Text(
-                "Visionary Journey",
+                context.appLocalization.appName,
                 style: TextStyle(
                   color: context.colorPalette.black,
                   fontSize: 25,
@@ -50,7 +50,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                 ),
               ),
               Text(
-                "Our project was designed to accommodate individuals with visual impairments and to empower them within the community.We will start by customizing the app settings to suit your needs.",
+                context.appLocalization.projectBody,
                 style: TextStyle(
                   color: context.colorPalette.black,
                   fontSize: 16,
@@ -60,9 +60,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
               const SizedBox(height: 10),
               if (MySharedPreferences.appDirction != AppDirction.normal)
                 Row(
-                  mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.right
-                      ? MainAxisAlignment.end
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.right ? MainAxisAlignment.end : MainAxisAlignment.start,
                   children: [
                     Column(
                       children: [
@@ -84,11 +82,13 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                           child: RotatedBox(
                             quarterTurns: 1,
                             child: Slider(
-                              value: colorDegree,
+                              value: context.colorPalette.degree,
+                              min: 0.60,
+                              max: 1,
                               activeColor: context.colorPalette.white,
                               onChanged: (value) {
                                 setState(() {
-                                  colorDegree = value;
+                                  context.colorPalette.toggleDegree(value);
                                 });
                               },
                             ),
@@ -102,7 +102,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                     Column(
                       children: [
                         Text(
-                          "Choose the color\ncontrast level until\nyou reach the best\noption for you.",
+                          context.appLocalization.chooseColorText,
                           style: TextStyle(
                             color: context.colorPalette.black1D,
                             fontSize: 25,
@@ -122,7 +122,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Choose the color contrast level until you reach the best option for you.",
+                      context.appLocalization.chooseColorText,
                       style: TextStyle(
                         color: context.colorPalette.black1D,
                         fontSize: 25,
@@ -147,11 +147,13 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                               ),
                             ),
                             child: Slider(
-                              value: colorDegree,
+                              value: context.colorPalette.degree,
+                              min: 0.60,
+                              max: 1,
                               activeColor: context.colorPalette.white,
                               onChanged: (value) {
                                 setState(() {
-                                  colorDegree = value;
+                                  context.colorPalette.toggleDegree(value);
                                 });
                               },
                             ),
