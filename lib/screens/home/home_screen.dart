@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // cloudMessagingService.init(context);
     // cloudMessagingService.requestPermission();
     // _userProvider.updateDeviceToken(context);
-    _orderProvider.getNearestDriver(32.10052482284217, 36.097777226987525);
+    // _orderProvider.getNearestDriver(32.10052482284217, 36.097777226987525);
     _initialize();
   }
 
@@ -93,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   return SearchScreen(
-                    icon: carMarker,
+                    carIcon: carMarker,
+                    circleIcon: circleMarker,
                   );
                 },
               ),

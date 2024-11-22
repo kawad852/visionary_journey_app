@@ -63,10 +63,14 @@ class OrderProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> generateDrivers(BuildContext context) async {
+  Future<void> generateDrivers(
+    BuildContext context, {
+    double? lat,
+    double? lng,
+  }) async {
     final locationProvider = context.locationProvider;
     for (int i = 0; i < MyDrivers.drivers.length; i++) {
-      final coordinates = MyFactory.generateRandomCoordinates(locationProvider.latitude!, locationProvider.longitude!);
+      final coordinates = MyFactory.generateRandomCoordinates(lat ?? locationProvider.latitude!, lng ?? locationProvider.longitude!);
       MyDrivers.drivers[i].currentGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
     }
 

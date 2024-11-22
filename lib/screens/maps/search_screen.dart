@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire_plus/geoflutterfire_plus.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ import '../../controllers/map_controller.dart';
 import '../../helper/my_factory.dart';
 import '../../models/order/order_model.dart';
 import '../../network/my_fields.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/enums.dart';
 import '../../widgets/map_bubble.dart';
 import '../card/widgets/home_card.dart';
@@ -25,11 +27,13 @@ import '../card/widgets/order_loading.dart';
 import '../places_search_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  final Uint8List icon;
+  final Uint8List carIcon;
+  final Uint8List circleIcon;
 
   const SearchScreen({
     super.key,
-    required this.icon,
+    required this.carIcon,
+    required this.circleIcon,
   });
 
   @override
@@ -42,6 +46,8 @@ class _SearchScreenState extends State<SearchScreen> {
   bool _fakeLoading = false;
   OrderModel? _orderModel;
   bool _canceled = false;
+  Polyline? polyline;
+  Timer? _debounce;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   LocationProvider get _locationProvider => context.locationProvider;
@@ -92,6 +98,35 @@ class _SearchScreenState extends State<SearchScreen> {
     batch.commit();
   }
 
+  Future<void> _createPolyline({
+    required GeoPoint start,
+    required GeoPoint end,
+  }) async {
+    try {
+      PolylinePoints polylinePoints = PolylinePoints();
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        googleApiKey: kGoogleMapKey,
+        request: PolylineRequest(
+          origin: PointLatLng(end.latitude, end.longitude),
+          destination: PointLatLng(start.latitude, start.longitude),
+          mode: TravelMode.driving,
+          // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
+        ),
+      );
+
+      setState(() {
+        polyline = Polyline(
+          polylineId: const PolylineId("polyline_1"),
+          color: context.colorPalette.black,
+          width: 5,
+          points: result.points.map((e) => LatLng(e.latitude, e.longitude)).toList(),
+        );
+      });
+    } catch (e) {
+      debugPrint("polylineError:: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -104,6 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     super.dispose();
     _mapController.dispose();
+    _debounce?.cancel();
   }
 
   @override
@@ -124,23 +160,52 @@ class _SearchScreenState extends State<SearchScreen> {
               appBar: AppBar(
                 forceMaterialTransparency: true,
               ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+              floatingActionButton: FloatingActionButton.small(
+                onPressed: () {
+                  _mapController.goToMyPosition(context);
+                },
+                child: const Icon(Icons.my_location),
+              ),
               body: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
                   MapBubble(
                     controller: _mapController,
-                    // onCameraMove: (position) {
-                    //   _orderModel!.pickUp = AppServices.getGeoModel(position.target.latitude, position.target.longitude);
-                    // },
-                    markers: drivers.map((e) {
-                      final geoPoint = e.data()!.currentGeoPoint!.geoPoint!;
-                      return Marker(
-                        markerId: MarkerId(e.id),
-                        position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                        icon: BitmapDescriptor.fromBytes(widget.icon),
-                        consumeTapEvents: true,
-                      );
-                    }).toSet(),
+                    showMyPin: false,
+                    onCameraMove: (position) {
+                      _orderModel!.pickUp = AppServices.getGeoModel(position.target.latitude, position.target.longitude);
+                      // if (_debounce?.isActive ?? false) _debounce?.cancel();
+                      // _debounce = Timer(const Duration(milliseconds: 500), () {
+                      //
+                      // });
+                    },
+                    polyLines: polyline != null ? {polyline!} : {},
+                    markers: {
+                      if (_orderModel?.pickUp != null)
+                        Marker(
+                          markerId: MarkerId(_orderModel!.pickUp!.geoHash),
+                          position: LatLng(_orderModel!.pickUp!.geoPoint!.latitude, _orderModel!.pickUp!.geoPoint!.longitude),
+                          icon: BitmapDescriptor.fromBytes(widget.circleIcon),
+                          consumeTapEvents: true,
+                        ),
+                      if (_orderModel?.arrivalGeoPoint != null)
+                        Marker(
+                          markerId: MarkerId(_orderModel!.arrivalGeoPoint!.geoHash),
+                          position: LatLng(_orderModel!.arrivalGeoPoint!.geoPoint!.latitude, _orderModel!.arrivalGeoPoint!.geoPoint!.longitude),
+                          icon: BitmapDescriptor.fromBytes(widget.circleIcon),
+                          consumeTapEvents: true,
+                        ),
+                      ...drivers.map((e) {
+                        final geoPoint = e.data()!.currentGeoPoint!.geoPoint!;
+                        return Marker(
+                          markerId: MarkerId(e.id),
+                          position: LatLng(geoPoint.latitude, geoPoint.longitude),
+                          icon: BitmapDescriptor.fromBytes(widget.carIcon),
+                          consumeTapEvents: true,
+                        );
+                      }).toSet(),
+                    },
                   ),
                   _fakeLoading
                       ? OrderLoading(
@@ -164,6 +229,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                   _orderModel!.pickUpNameEn = name;
                                   _orderModel!.pickUp = AppServices.getGeoModel(lat, lng);
                                 });
+                                final kLat = _orderModel!.pickUp!.geoPoint!.latitude;
+                                final kLng = _orderModel!.pickUp!.geoPoint!.longitude;
+                                _orderProvider.generateDrivers(
+                                  context,
+                                  lat: kLat,
+                                  lng: kLng,
+                                );
+                                _mapController.goToMyPosition(
+                                  context,
+                                  lat: kLat,
+                                  lng: kLng,
+                                );
+                                if (_orderModel!.arrivalGeoPoint != null) {
+                                  _createPolyline(
+                                    start: _orderModel!.pickUp!.geoPoint!,
+                                    end: _orderModel!.arrivalGeoPoint!.geoPoint!,
+                                  );
+                                }
                               },
                               labelText: _orderModel!.pickUpNameEn!,
                             ),
@@ -175,6 +258,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     _orderModel!.arrivalNameEn = name;
                                     _orderModel!.arrivalGeoPoint = AppServices.getGeoModel(lat, lng);
                                   });
+                                  _createPolyline(
+                                    start: _orderModel!.pickUp!.geoPoint!,
+                                    end: _orderModel!.arrivalGeoPoint!.geoPoint!,
+                                  );
                                 },
                                 labelText: _orderModel!.arrivalNameEn!,
                               ),

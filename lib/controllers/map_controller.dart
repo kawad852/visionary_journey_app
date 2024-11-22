@@ -37,9 +37,13 @@ class MapController extends ChangeNotifier {
     animateCamera(lat, lng);
   }
 
-  Future<void> goToMyPosition(BuildContext context) async {
+  Future<void> goToMyPosition(
+    BuildContext context, {
+    double? lat,
+    double? lng,
+  }) async {
     final locationProvider = context.locationProvider;
-    await animateCamera(locationProvider.latitude!, locationProvider.longitude!);
+    await animateCamera(lat ?? locationProvider.latitude!, lng ?? locationProvider.longitude!);
   }
 
   Future<void> animateCamera(double lat, double lng) async {
