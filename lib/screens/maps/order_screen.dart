@@ -13,6 +13,7 @@ import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/providers/user_provider.dart';
 import 'package:visionary_journey_app/screens/card/widgets/order_wating_driver_vertical.dart';
+import 'package:visionary_journey_app/screens/card/widgets/review_card.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
@@ -194,13 +195,7 @@ class _OrderScreenState extends State<OrderScreen> {
         },
         onEnd: () async {
           await _firebaseFirestore.orders.doc(order.id).update({
-            MyFields.status: OrderStatus.completed,
-          });
-          await await Future.delayed(
-            const Duration(seconds: 5),
-          );
-          await _userProvider.userDocRef.update({
-            MyFields.orderId: null,
+            MyFields.status: OrderStatus.inReview,
           });
         },
       );
@@ -286,23 +281,29 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                     },
                   ),
-                  if (MySharedPreferences.appDirction == AppDirction.normal)
-                    OrderWaitingDriverHorizontal(
+                  if (order.status == OrderStatus.inReview)
+                    ReviewCard(
                       order: order,
-                      pointsLength: polyline?.points.length ?? 0,
-                      pickLabelText: order.pickUpNameEn!,
-                      arrivalLabelText: order.arrivalNameEn!,
                     )
-                  else
-                    Align(
-                      alignment: MySharedPreferences.appDirction == AppDirction.left ? Alignment.centerLeft : Alignment.centerRight,
-                      child: OrderWaitingDriverVertical(
+                  else ...[
+                    if (MySharedPreferences.appDirction == AppDirction.normal)
+                      OrderWaitingDriverHorizontal(
                         order: order,
                         pointsLength: polyline?.points.length ?? 0,
                         pickLabelText: order.pickUpNameEn!,
                         arrivalLabelText: order.arrivalNameEn!,
+                      )
+                    else
+                      Align(
+                        alignment: MySharedPreferences.appDirction == AppDirction.left ? Alignment.centerLeft : Alignment.centerRight,
+                        child: OrderWaitingDriverVertical(
+                          order: order,
+                          pointsLength: polyline?.points.length ?? 0,
+                          pickLabelText: order.pickUpNameEn!,
+                          arrivalLabelText: order.arrivalNameEn!,
+                        ),
                       ),
-                    )
+                  ],
                 ],
               ),
             );

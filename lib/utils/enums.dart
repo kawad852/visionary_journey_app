@@ -2,11 +2,11 @@ enum SortAction { recommended, newest, priceHigh, priceLow, popularity }
 
 enum ActionType { add, edit, delete }
 
-class AppDirction{ 
+class AppDirction {
   static const String normal = 'normal';
   static const String left = 'left';
   static const String right = 'right';
- }
+}
 
 class LanguageEnum {
   static const String english = 'en';
@@ -29,6 +29,7 @@ class OrderStatus {
   static const String driverAssigned = 'DRIVER_ASSIGNED';
   static const String driverArrived = 'DRIVER_ARRIVED';
   static const String inProgress = 'IN_PROGRESS';
+  static const String inReview = 'IN_REVIEW';
   static const String completed = 'COMPLETED';
   static const String cancelledByPassenger = 'CANCELLED_BY_PASSENGER';
   static const String cancelledByDriver = 'CANCELLED_BY_DRIVER';

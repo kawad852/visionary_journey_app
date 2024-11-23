@@ -8,14 +8,16 @@ import 'package:visionary_journey_app/widgets/editors/text_editor.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
-class ReviewCard extends StatefulWidget {
-  const ReviewCard({super.key});
+import '../../../network/my_fields.dart';
 
-  @override
-  State<ReviewCard> createState() => _ReviewCardState();
-}
+class ReviewCard extends StatelessWidget {
+  final OrderModel order;
 
-class _ReviewCardState extends State<ReviewCard> {
+  const ReviewCard({
+    super.key,
+    required this.order,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +38,7 @@ class _ReviewCardState extends State<ReviewCard> {
           child: Column(
             children: [
               DriverInfo(
-                driver: Driver(),
+                driver: order.driver!,
               ),
               Container(
                 width: double.infinity,
@@ -52,8 +54,8 @@ class _ReviewCardState extends State<ReviewCard> {
                 child: Column(
                   children: [
                     LocationInfo(
-                      pickLabelText: "pickUp",
-                      arrivalLabelText: "Arrival",
+                      pickLabelText: order.pickUpNameEn!,
+                      arrivalLabelText: order.arrivalNameEn!,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -74,15 +76,19 @@ class _ReviewCardState extends State<ReviewCard> {
                     ),
                     TextEditor(
                       initialValue: null,
-                      hintText: "Write your comment here",
+                      hintText: context.appLocalization.writeComment,
                       maxLines: 3,
                       onChanged: (value) {},
                     ),
                     const SizedBox(height: 10),
                     StretchedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.userProvider.userDocRef.update({
+                          MyFields.orderId: null,
+                        });
+                      },
                       child: Text(
-                        "Submit review",
+                        context.appLocalization.submitReview,
                         style: TextStyle(
                           color: context.colorPalette.white,
                           fontSize: 16,
