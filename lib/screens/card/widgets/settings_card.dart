@@ -3,9 +3,10 @@ import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 
 class SettingsCard extends StatelessWidget {
-  final void Function()? onTap;
+  final void Function() onTap;
   final Widget child;
-  const SettingsCard({super.key, this.onTap, required this.child});
+
+  const SettingsCard({super.key, required this.onTap, required this.child});
 
   @override
   Widget build(BuildContext context) {

@@ -53,6 +53,15 @@ class MySharedPreferences {
   static bool get isPassedIntro => _sharedPreferences.getBool('isPassedIntro') ?? false;
   static set isPassedIntro(bool value) => _sharedPreferences.setBool('isPassedIntro', value);
 
+  static bool get soundNotifications => _sharedPreferences.getBool('soundNotifications') ?? true;
+  static set soundNotifications(bool value) => _sharedPreferences.setBool('soundNotifications', value);
+
+  static bool get isVoiceMale => _sharedPreferences.getBool('isVoiceMale') ?? true;
+  static set isVoiceMale(bool value) => _sharedPreferences.setBool('isVoiceMale', value);
+
+  static bool get locationAccess => _sharedPreferences.getBool('locationAccess') ?? true;
+  static set locationAccess(bool value) => _sharedPreferences.setBool('locationAccess', value);
+
   static double get colorDegree => _sharedPreferences.getDouble('colorDegree') ?? 1;
   static set colorDegree(double value) => _sharedPreferences.setDouble('colorDegree', value);
 

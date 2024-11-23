@@ -217,5 +217,13 @@
     "submitReview": "Submit review",
     "writeComment": "Write your comment here",
     "vehicleNumber": "Vehicle number",
-    "needHelp": "Need Help ?"
+    "needHelp": "Need Help ?",
+    "appSettings": "App Settings",
+    "visualText": "visual impairment (driver notification).",
+    "activatedSound": "Activate sound notifications",
+    "voiceOption": "Select voice option",
+    "male": "Male",
+    "female": "Female",
+    "enableLocation": "Enable location access",
+    "adjustViewAngel": "Adjust the viewing angle"
 }

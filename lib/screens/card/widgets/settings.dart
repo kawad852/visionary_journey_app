@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_card.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_text.dart';
+import 'package:visionary_journey_app/screens/intro/intro_screen.dart';
+import 'package:visionary_journey_app/screens/langauge_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,8 +15,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _isMale = true;
   double textSize = 0.2;
+  bool _visual = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "App Settings",
+                context.appLocalization.appSettings,
                 style: TextStyle(
                   color: context.colorPalette.black1D,
                   fontSize: 18,
@@ -33,46 +37,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 9),
               SettingsCard(
+                onTap: () {
+                  setState(() {
+                    _visual = !_visual;
+                  });
+                },
                 child: Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: SettingsText(
-                        "visual impairment (driver notification).",
+                        context.appLocalization.visualText,
                       ),
                     ),
                     Switch(
-                      value: true,
+                      value: _visual,
                       activeTrackColor: context.colorPalette.black1D,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(() {
+                          _visual = value;
+                        });
+                      },
                     ),
                   ],
                 ),
               ),
               SettingsCard(
+                onTap: () {
+                  setState(() {
+                    MySharedPreferences.soundNotifications = !MySharedPreferences.soundNotifications;
+                  });
+                },
                 child: Row(
                   children: [
-                    const Expanded(
-                      child: SettingsText("Activate sound notifications"),
+                    Expanded(
+                      child: SettingsText(context.appLocalization.activatedSound),
                     ),
                     Switch(
-                      value: true,
+                      value: MySharedPreferences.soundNotifications,
                       activeTrackColor: context.colorPalette.black1D,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(() {
+                          MySharedPreferences.soundNotifications = value;
+                        });
+                      },
                     ),
                   ],
                 ),
               ),
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: SettingsCard(
-                      child: SettingsText("Select voice option"),
+                      onTap: () {},
+                      child: SettingsText(context.appLocalization.voiceOption),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _isMale = true;
+                        MySharedPreferences.isVoiceMale = true;
                       });
                     },
                     child: Container(
@@ -81,13 +104,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       margin: const EdgeInsets.only(bottom: 12, left: 5, right: 5),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: _isMale ? context.colorPalette.black1D : context.colorPalette.white,
+                        color: MySharedPreferences.isVoiceMale ? context.colorPalette.black1D : context.colorPalette.white,
                         borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
                       ),
                       child: Text(
-                        "Male",
+                        context.appLocalization.male,
                         style: TextStyle(
-                          color: _isMale ? context.colorPalette.white : context.colorPalette.black1D,
+                          color: MySharedPreferences.isVoiceMale ? context.colorPalette.white : context.colorPalette.black1D,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -97,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _isMale = false;
+                        MySharedPreferences.isVoiceMale = false;
                       });
                     },
                     child: Container(
@@ -106,13 +129,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.only(bottom: 12),
                       decoration: BoxDecoration(
-                        color: !_isMale ? context.colorPalette.black1D : context.colorPalette.white,
+                        color: !MySharedPreferences.isVoiceMale ? context.colorPalette.black1D : context.colorPalette.white,
                         borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
                       ),
                       child: Text(
-                        "Female",
+                        context.appLocalization.female,
                         style: TextStyle(
-                          color: !_isMale ? context.colorPalette.white : context.colorPalette.black1D,
+                          color: !MySharedPreferences.isVoiceMale ? context.colorPalette.white : context.colorPalette.black1D,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -122,65 +145,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               SettingsCard(
+                onTap: () {
+                  setState(() {
+                    MySharedPreferences.locationAccess = !MySharedPreferences.locationAccess;
+                  });
+                },
                 child: Row(
                   children: [
-                    const Expanded(
-                      child: SettingsText("Enable location access"),
+                    Expanded(
+                      child: SettingsText(context.appLocalization.locationAccess),
                     ),
                     Switch(
-                      value: true,
+                      value: MySharedPreferences.locationAccess,
                       activeTrackColor: context.colorPalette.black1D,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(() {
+                          MySharedPreferences.locationAccess = value;
+                        });
+                      },
                     ),
                   ],
                 ),
               ),
+              // SettingsCard(
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         "Aa",
+              //         style: TextStyle(
+              //           color: context.colorPalette.black1D,
+              //           fontSize: 14,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //       Expanded(
+              //         child: Slider(
+              //           value: textSize,
+              //           activeColor: context.colorPalette.black1D,
+              //           inactiveColor: context.colorPalette.grey66,
+              //           onChanged: (value) {
+              //             setState(() {
+              //               textSize = value;
+              //             });
+              //           },
+              //         ),
+              //       ),
+              //       Text(
+              //         "Aa",
+              //         style: TextStyle(
+              //           color: context.colorPalette.black1D,
+              //           fontSize: 20,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SettingsCard(
-                child: Row(
-                  children: [
-                    Text(
-                      "Aa",
-                      style: TextStyle(
-                        color: context.colorPalette.black1D,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Expanded(
-                      child: Slider(
-                        value: textSize,
-                        activeColor: context.colorPalette.black1D,
-                        inactiveColor: context.colorPalette.grey66,
-                        onChanged: (value) {
-                          setState(() {
-                            textSize = value;
-                          });
-                        },
-                      ),
-                    ),
-                    Text(
-                      "Aa",
-                      style: TextStyle(
-                        color: context.colorPalette.black1D,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                onTap: () {
+                  context.navigate((context) {
+                    return const IntroScreen();
+                  });
+                },
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: SettingsText(context.appLocalization.adjustViewAngel),
                 ),
               ),
               SettingsCard(
-                onTap: () {},
-                child: const Align(
+                onTap: () {
+                  context.navigate((context) {
+                    return const LanguageScreen();
+                  });
+                },
+                child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: SettingsText("Adjust the viewing angle"),
-                ),
-              ),
-              SettingsCard(
-                onTap: () {},
-                child: const Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: SettingsText("Change language"),
+                  child: SettingsText(context.appLocalization.language),
                 ),
               ),
             ],
