@@ -289,7 +289,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                     },
                   ),
-                  if (order.status == OrderStatus.inReview)
+                  if (order.status == OrderStatus.inReview && MySharedPreferences.appDirction == AppDirction.normal)
                     ReviewCard(
                       order: order,
                     )

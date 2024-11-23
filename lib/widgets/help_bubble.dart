@@ -23,7 +23,7 @@ class HelpBubble extends StatelessWidget {
         // );
       },
       child: Container(
-        width: 126,
+        width: 150,
         height: 40,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
