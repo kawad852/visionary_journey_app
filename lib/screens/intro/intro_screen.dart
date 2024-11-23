@@ -7,16 +7,41 @@ import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 class IntroScreen extends StatefulWidget {
-  const IntroScreen({super.key});
+  final bool isEdit;
+
+  const IntroScreen({
+    super.key,
+    this.isEdit = false,
+  });
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  void _select(String direction) {
+    MySharedPreferences.appDirction = direction;
+    if (widget.isEdit) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SelectColorScreen(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: widget.isEdit
+          ? AppBar(
+              forceMaterialTransparency: true,
+            )
+          : null,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -62,13 +87,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      MySharedPreferences.appDirction = AppDirction.left;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SelectColorScreen(),
-                        ),
-                      );
+                      _select(AppDirction.left);
                     },
                     child: Container(
                       width: 70,
@@ -101,13 +120,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      MySharedPreferences.appDirction = AppDirction.right;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SelectColorScreen(),
-                        ),
-                      );
+                      _select(AppDirction.right);
                     },
                     child: Container(
                       width: 70,
@@ -132,13 +145,7 @@ class _IntroScreenState extends State<IntroScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  MySharedPreferences.appDirction = AppDirction.normal;
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SelectColorScreen(),
-                    ),
-                  );
+                  _select(AppDirction.normal);
                 },
                 child: Container(
                   width: double.infinity,

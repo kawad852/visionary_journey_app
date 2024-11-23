@@ -250,6 +250,9 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
               ),
               drawer: const SettingsScreen(),
+              onDrawerChanged: (v) {
+                setState(() {});
+              },
               body: Stack(
                 children: [
                   MapBubble(

@@ -204,7 +204,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               SettingsCard(
                 onTap: () {
                   context.navigate((context) {
-                    return const IntroScreen();
+                    return const IntroScreen(isEdit: true);
+                  }).then((value) {
+                    setState(() {});
                   });
                 },
                 child: Align(

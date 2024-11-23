@@ -173,6 +173,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
               ),
               drawer: const SettingsScreen(),
+              onDrawerChanged: (v) {
+                setState(() {});
+              },
               body: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [

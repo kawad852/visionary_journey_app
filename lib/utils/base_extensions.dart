@@ -54,11 +54,11 @@ extension CommonExtensions on BuildContext {
   String get currency => isLTR ? 'JD' : 'د.أ';
   String? get countryCode => AppProvider.countryCode;
 
-  void navigate(
+  Future<dynamic> navigate(
     Widget Function(BuildContext context) builder, {
     bool fullscreenDialog = false,
   }) {
-    Navigator.push(
+    return Navigator.push(
       this,
       MaterialPageRoute(builder: builder, fullscreenDialog: fullscreenDialog),
     );
