@@ -654,8 +654,6 @@ mixin _$Driver {
   set id(String value) => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   set status(String value) => throw _privateConstructorUsedError;
-  String? get orderId => throw _privateConstructorUsedError;
-  set orderId(String? value) => throw _privateConstructorUsedError;
   GeoModel? get currentGeoPoint => throw _privateConstructorUsedError;
   set currentGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
   String get firstName => throw _privateConstructorUsedError;
@@ -686,7 +684,6 @@ abstract class $DriverCopyWith<$Res> {
   $Res call(
       {String id,
       String status,
-      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       double bearing,
@@ -715,7 +712,6 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
   $Res call({
     Object? id = null,
     Object? status = null,
-    Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
     Object? bearing = null,
@@ -732,10 +728,6 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
       currentGeoPoint: freezed == currentGeoPoint
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -802,7 +794,6 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
   $Res call(
       {String id,
       String status,
-      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       double bearing,
@@ -831,7 +822,6 @@ class __$$DriverImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? status = null,
-    Object? orderId = freezed,
     Object? currentGeoPoint = freezed,
     Object? firstName = null,
     Object? bearing = null,
@@ -848,10 +838,6 @@ class __$$DriverImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
-      orderId: freezed == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
-              as String?,
       currentGeoPoint: freezed == currentGeoPoint
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
@@ -886,7 +872,6 @@ class _$DriverImpl implements _Driver {
   _$DriverImpl(
       {this.id = '',
       this.status = DriverStatus.available,
-      this.orderId,
       this.currentGeoPoint,
       this.firstName = '',
       this.bearing = 0.0,
@@ -903,8 +888,6 @@ class _$DriverImpl implements _Driver {
   @override
   @JsonKey()
   String status;
-  @override
-  String? orderId;
   @override
   GeoModel? currentGeoPoint;
   @override
@@ -924,7 +907,7 @@ class _$DriverImpl implements _Driver {
 
   @override
   String toString() {
-    return 'Driver(id: $id, status: $status, orderId: $orderId, currentGeoPoint: $currentGeoPoint, firstName: $firstName, bearing: $bearing, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
+    return 'Driver(id: $id, status: $status, currentGeoPoint: $currentGeoPoint, firstName: $firstName, bearing: $bearing, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
   }
 
   /// Create a copy of Driver
@@ -947,7 +930,6 @@ abstract class _Driver implements Driver {
   factory _Driver(
       {String id,
       String status,
-      String? orderId,
       GeoModel? currentGeoPoint,
       String firstName,
       double bearing,
@@ -963,9 +945,6 @@ abstract class _Driver implements Driver {
   @override
   String get status;
   set status(String value);
-  @override
-  String? get orderId;
-  set orderId(String? value);
   @override
   GeoModel? get currentGeoPoint;
   set currentGeoPoint(GeoModel? value);

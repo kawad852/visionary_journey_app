@@ -44,7 +44,6 @@ class Driver with _$Driver {
   factory Driver({
     @Default('') String id,
     @Default(DriverStatus.available) String status,
-    String? orderId,
     GeoModel? currentGeoPoint,
     @Default('') String firstName,
     @Default(0.0) double bearing,

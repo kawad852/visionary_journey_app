@@ -5,13 +5,18 @@ import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
-import 'package:visionary_journey_app/widgets/editors/password_editor.dart';
 import 'package:visionary_journey_app/widgets/phone_field.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
 class LoginNormal extends StatelessWidget {
   final PhoneController controller;
-  const LoginNormal({super.key, required this.controller});
+  final VoidCallback onSubmit;
+
+  const LoginNormal({
+    super.key,
+    required this.controller,
+    required this.onSubmit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class LoginNormal extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Log in",
+                  context.appLocalization.login,
                   style: TextStyle(
                     color: context.colorPalette.black1D,
                     fontSize: 25,
@@ -60,8 +65,7 @@ class LoginNormal extends StatelessWidget {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: context.colorPalette.black1D,
-                            borderRadius:
-                                BorderRadius.circular(MyTheme.radiusTertiary),
+                            borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
                           ),
                           child: const CustomSvg(MyIcons.fingerprint),
                         ),
@@ -69,15 +73,10 @@ class LoginNormal extends StatelessWidget {
                     ],
                   ),
                 ),
-                PasswordEditor(
-                  initialValue: null,
-                  onChanged: (value) {},
-                ),
-                const SizedBox(height: 10),
                 StretchedButton(
-                  onPressed: () {},
+                  onPressed: onSubmit,
                   child: Text(
-                    "Login",
+                    context.appLocalization.login,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

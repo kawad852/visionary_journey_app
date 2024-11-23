@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/controllers/phone_controller.dart';
 import 'package:visionary_journey_app/screens/login/widgets/login_normal.dart';
 import 'package:visionary_journey_app/screens/login/widgets/login_side.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
 
@@ -14,6 +15,19 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late PhoneController phoneController;
+
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit() {
+    if (_formKey.currentState!.validate()) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      context.userProvider.login(
+        context,
+        code: phoneController.countryCode!,
+        phoneNum: phoneController.getPhoneNumber,
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -42,17 +56,30 @@ class _LoginScreenState extends State<LoginScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: MySharedPreferences.appDirction == AppDirction.normal
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: LoginNormal(controller: phoneController),
-                    )
-                  : LoginSide(controller: phoneController),
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                child: MySharedPreferences.appDirction == AppDirction.normal
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: LoginNormal(
+                          controller: phoneController,
+                          onSubmit: () {
+                            _submit();
+                          },
+                        ),
+                      )
+                    : LoginSide(
+                        controller: phoneController,
+                        onSubmit: () {
+                          _submit();
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

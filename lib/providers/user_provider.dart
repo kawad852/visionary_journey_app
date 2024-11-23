@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/helper/ui_helper.dart';
+import 'package:visionary_journey_app/screens/home/home_screen.dart';
 import 'package:visionary_journey_app/utils/app_constants.dart';
 
 import '../alerts/feedback/app_feedback.dart';
+import '../alerts/loading/app_over_loader.dart';
 import '../models/user/user_model.dart';
 import '../network/api_service.dart';
 import '../network/fire_queries.dart';
@@ -35,10 +38,47 @@ class UserProvider extends ChangeNotifier {
 
   Stream<DocumentSnapshot<UserModel>> get userStream => userDocRef.snapshots();
 
+  Future<void> login(
+    BuildContext context, {
+    required String code,
+    required String phoneNum,
+  }) async {
+    try {
+      final email = UiHelper.getEmail(code, phoneNum);
+      debugPrint("Email:: $email");
+      AppOverlayLoader.show();
+      final auth = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: UiHelper.getPassword,
+      );
+      if (context.mounted) {
+        await register(context, auth, phoneNumber: phoneNum);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        if (e.code == 'user-not-found') {
+          context.showSnackBar(context.appLocalization.emailNotFount);
+        } else if (e.code == 'wrong-password') {
+          context.showSnackBar(context.appLocalization.wrongPassword);
+        } else {
+          print("ee::: $e");
+          context.showSnackBar(context.appLocalization.emailNotFount);
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        context.showSnackBar(context.appLocalization.generalError);
+      }
+    } finally {
+      AppOverlayLoader.hide();
+    }
+  }
+
   Future<void> register(
     BuildContext context,
-    UserCredential auth,
-  ) async {
+    UserCredential auth, {
+    required String phoneNumber,
+  }) async {
     await ApiService.fetch(
       context,
       callBack: () async {
@@ -82,6 +122,13 @@ class UserProvider extends ChangeNotifier {
       onGuestRegistration!();
       onGuestRegistration = null;
     } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return const HomeScreen();
+        }),
+        (route) => false,
+      );
       // DiscoverRoute().go(context);
     }
   }

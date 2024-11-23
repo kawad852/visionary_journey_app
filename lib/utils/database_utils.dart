@@ -83,7 +83,7 @@ class DatabaseUtils {
       )
           .then((value) {
         if (context.mounted) {
-          context.userProvider.register(context, value);
+          context.userProvider.register(context, value, phoneNumber: '791595029');
         }
       });
     } catch (e) {

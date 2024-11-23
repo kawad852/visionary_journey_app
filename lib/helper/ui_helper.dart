@@ -101,4 +101,10 @@ class UiHelper {
       Fluttertoast.showToast(msg: "Can't Read");
     }
   }
+
+  static String getEmail(String code, String phone) {
+    return "$code${phone}_mail@visinory.com";
+  }
+
+  static String get getPassword => "123456";
 }

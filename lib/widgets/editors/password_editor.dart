@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/helper/validation_helper.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/editors/base_editor.dart';
@@ -43,9 +44,8 @@ class _PasswordEditorState extends State<PasswordEditor> {
         onPressed: null,
         icon: CustomSvg(MyIcons.lock),
       ),
-      autoValidateMode:
-          widget.isConfirm ? null : AutovalidateMode.onUserInteraction,
-      hintText: "Password",
+      autoValidateMode: widget.isConfirm ? null : AutovalidateMode.onUserInteraction,
+      hintText: context.appLocalization.password,
       // suffixIcon: IconButton(
       //   onPressed: () {
       //     setState(() {

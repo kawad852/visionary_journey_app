@@ -31,11 +31,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
       } else {
         setState(() {
           countries = kCountries.where((element) {
-            if (context.isLTR) {
-              return element.nameEn!.toLowerCase().contains(query.toLowerCase()) || element.dialCode!.contains(query);
-            } else {
-              return element.nameAr!.contains(query) || element.dialCode!.contains(query);
-            }
+            return element.nameEn!.toLowerCase().contains(query.toLowerCase()) || element.dialCode!.contains(query) || element.nameAr!.contains(query);
           }).toList();
         });
       }
