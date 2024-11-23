@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (_canceled) return;
     final driver = AppServices.findNearestDriver(drivers, _orderModel!.pickUp!.geoPoint!.latitude, _orderModel!.pickUp!.geoPoint!.longitude);
     _orderModel = _orderModel!.copyWith(
-      id: "1",
+      id: MyFactory.generateId,
       createdAt: MyFactory.dateTime,
       driver: driver,
       userId: _userProvider.user!.uid,
