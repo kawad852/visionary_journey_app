@@ -24,12 +24,9 @@ class _IntroScreenState extends State<IntroScreen> {
     if (widget.isEdit) {
       Navigator.pop(context);
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SelectColorScreen(),
-        ),
-      );
+      context.navigate((context) {
+        return const SelectColorScreen();
+      });
     }
   }
 

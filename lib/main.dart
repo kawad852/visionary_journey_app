@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/providers/user_provider.dart';
-import 'package:visionary_journey_app/screens/home/home_screen.dart';
+import 'package:visionary_journey_app/screens/intro/intro_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
@@ -126,8 +126,8 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             locale: appProvider.appLocale,
             theme: MyTheme().materialTheme(context, seedColorScheme),
-            home: const HomeScreen(),
-            // home: const IntroScreen(),
+            // home: const HomeScreen(),
+            home: const IntroScreen(),
           ),
         );
       },

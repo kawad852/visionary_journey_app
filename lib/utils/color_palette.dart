@@ -22,7 +22,7 @@ class ColorPalette {
   Color get black => Colors.black.withOpacity(degree);
 
   //black
-  Color get black1D => const Color(0xFF1D1D1D);
+  Color get black1D => const Color(0xFF1D1D1D).withOpacity(degree);
 
   Color get borderColor => const Color(0xFFF1F1F1);
 
