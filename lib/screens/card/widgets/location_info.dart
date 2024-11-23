@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/helper/ui_helper.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
@@ -46,7 +47,9 @@ class LocationInfo extends StatelessWidget {
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              UiHelper.read(pickLabelText);
+                            },
                             child: const CustomSvg(MyIcons.volume),
                           ),
                         )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:visionary_journey_app/helper/app_contact_service.dart';
 import 'package:visionary_journey_app/models/order/order_model.dart';
 import 'package:visionary_journey_app/screens/card/widgets/user_text.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
@@ -43,7 +44,7 @@ class DriverInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 UserText("${driver.firstName} ${driver.lastName}"),
-                UserText("Vehicle number: ${driver.carDetails!.plateNum}"),
+                UserText("${context.appLocalization.vehicleNumber}: ${driver.carDetails!.plateNum}"),
                 Row(
                   children: [
                     Flexible(
@@ -64,7 +65,9 @@ class DriverInfo extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              AppContactService.lunch(context, AppContactService.getPhoneNum());
+            },
             child: Container(
               width: 40,
               height: 40,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:visionary_journey_app/alerts/feedback/app_feedback.dart';
-import 'package:visionary_journey_app/screens/card/widgets/settings.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
+
+import '../helper/app_contact_service.dart';
 
 class HelpBubble extends StatelessWidget {
   const HelpBubble({super.key});
@@ -13,13 +13,14 @@ class HelpBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.showBottomSheet(
-          context,
-          maxHeight: 510,
-          builder: (context) {
-            return const Settings();
-          },
-        );
+        AppContactService.lunch(context, AppContactService.whatsAppUrl);
+        // context.showBottomSheet(
+        //   context,
+        //   maxHeight: 510,
+        //   builder: (context) {
+        //     return const Settings();
+        //   },
+        // );
       },
       child: Container(
         width: 126,
@@ -43,7 +44,7 @@ class HelpBubble extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              "Need Help ?",
+              context.appLocalization.needHelp,
               style: TextStyle(
                 color: context.colorPalette.black1D,
                 fontWeight: FontWeight.bold,

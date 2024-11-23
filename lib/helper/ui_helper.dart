@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 
 import '../../models/country/country_model.dart';
@@ -89,5 +90,10 @@ class UiHelper {
     } else {
       return context.appLocalization.driverArrivalText3;
     }
+  }
+
+  static read(String text) {
+    final flutterTts = FlutterTts();
+    flutterTts.speak(text);
   }
 }

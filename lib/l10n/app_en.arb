@@ -201,7 +201,6 @@
     "requireRecentLogin": "This operation is sensitive and requires recent authentication. Log in again before retrying this request.",
     "theBasket": "Basket",
     "size": "Size",
-    "outOfStock": "Out Of Stock",
     "driverAlmostThere": "Driver is almost there, get ready for your trip.",
     "youAreAlmostThere": "You're almost there, thank you for using {appName}",
     "driverArrivalText1": "The driver will arrive at your location within {time} minutes",
@@ -216,6 +215,7 @@
     "projectBody": "Our project was designed to accommodate individuals with visual impairments and to empower them within the community.\nWe will start by customizing the app settings to suit your needs.",
     "chooseColorText": "Choose the color contrast level until you reach the best option for you.",
     "submitReview": "Submit review",
-    "writeComment": "Write your comment here"
-
+    "writeComment": "Write your comment here",
+    "vehicleNumber": "Vehicle number",
+    "needHelp": "Need Help ?"
 }

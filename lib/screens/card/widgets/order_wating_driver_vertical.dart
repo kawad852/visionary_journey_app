@@ -15,6 +15,7 @@ import 'package:visionary_journey_app/widgets/custom_network_image.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
+import '../../../helper/app_contact_service.dart';
 import '../../../helper/ui_helper.dart';
 import '../../../models/order/order_model.dart';
 import '../../../widgets/cost_bubble.dart';
@@ -108,7 +109,9 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                             alignment: AlignmentDirectional.bottomStart,
                             radius: MyTheme.radiusTertiary,
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                AppContactService.lunch(context, AppContactService.getPhoneNum());
+                              },
                               child: Container(
                                 width: 30,
                                 height: 30,
@@ -183,7 +186,9 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                         Align(
                           alignment: AlignmentDirectional.topEnd,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              UiHelper.read(pickLabelText);
+                            },
                             icon: const CustomSvg(MyIcons.volume),
                           ),
                         ),

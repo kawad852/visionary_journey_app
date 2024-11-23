@@ -13,7 +13,4 @@ class MyIcons {
   static const String calling = '${_path}calling.svg';
   static const String volume = '${_path}volume.svg';
   static const String star = '${_path}star.svg';
-
-
 }
-
