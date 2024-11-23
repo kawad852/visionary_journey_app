@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    MySharedPreferences.isPassedIntro = true;
     phoneController = PhoneController(context);
   }
 
