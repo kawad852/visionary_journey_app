@@ -14,6 +14,7 @@ import 'package:visionary_journey_app/providers/location_provider.dart';
 import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/providers/user_provider.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
+import 'package:visionary_journey_app/widgets/base_app_bar.dart';
 import 'package:visionary_journey_app/widgets/custom_stream_builder.dart';
 
 import '../../controllers/map_controller.dart';
@@ -25,6 +26,7 @@ import '../../utils/enums.dart';
 import '../../widgets/map_bubble.dart';
 import '../card/widgets/home_card.dart';
 import '../card/widgets/order_loading.dart';
+import '../card/widgets/settings.dart';
 import '../places_search_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -165,16 +167,12 @@ class _SearchScreenState extends State<SearchScreen> {
             final drivers = snapshot.data!;
             return Scaffold(
               extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                forceMaterialTransparency: true,
-              ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-              floatingActionButton: FloatingActionButton.small(
+              appBar: BaseAppBar(
                 onPressed: () {
                   _mapController.goToMyPosition(context);
                 },
-                child: const Icon(Icons.my_location),
               ),
+              drawer: const SettingsScreen(),
               body: Stack(
                 alignment: AlignmentDirectional.bottomCenter,
                 children: [
