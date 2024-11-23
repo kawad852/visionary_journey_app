@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 
 import '../../models/country/country_model.dart';
@@ -92,8 +93,12 @@ class UiHelper {
     }
   }
 
-  static read(String text) {
-    final flutterTts = FlutterTts();
-    flutterTts.speak(text);
+  static read(String text) async {
+    try {
+      final flutterTts = FlutterTts();
+      flutterTts.speak(text);
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Can't Read");
+    }
   }
 }
