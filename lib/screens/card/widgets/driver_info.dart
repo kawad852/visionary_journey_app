@@ -76,7 +76,10 @@ class DriverInfo extends StatelessWidget {
                 color: context.colorPalette.white,
                 shape: BoxShape.circle,
               ),
-              child: const CustomSvg(MyIcons.calling),
+              child: CustomSvg(
+                MyIcons.calling,
+                color: context.colorPalette.black1D,
+              ),
             ),
           ),
         ],

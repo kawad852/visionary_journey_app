@@ -28,7 +28,10 @@ class LoginSide extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 60),
           child: Center(
-            child: Image.asset(MyImages.visionaryJourney),
+            child: Image.asset(
+              MyImages.visionaryJourney,
+              color: context.colorPalette.black1D,
+            ),
           ),
         ),
         Align(

@@ -40,7 +40,10 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 60, bottom: 10),
-                  child: Image.asset(MyImages.logoText),
+                  child: Image.asset(
+                    MyImages.logoText,
+                    color: context.colorPalette.black1D,
+                  ),
                 ),
               ),
               if (MySharedPreferences.appDirction == AppDirction.normal) const Spacer(),

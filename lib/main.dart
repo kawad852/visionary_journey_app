@@ -42,7 +42,7 @@ Future<void> main() async {
   await MySharedPreferences.init();
   // await FirebaseAuth.instance.signOut();
   // MySharedPreferences.clearStorage();
-  // MySharedPreferences.isPassedIntro = false;
+  MySharedPreferences.isPassedIntro = false;
   // await FlutterBranchSdk.init(enableLogging: false, disableTracking: false);
   // FlutterBranchSdk.validateSDKIntegration();
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);

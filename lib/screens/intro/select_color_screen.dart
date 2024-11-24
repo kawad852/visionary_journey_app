@@ -38,7 +38,10 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 60, bottom: 10),
-                  child: Image.asset(MyImages.logoText),
+                  child: Image.asset(
+                    MyImages.logoText, 
+                    color: context.colorPalette.black1D,
+                  ),
                 ),
               ),
               Text(
@@ -59,62 +62,71 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
               ),
               const SizedBox(height: 10),
               if (MySharedPreferences.appDirction != AppDirction.normal)
-                Row(
-                  mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.right ? MainAxisAlignment.end : MainAxisAlignment.start,
-                  children: [
-                    Column(
+                Align(
+                  alignment: MySharedPreferences.appDirction == AppDirction.right
+                  ? AlignmentDirectional.centerEnd
+                  : AlignmentDirectional.centerStart,
+                  child: SizedBox(
+                    width: context.mediaQuery.width * 0.75,
+                    child: Row(
                       children: [
-                        Container(
-                          width: 70,
-                          height: 360,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF353535),
-                                Color(0xFF000000),
-                              ],
-                              begin: AlignmentDirectional.centerStart,
-                              end: AlignmentDirectional.centerEnd,
+                        Column(
+                          children: [
+                            Container(
+                              width: 70,
+                              height: 360,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                                gradient:  LinearGradient(
+                                  colors: [
+                                    const Color(0xFF353535),
+                                    context.colorPalette.black1D,
+                                  ],
+                                  begin: AlignmentDirectional.centerStart,
+                                  end: AlignmentDirectional.centerEnd,
+                                ),
+                              ),
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: Slider(
+                                  value: context.colorPalette.degree,
+                                  min: 0.60,
+                                  max: 1,
+                                  activeColor: context.colorPalette.white,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      context.colorPalette.toggleDegree(value);
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                          child: RotatedBox(
-                            quarterTurns: 1,
-                            child: Slider(
-                              value: context.colorPalette.degree,
-                              min: 0.60,
-                              max: 1,
-                              activeColor: context.colorPalette.white,
-                              onChanged: (value) {
-                                setState(() {
-                                  context.colorPalette.toggleDegree(value);
-                                });
-                              },
-                            ),
-                          ),
+                            const SizedBox(height: 10),
+                            ForwardBubble(key: UniqueKey())
+                          ],
                         ),
-                        const SizedBox(height: 10),
-                        const ForwardBubble()
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Column(
+                            children: [
+                              Text(
+                                context.appLocalization.chooseColorText,
+                                style: TextStyle(
+                                  color: context.colorPalette.black1D,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 280,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                    const SizedBox(width: 10),
-                    Column(
-                      children: [
-                        Text(
-                          context.appLocalization.chooseColorText,
-                          style: TextStyle(
-                            color: context.colorPalette.black1D,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 280,
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
               if (MySharedPreferences.appDirction == AppDirction.normal) ...[
                 const Spacer(),
@@ -137,10 +149,10 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                             height: 70,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 colors: [
-                                  Color(0xFF353535),
-                                  Color(0xFF000000),
+                                  const Color(0xFF353535),
+                                    context.colorPalette.black1D,
                                 ],
                                 begin: AlignmentDirectional.centerStart,
                                 end: AlignmentDirectional.centerEnd,
@@ -160,7 +172,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const ForwardBubble()
+                        ForwardBubble(key: UniqueKey())
                       ],
                     ),
                     const SizedBox(height: 10),

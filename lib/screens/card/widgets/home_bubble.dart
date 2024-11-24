@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 
@@ -19,7 +20,10 @@ class HomeBubble extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
         ),
-        child: CustomSvg(icon),
+        child: CustomSvg(
+          icon,
+          color: context.colorPalette.black1D,
+        ),
       ),
     );
   }
