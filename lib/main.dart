@@ -24,6 +24,14 @@ import 'models/user/user_model.dart';
 import 'providers/app_provider.dart';
 import 'providers/location_provider.dart';
 
+//TODO:
+// Bearing
+// OTP
+// FingerPrint
+// Search Editors bug fix
+// polyline along with marker
+// Notifications
+
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @pragma('vm:entry-point')

@@ -9,8 +9,8 @@ import '../notifications/notifications_route.dart';
 import '../utils/shared_pref.dart';
 
 class CloudMessagingService {
-  void requestPermission() async {
-    await FirebaseMessaging.instance.requestPermission().then((value) {
+  Future<void> requestPermission() async {
+    return await FirebaseMessaging.instance.requestPermission().then((value) {
       FirebaseMessaging.instance.subscribeToTopic('all_${MySharedPreferences.language}');
     });
   }
