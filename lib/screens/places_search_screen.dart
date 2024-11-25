@@ -30,7 +30,7 @@ class PlacesSearchScreen extends StatefulWidget {
 }
 
 class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
-  late Future<GooglePlacesModel> _searchFuture;
+  Future<GooglePlacesModel>? _searchFuture;
 
   void _initialize(String value) {
     if (value.isEmpty) {
@@ -114,11 +114,11 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
         );
       },
       resultsBuilder: (context, query) {
-        if (query.isEmpty) {
+        if (query.isEmpty || _searchFuture == null) {
           return const SizedBox.shrink();
         }
         return CustomFutureBuilder(
-          future: _searchFuture,
+          future: _searchFuture!,
           onComplete: (context, snapshot) {
             final predictions = snapshot.data!.predictions!;
             if (predictions.isEmpty) {

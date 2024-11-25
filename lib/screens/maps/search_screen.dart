@@ -182,13 +182,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   MapBubble(
                     controller: _mapController,
                     showMyPin: false,
-                    onCameraMove: (position) {
-                      _orderModel!.pickUp = AppServices.getGeoModel(position.target.latitude, position.target.longitude);
-                      // if (_debounce?.isActive ?? false) _debounce?.cancel();
-                      // _debounce = Timer(const Duration(milliseconds: 500), () {
-                      //
-                      // });
-                    },
                     polyLines: polyline != null ? {polyline!} : {},
                     markers: {
                       if (_orderModel?.pickUp != null)
@@ -267,6 +260,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     _orderModel!.arrivalNameEn = name;
                                     _orderModel!.arrivalGeoPoint = AppServices.getGeoModel(lat, lng);
                                   });
+                                  print("lat::: ${_orderModel!.pickUp!.geoPoint!.latitude}\nlng::${_orderModel!.pickUp!.geoPoint!.longitude}");
                                   _createPolyline(
                                     start: _orderModel!.pickUp!.geoPoint!,
                                     end: _orderModel!.arrivalGeoPoint!.geoPoint!,

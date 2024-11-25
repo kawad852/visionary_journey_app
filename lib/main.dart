@@ -26,10 +26,11 @@ import 'providers/location_provider.dart';
 
 //TODO:
 // Bearing
+// polyline along with marker
+
 // OTP
 // FingerPrint
-// Search Editors bug fix
-// polyline along with marker
+
 // Notifications
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
