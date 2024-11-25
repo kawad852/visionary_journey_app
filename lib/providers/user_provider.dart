@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:visionary_journey_app/helper/ui_helper.dart';
 import 'package:visionary_journey_app/screens/home/home_screen.dart';
 import 'package:visionary_journey_app/utils/app_constants.dart';
@@ -179,6 +180,33 @@ class UserProvider extends ChangeNotifier {
           context.showSnackBar(context.appLocalization.requireRecentLogin);
         } else {
           context.showSnackBar(context.appLocalization.generalError);
+        }
+      },
+    );
+  }
+
+  Future<void> getFingerPrint(BuildContext context) async {
+    ApiService.fetch(
+      context,
+      callBack: () async {
+        final auth = LocalAuthentication();
+        final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+        final bool canAuthenticate = canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+        if (canAuthenticate) {
+          try {
+            final bool didAuthenticate = await auth.authenticate(
+              localizedReason: 'Please authenticate to access your account',
+            );
+            // if (didAuthenticate) {
+            //   userDocRef.update({});
+            // }
+          } catch (e) {
+            if (context.mounted) {
+              context.showSnackBar(context.appLocalization.generalError);
+            }
+          }
+        } else if (context.mounted) {
+          context.showSnackBar(context.appLocalization.fingerPrintError);
         }
       },
     );

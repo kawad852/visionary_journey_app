@@ -36,6 +36,8 @@ mixin _$UserModel {
   set phoneCountryCode(String? value) => throw _privateConstructorUsedError;
   String? get orderId => throw _privateConstructorUsedError;
   set orderId(String? value) => throw _privateConstructorUsedError;
+  String? get fingerPrint => throw _privateConstructorUsedError;
+  set fingerPrint(String? value) => throw _privateConstructorUsedError;
   bool get blocked => throw _privateConstructorUsedError;
   set blocked(bool value) => throw _privateConstructorUsedError;
   String get languageCode => throw _privateConstructorUsedError;
@@ -64,6 +66,7 @@ abstract class $UserModelCopyWith<$Res> {
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String? fingerPrint,
       bool blocked,
       String languageCode});
 }
@@ -90,6 +93,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? deviceToken = freezed,
     Object? phoneCountryCode = freezed,
     Object? orderId = freezed,
+    Object? fingerPrint = freezed,
     Object? blocked = null,
     Object? languageCode = null,
   }) {
@@ -122,6 +126,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fingerPrint: freezed == fingerPrint
+          ? _value.fingerPrint
+          : fingerPrint // ignore: cast_nullable_to_non_nullable
+              as String?,
       blocked: null == blocked
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
@@ -150,6 +158,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String? fingerPrint,
       bool blocked,
       String languageCode});
 }
@@ -174,6 +183,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? deviceToken = freezed,
     Object? phoneCountryCode = freezed,
     Object? orderId = freezed,
+    Object? fingerPrint = freezed,
     Object? blocked = null,
     Object? languageCode = null,
   }) {
@@ -206,6 +216,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      fingerPrint: freezed == fingerPrint
+          ? _value.fingerPrint
+          : fingerPrint // ignore: cast_nullable_to_non_nullable
+              as String?,
       blocked: null == blocked
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
@@ -229,6 +243,7 @@ class _$UserModelImpl implements _UserModel {
       this.deviceToken,
       this.phoneCountryCode,
       this.orderId,
+      this.fingerPrint,
       this.blocked = false,
       this.languageCode = LanguageEnum.english});
 
@@ -251,6 +266,8 @@ class _$UserModelImpl implements _UserModel {
   @override
   String? orderId;
   @override
+  String? fingerPrint;
+  @override
   @JsonKey()
   bool blocked;
   @override
@@ -259,7 +276,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, blocked: $blocked, languageCode: $languageCode)';
+    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, fingerPrint: $fingerPrint, blocked: $blocked, languageCode: $languageCode)';
   }
 
   /// Create a copy of UserModel
@@ -287,6 +304,7 @@ abstract class _UserModel implements UserModel {
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String? fingerPrint,
       bool blocked,
       String languageCode}) = _$UserModelImpl;
 
@@ -316,6 +334,9 @@ abstract class _UserModel implements UserModel {
   @override
   String? get orderId;
   set orderId(String? value);
+  @override
+  String? get fingerPrint;
+  set fingerPrint(String? value);
   @override
   bool get blocked;
   set blocked(bool value);

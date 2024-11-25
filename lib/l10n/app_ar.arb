@@ -225,5 +225,7 @@
     "male": "ذكر",
     "female": "أنثى",
     "enableLocation": "الوصول للموقع",
-    "adjustViewAngel": "اختر زاوية الرؤيا"
+    "adjustViewAngel": "اختر زاوية الرؤيا",
+    "fingerPrintError": "البصمة غير مدعومة على هذا الجهاز"
+
 }

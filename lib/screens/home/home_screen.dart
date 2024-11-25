@@ -76,13 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return Scaffold(
               // appBar: AppBar(),
 
-              // floatingActionButton: _orderProvider.drivers.isNotEmpty
-              //     ? FloatingActionButton(
-              //         onPressed: () {
-              //           _orderProvider.orderDriver(context);
-              //         },
-              //       )
-              //     : null,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  context.userProvider.getFingerPrint(context);
+                },
+              ),
               body: Builder(
                 builder: (context) {
                   if (hasOrder) {

@@ -15,6 +15,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       deviceToken: json['deviceToken'] as String?,
       phoneCountryCode: json['phoneCountryCode'] as String?,
       orderId: json['orderId'] as String?,
+      fingerPrint: json['fingerPrint'] as String?,
       blocked: json['blocked'] as bool? ?? false,
       languageCode: json['languageCode'] as String? ?? LanguageEnum.english,
     );
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'deviceToken': instance.deviceToken,
       'phoneCountryCode': instance.phoneCountryCode,
       'orderId': instance.orderId,
+      'fingerPrint': instance.fingerPrint,
       'blocked': instance.blocked,
       'languageCode': instance.languageCode,
     };

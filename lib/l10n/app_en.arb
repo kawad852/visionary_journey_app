@@ -225,5 +225,6 @@
     "male": "Male",
     "female": "Female",
     "enableLocation": "Enable location access",
-    "adjustViewAngel": "Adjust the viewing angle"
+    "adjustViewAngel": "Adjust the viewing angle",
+    "fingerPrintError": "Fingerprint not support on this device."
 }
