@@ -27,8 +27,8 @@ import 'providers/location_provider.dart';
 //TODO:
 // Bearing
 // polyline along with marker
-
 // OTP
+
 // FingerPrint
 
 // Notifications

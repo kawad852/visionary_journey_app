@@ -74,13 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
             final hasOrder = user.orderId != null;
 
             return Scaffold(
-              // appBar: AppBar(),
-
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  context.userProvider.getFingerPrint(context);
-                },
-              ),
+              // // appBar: AppBar(),
+              //
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: () {
+              //     context.userProvider.getFingerPrint(context);
+              //   },
+              // ),
               body: Builder(
                 builder: (context) {
                   if (hasOrder) {
