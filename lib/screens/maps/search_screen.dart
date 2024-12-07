@@ -215,7 +215,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         return Marker(
                           markerId: MarkerId(e.id),
                           position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                          icon: BitmapDescriptor.fromBytes(widget.carIcon),
+                          icon: BitmapDescriptor.bytes(widget.carIcon, width: 40),
                           consumeTapEvents: true,
                         );
                       }).toSet(),

@@ -69,6 +69,6 @@ class AppProvider extends ChangeNotifier {
   }
 
   void initializeMarker() {
-    markerFuture = Future.wait([getBytesFromAsset(MyImages.car), getBytesFromAsset(MyImages.circle, width: 50)]);
+    markerFuture = Future.wait([getBytesFromAsset(MyImages.car), getBytesFromAsset(MyImages.circle, width: 40)]);
   }
 }

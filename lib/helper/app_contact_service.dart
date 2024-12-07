@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io' show Platform;
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,7 +38,11 @@ class AppContactService {
   static const String mobileNum2Url = 'tel://$mobileNum2';
   static const String emailUrl = 'mailto:$email';
 
-  static String getPhoneNum() => 'tel://+962780190006';
+  static String getPhoneNum() {
+    final random = Random();
+    List<int> randomNumbers = List.generate(9, (_) => random.nextInt(100));
+    return 'tel://+962$randomNumbers';
+  }
 
   /// mobileNum, whatsapp and email
   static Future<void> lunch(BuildContext context, String path) async {
