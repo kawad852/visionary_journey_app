@@ -137,6 +137,18 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  void _preDefinedDestinationOrder(String name) {
+    final coordinates = MyFactory.generateRandomCoordinates(_orderModel!.pickUp!.geoPoint!.latitude, _orderModel!.pickUp!.geoPoint!.longitude);
+    setState(() {
+      _orderModel!.arrivalNameEn = name;
+      _orderModel!.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
+    });
+    _createPolyline(
+      start: _orderModel!.pickUp!.geoPoint!,
+      end: _orderModel!.arrivalGeoPoint!.geoPoint!,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -224,6 +236,18 @@ class _SearchScreenState extends State<SearchScreen> {
                           onBook: () {
                             _order(drivers.map((e) => e.data()!).toList());
                           },
+                          onHomePressed: () {
+                            _preDefinedDestinationOrder(context.appLocalization.home);
+                            _order(drivers.map((e) => e.data()!).toList());
+                          },
+                          onGymPressed: () {
+                            _preDefinedDestinationOrder(context.appLocalization.gym);
+                            _order(drivers.map((e) => e.data()!).toList());
+                          },
+                          onCoffeeHousePressed: () {
+                            _preDefinedDestinationOrder(context.appLocalization.coffeeHouse);
+                            _order(drivers.map((e) => e.data()!).toList());
+                          },
                           children: [
                             PlacesSearchScreen(
                               callBack: (lat, lng, name) async {
@@ -260,7 +284,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                     _orderModel!.arrivalNameEn = name;
                                     _orderModel!.arrivalGeoPoint = AppServices.getGeoModel(lat, lng);
                                   });
-                                  print("lat::: ${_orderModel!.pickUp!.geoPoint!.latitude}\nlng::${_orderModel!.pickUp!.geoPoint!.longitude}");
                                   _createPolyline(
                                     start: _orderModel!.pickUp!.geoPoint!,
                                     end: _orderModel!.arrivalGeoPoint!.geoPoint!,

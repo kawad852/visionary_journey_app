@@ -226,6 +226,9 @@
     "female": "أنثى",
     "enableLocation": "الوصول للموقع",
     "adjustViewAngel": "اختر زاوية الرؤيا",
-    "fingerPrintError": "البصمة غير مدعومة على هذا الجهاز"
+    "fingerPrintError": "البصمة غير مدعومة على هذا الجهاز",
+    "home": "المنزل",
+    "gym": "النادي الرياضي",
+    "coffeeHouse": "المقهى"
 
 }

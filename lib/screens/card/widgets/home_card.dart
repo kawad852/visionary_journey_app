@@ -9,11 +9,17 @@ import 'package:visionary_journey_app/widgets/stretch_button.dart';
 class HomeCard extends StatelessWidget {
   final VoidCallback onBook;
   final List<Widget> children;
+  final VoidCallback onHomePressed;
+  final VoidCallback onGymPressed;
+  final VoidCallback onCoffeeHousePressed;
 
   const HomeCard({
     super.key,
     required this.onBook,
     required this.children,
+    required this.onHomePressed,
+    required this.onGymPressed,
+    required this.onCoffeeHousePressed,
   });
 
   @override
@@ -34,18 +40,18 @@ class HomeCard extends StatelessWidget {
               child: Row(
                 children: [
                   HomeBubble(
-                    onTap: () {},
+                    onTap: onHomePressed,
                     icon: MyIcons.home,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: HomeBubble(
-                      onTap: () {},
+                      onTap: onCoffeeHousePressed,
                       icon: MyIcons.coffee,
                     ),
                   ),
                   HomeBubble(
-                    onTap: () {},
+                    onTap: onGymPressed,
                     icon: MyIcons.weight,
                   ),
                 ],

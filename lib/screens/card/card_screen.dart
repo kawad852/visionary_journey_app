@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:visionary_journey_app/screens/card/widgets/home_card.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({super.key});
@@ -11,12 +10,9 @@ class CardScreen extends StatefulWidget {
 class _CardScreenState extends State<CardScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.grey,
-      body: HomeCard(
-        onBook: () {},
-        children: [],
-      ),
+      body: SizedBox(),
     );
   }
 }
