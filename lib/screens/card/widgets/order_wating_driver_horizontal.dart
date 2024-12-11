@@ -50,12 +50,14 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
       if (order.pickUpPolylinePoints.isNotEmpty) {
         length = order.pickUpPolylinePoints.length - order.pickUpIndex;
       }
-      print("length::: ${length}");
+      // print("length::: ${length}");
     } else {
       // print("aklsfjaslfjalksfjalksfj");
       // length = order.arrivalPolylinePoints.sublist(order.arrivalIndex).length ?? length;
     }
-    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : 40, 0, length, 1, -1);
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : length, 0, order.pickUpPolylinePoints.length, 1, -1);
+    print("length:: $length");
+    print("sliderValue:: $sliderValue");
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

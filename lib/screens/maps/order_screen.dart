@@ -74,7 +74,6 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       );
 
-      print("pointsLength:: ${result.points.length}");
       return result.points.map((e) => PolyModel(lat: e.latitude, lng: e.longitude)).toList();
 
       // setState(() {
@@ -151,7 +150,6 @@ class _OrderScreenState extends State<OrderScreen> {
             _timer!.cancel();
             _handleOrder(order: order, status: OrderStatus.inProgress);
           } else {
-            print("index::: ${order.pickUpIndex}");
             final point = order.pickUpPolylinePoints[(order.pickUpPolylinePoints.length - 1) - order.pickUpIndex];
             final pointGeo = AppServices.getGeoModel(point.lat, point.lng);
             await _firebaseFirestore.orders.doc(order.id).update({
