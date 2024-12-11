@@ -23,13 +23,13 @@ import '../../../widgets/cost_bubble.dart';
 
 class OrderWaitingDriverVertical extends StatelessWidget {
   final OrderModel order;
-  final int pointsLength;
+  final int totalLength;
   final String pickLabelText, arrivalLabelText;
 
   const OrderWaitingDriverVertical({
     super.key,
     required this.order,
-    required this.pointsLength,
+    required this.totalLength,
     required this.pickLabelText,
     required this.arrivalLabelText,
   });
@@ -67,11 +67,11 @@ class OrderWaitingDriverVertical extends StatelessWidget {
 
     var length = 40;
     if (order.status == OrderStatus.driverAssigned) {
-      length = order.pickUpPointsLength ?? length;
+      length = order.pickUpPolylinePoints.sublist(order.pickUpIndex).length ?? length;
     } else {
-      length = order.arrivalPointsLength ?? length;
+      length = order.arrivalPolylinePoints.sublist(order.arrivalIndex).length ?? length;
     }
-    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : pointsLength, 0, length, -1, 1);
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : totalLength, 0, length, -1, 1);
 
     return Align(
       alignment: MySharedPreferences.appDirction == AppDirction.right ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,

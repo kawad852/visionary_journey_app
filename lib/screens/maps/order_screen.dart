@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/helper/services.dart';
@@ -48,7 +47,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   late MapController _mapController;
   late Stream<DocumentSnapshot<OrderModel>> _stream;
-  Polyline? polyline;
+  // Polyline? polyline;
   Timer? _timer;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
@@ -59,7 +58,7 @@ class _OrderScreenState extends State<OrderScreen> {
     _stream = _firebaseFirestore.orders.doc(widget.orderId).snapshots();
   }
 
-  Future<void> _createPolyline({
+  Future<List<PolyModel>> _createPolyline({
     required GeoPoint end,
     required GeoPoint start,
   }) async {
@@ -75,40 +74,45 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       );
 
-      setState(() {
-        polyline = Polyline(
-          polylineId: const PolylineId("polyline_1"),
-          color: Colors.blue,
-          width: 5,
-          points: result.points.map((e) => LatLng(e.latitude, e.longitude)).toList(),
-        );
-      });
+      print("pointsLength:: ${result.points.length}");
+      return result.points.map((e) => PolyModel(lat: e.latitude, lng: e.longitude)).toList();
+
+      // setState(() {
+      //   polyline = Polyline(
+      //     polylineId: const PolylineId("polyline_1"),
+      //     color: Colors.blue,
+      //     width: 5,
+      //     points: result.points.map((e) => LatLng(e.latitude, e.longitude)).toList(),
+      //   );
+      // });
     } catch (e) {
       debugPrint("polylineError:: $e");
+      throw [];
     }
   }
 
-  void _updatePoints({
-    required Function() onUpdate,
-    required Function() onEnd,
-  }) {
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (Timer timer) {
-        if (polyline!.points.isEmpty) {
-          timer.cancel();
-          setState(() {
-            polyline = null;
-          });
-          onEnd();
-        } else {
-          onUpdate();
-        }
-      },
-    );
-  }
+  // void _updatePoints({
+  //   required Function() onUpdate,
+  //   required Function() onEnd,
+  // }) {
+  //   _timer = Timer.periodic(
+  //     const Duration(seconds: 1),
+  //     (Timer timer) {
+  //       if (polyline!.points.isEmpty) {
+  //         timer.cancel();
+  //         setState(() {
+  //           polyline = null;
+  //         });
+  //         onEnd();
+  //       } else {
+  //         onUpdate();
+  //       }
+  //     },
+  //   );
+  // }
 
   late GeoModel _lastDriverGeo;
+
   Future<void> _handleOrder({
     required OrderModel order,
     required String status,
@@ -119,98 +123,84 @@ class _OrderScreenState extends State<OrderScreen> {
     final arrivalGeo = order.arrivalGeoPoint;
 
     if (status == OrderStatus.driverAssigned) {
-      await _createPolyline(
+      order.pickUpPolylinePoints = await _createPolyline(
         start: driverGeo.geoPoint!,
         end: pickUpGeo.geoPoint!,
       );
       await _firebaseFirestore.orders.doc(order.id).update({
-        'pickUpPointsLength': polyline!.points.length,
+        "pickUpPolylinePoints": order.pickUpPolylinePoints.map((e) => e.toJson()).toList(),
       });
-      _updatePoints(
-        onUpdate: () async {
-          final length = polyline!.points.length;
-          final point = polyline!.points.last;
-          final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
-          final bearing = Geolocator.bearingBetween(
-            // polyline!.points[length - 2].latitude,
-            // polyline!.points[length - 2].longitude,
-            // polyline!.points[length - 1].latitude,
-            // polyline!.points[length - 1].longitude,
-            _lastDriverGeo.geoPoint!.latitude,
-            _lastDriverGeo.geoPoint!.longitude,
-            pickUpGeo.geoPoint!.latitude,
-            pickUpGeo.geoPoint!.longitude,
-          );
-          await _firebaseFirestore.orders.doc(order.id).update({
-            'driver.currentGeoPoint': pointGeo.toJson(),
-            "driver.bearing": bearing,
-          });
-          _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
-
-          setState(() {
-            polyline!.points.removeLast();
-          });
-        },
-        onEnd: () async {
-          setState(() {
-            polyline = null;
-          });
-          await _firebaseFirestore.orders.doc(order.id).update({
-            MyFields.status: OrderStatus.driverArrived,
-          });
-          await Future.delayed(
-            const Duration(seconds: 3),
-          );
-          if (order.arrivalGeoPoint == null) {
-            final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
-            order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
+      _timer = Timer.periodic(
+        const Duration(seconds: 1),
+        (Timer timer) async {
+          if (order.pickUpIndex + 1 == order.pickUpPolylinePoints.length) {
+            await _firebaseFirestore.orders.doc(order.id).update({
+              MyFields.status: OrderStatus.driverArrived,
+            });
+            await Future.delayed(
+              const Duration(seconds: 3),
+            );
+            if (order.arrivalGeoPoint == null) {
+              final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
+              order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
+            }
+            await _firebaseFirestore.orders.doc(order.id).update({
+              MyFields.status: OrderStatus.inProgress,
+              'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
+            });
+            _timer!.cancel();
+            _handleOrder(order: order, status: OrderStatus.inProgress);
+          } else {
+            print("index::: ${order.pickUpIndex}");
+            final point = order.pickUpPolylinePoints[(order.pickUpPolylinePoints.length - 1) - order.pickUpIndex];
+            final pointGeo = AppServices.getGeoModel(point.lat, point.lng);
+            await _firebaseFirestore.orders.doc(order.id).update({
+              'driver.currentGeoPoint': pointGeo.toJson(),
+              "pickUpIndex": FieldValue.increment(1),
+            });
+            order.pickUpIndex++;
+            _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
           }
-          await _firebaseFirestore.orders.doc(order.id).update({
-            MyFields.status: OrderStatus.inProgress,
-            'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
-          });
-
-          _handleOrder(order: order, status: OrderStatus.inProgress);
         },
       );
     }
 
     ///
 
-    if (status == OrderStatus.inProgress && arrivalGeo != null) {
-      await _createPolyline(
-        start: pickUpGeo.geoPoint!,
-        end: arrivalGeo.geoPoint!,
-      );
-      await _firebaseFirestore.orders.doc(order.id).update({
-        'arrivalPointsLength': polyline!.points.length,
-      });
-      _updatePoints(
-        onUpdate: () async {
-          final point = polyline!.points.last;
-          final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
-          final bearing = Geolocator.bearingBetween(
-            pointGeo.geoPoint!.latitude,
-            pointGeo.geoPoint!.longitude,
-            pickUpGeo.geoPoint!.latitude,
-            pickUpGeo.geoPoint!.longitude,
-          );
-          _firebaseFirestore.orders.doc(order.id).update({
-            'driver.currentGeoPoint': pointGeo.toJson(),
-            "driver.bearing": bearing,
-          });
-          _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
-          setState(() {
-            polyline!.points.removeLast();
-          });
-        },
-        onEnd: () async {
-          await _firebaseFirestore.orders.doc(order.id).update({
-            MyFields.status: OrderStatus.inReview,
-          });
-        },
-      );
-    }
+    // if (status == OrderStatus.inProgress && arrivalGeo != null) {
+    //   await _createPolyline(
+    //     start: pickUpGeo.geoPoint!,
+    //     end: arrivalGeo.geoPoint!,
+    //   );
+    //   await _firebaseFirestore.orders.doc(order.id).update({
+    //     'arrivalPointsLength': polyline!.points.length,
+    //   });
+    //   _updatePoints(
+    //     onUpdate: () async {
+    //       final point = polyline!.points.last;
+    //       final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
+    //       final bearing = Geolocator.bearingBetween(
+    //         pointGeo.geoPoint!.latitude,
+    //         pointGeo.geoPoint!.longitude,
+    //         pickUpGeo.geoPoint!.latitude,
+    //         pickUpGeo.geoPoint!.longitude,
+    //       );
+    //       _firebaseFirestore.orders.doc(order.id).update({
+    //         'driver.currentGeoPoint': pointGeo.toJson(),
+    //         "driver.bearing": bearing,
+    //       });
+    //       _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
+    //       setState(() {
+    //         polyline!.points.removeLast();
+    //       });
+    //     },
+    //     onEnd: () async {
+    //       await _firebaseFirestore.orders.doc(order.id).update({
+    //         MyFields.status: OrderStatus.inReview,
+    //       });
+    //     },
+    //   );
+    // }
 
     if (status == OrderStatus.completed) {
       await await Future.delayed(
@@ -244,6 +234,7 @@ class _OrderScreenState extends State<OrderScreen> {
           stream: _stream,
           onComplete: (context, snapshot) {
             final order = snapshot.data!.data()!;
+            final status = order.status;
             final driver = order.driver!;
             final pickUpGeo = order.pickUp;
             final driverGeo = driver.currentGeoPoint;
@@ -272,9 +263,14 @@ class _OrderScreenState extends State<OrderScreen> {
                     onMapCreated: () async {
                       _handleOrder(order: order, status: order.status);
                     },
-                    polyLines: polyline != null
+                    polyLines: order.status == OrderStatus.driverAssigned
                         ? {
-                            polyline!,
+                            Polyline(
+                              polylineId: const PolylineId("polyline_1"),
+                              color: Colors.blue,
+                              width: 5,
+                              points: order.pickUpPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
+                            )
                           }
                         : {},
                     markers: {
@@ -308,7 +304,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     if (MySharedPreferences.appDirction == AppDirction.normal)
                       OrderWaitingDriverHorizontal(
                         order: order,
-                        pointsLength: polyline?.points.length ?? 0,
+                        totalLength: status == OrderStatus.driverAssigned ? order.pickUpPolylinePoints.length : order.arrivalPolylinePoints.length,
                         pickLabelText: order.pickUpNameEn!,
                         arrivalLabelText: order.arrivalNameEn!,
                       )
@@ -317,7 +313,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         alignment: MySharedPreferences.appDirction == AppDirction.left ? Alignment.centerLeft : Alignment.centerRight,
                         child: OrderWaitingDriverVertical(
                           order: order,
-                          pointsLength: polyline?.points.length ?? 0,
+                          totalLength: status == OrderStatus.driverAssigned ? order.pickUpPolylinePoints.length : order.arrivalPolylinePoints.length,
                           pickLabelText: order.pickUpNameEn!,
                           arrivalLabelText: order.arrivalNameEn!,
                         ),

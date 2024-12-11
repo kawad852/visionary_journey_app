@@ -12,8 +12,8 @@ _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String? ?? '',
       userId: json['userId'] as String? ?? '',
       status: json['status'] as String? ?? '',
-      pickUpPointsLength: (json['pickUpPointsLength'] as num?)?.toInt(),
-      arrivalPointsLength: (json['arrivalPointsLength'] as num?)?.toInt(),
+      pickUpIndex: (json['pickUpIndex'] as num?)?.toInt() ?? 0,
+      arrivalIndex: (json['arrivalIndex'] as num?)?.toInt() ?? 0,
       pickUp: json['pickUp'] == null
           ? null
           : GeoModel.fromJson(json['pickUp'] as Map<String, dynamic>),
@@ -42,8 +42,8 @@ Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
       'id': instance.id,
       'userId': instance.userId,
       'status': instance.status,
-      'pickUpPointsLength': instance.pickUpPointsLength,
-      'arrivalPointsLength': instance.arrivalPointsLength,
+      'pickUpIndex': instance.pickUpIndex,
+      'arrivalIndex': instance.arrivalIndex,
       'pickUp': instance.pickUp?.toJson(),
       'pickUpNameEn': instance.pickUpNameEn,
       'arrivalGeoPoint': instance.arrivalGeoPoint?.toJson(),
