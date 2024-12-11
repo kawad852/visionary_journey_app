@@ -166,6 +166,35 @@ class _OrderScreenState extends State<OrderScreen> {
     }
 
     ///
+    if (status == OrderStatus.inProgress && arrivalGeo != null) {
+      order.arrivalPolylinePoints = await _createPolyline(
+        start: pickUpGeo.geoPoint!,
+        end: arrivalGeo.geoPoint!,
+      );
+      await _firebaseFirestore.orders.doc(order.id).update({
+        "arrivalPolylinePoints": order.arrivalPolylinePoints.map((e) => e.toJson()).toList(),
+      });
+      _timer = Timer.periodic(
+        const Duration(seconds: 1),
+        (Timer timer) async {
+          if (order.arrivalIndex + 1 == order.arrivalPolylinePoints.length) {
+            _timer!.cancel();
+            await _firebaseFirestore.orders.doc(order.id).update({
+              MyFields.status: OrderStatus.inReview,
+            });
+          } else {
+            final point = order.arrivalPolylinePoints[(order.arrivalPolylinePoints.length - 1) - order.arrivalIndex];
+            final pointGeo = AppServices.getGeoModel(point.lat, point.lng);
+            _firebaseFirestore.orders.doc(order.id).update({
+              'driver.currentGeoPoint': pointGeo.toJson(),
+              "arrivalIndex": FieldValue.increment(1),
+            });
+            order.arrivalIndex++;
+            _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
+          }
+        },
+      );
+    }
 
     // if (status == OrderStatus.inProgress && arrivalGeo != null) {
     //   await _createPolyline(
@@ -263,16 +292,22 @@ class _OrderScreenState extends State<OrderScreen> {
                     onMapCreated: () async {
                       _handleOrder(order: order, status: order.status);
                     },
-                    polyLines: order.status == OrderStatus.driverAssigned
-                        ? {
-                            Polyline(
-                              polylineId: const PolylineId("polyline_1"),
-                              color: Colors.blue,
-                              width: 5,
-                              points: order.pickUpPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
-                            )
-                          }
-                        : {},
+                    polyLines: {
+                      if (order.status == OrderStatus.driverAssigned)
+                        Polyline(
+                          polylineId: const PolylineId("polyline_1"),
+                          color: Colors.blue,
+                          width: 5,
+                          points: order.pickUpPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
+                        ),
+                      if (order.status == OrderStatus.inProgress)
+                        Polyline(
+                          polylineId: const PolylineId("polyline_2"),
+                          color: Colors.blue,
+                          width: 5,
+                          points: order.arrivalPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
+                        )
+                    },
                     markers: {
                       Marker(
                         markerId: MarkerId(pickUpGeo!.geoHash),
@@ -281,7 +316,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         consumeTapEvents: true,
                       ),
                       Marker(
-                        markerId: MarkerId(driverGeo!.geoHash),
+                        markerId: MarkerId(driverGeo.geoHash),
                         position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
                         rotation: driver.bearing,
                         icon: BitmapDescriptor.fromBytes(widget.carIcon),
