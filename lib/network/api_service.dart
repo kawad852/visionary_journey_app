@@ -30,7 +30,7 @@ class ApiService {
       }
 
       final futureCallback = await callBack().timeout(
-        const Duration(seconds: 30),
+        const Duration(seconds: 1000),
         onTimeout: () => throw TimeoutException(timeoutException),
       );
       return futureCallback as T;

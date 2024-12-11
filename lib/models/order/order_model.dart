@@ -23,6 +23,8 @@ class OrderModel with _$OrderModel {
     String? arrivalNameEn,
     Driver? driver,
     double? cost,
+    @Default([]) List<PolyModel> pickUpPolylinePoints,
+    @Default([]) List<PolyModel> arrivalPolylinePoints,
   }) = _OrderModel;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -75,4 +77,14 @@ class GeoModel with _$GeoModel {
   }) = _GeoModel;
 
   factory GeoModel.fromJson(Map<String, dynamic> json) => _$GeoModelFromJson(json);
+}
+
+@unfreezed
+class PolyModel with _$PolyModel {
+  factory PolyModel({
+    required double lat,
+    required double lng,
+  }) = _PolyModel;
+
+  factory PolyModel.fromJson(Map<String, dynamic> json) => _$PolyModelFromJson(json);
 }

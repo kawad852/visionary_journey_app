@@ -26,6 +26,14 @@ _$OrderModelImpl _$$OrderModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : Driver.fromJson(json['driver'] as Map<String, dynamic>),
       cost: (json['cost'] as num?)?.toDouble(),
+      pickUpPolylinePoints: (json['pickUpPolylinePoints'] as List<dynamic>?)
+              ?.map((e) => PolyModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      arrivalPolylinePoints: (json['arrivalPolylinePoints'] as List<dynamic>?)
+              ?.map((e) => PolyModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
@@ -42,6 +50,10 @@ Map<String, dynamic> _$$OrderModelImplToJson(_$OrderModelImpl instance) =>
       'arrivalNameEn': instance.arrivalNameEn,
       'driver': instance.driver?.toJson(),
       'cost': instance.cost,
+      'pickUpPolylinePoints':
+          instance.pickUpPolylinePoints.map((e) => e.toJson()).toList(),
+      'arrivalPolylinePoints':
+          instance.arrivalPolylinePoints.map((e) => e.toJson()).toList(),
     };
 
 _$DestinationImpl _$$DestinationImplFromJson(Map<String, dynamic> json) =>
@@ -113,4 +125,16 @@ Map<String, dynamic> _$$GeoModelImplToJson(_$GeoModelImpl instance) =>
     <String, dynamic>{
       'geohash': instance.geoHash,
       'geopoint': const GeoPointSerializer().toJson(instance.geoPoint),
+    };
+
+_$PolyModelImpl _$$PolyModelImplFromJson(Map<String, dynamic> json) =>
+    _$PolyModelImpl(
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$PolyModelImplToJson(_$PolyModelImpl instance) =>
+    <String, dynamic>{
+      'lat': instance.lat,
+      'lng': instance.lng,
     };

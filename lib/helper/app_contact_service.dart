@@ -1,5 +1,4 @@
-import 'dart:developer';
-import 'dart:io' show Platform;
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class AppContactService {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
     } catch (e) {
-      log("UrlLauncherError:: $e");
+      // log("UrlLauncherError:: $e");
       if (context.mounted) {
         Fluttertoast.showToast(msg: context.appLocalization.generalError);
       }

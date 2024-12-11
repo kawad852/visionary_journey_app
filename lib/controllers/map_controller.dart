@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../utils/app_constants.dart';
 import '../utils/base_extensions.dart';
 
 class MapController extends ChangeNotifier {
@@ -52,7 +51,7 @@ class MapController extends ChangeNotifier {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: LatLng(lat, lng),
-          zoom: kMapZoom,
+          zoom: 17,
         ),
       ),
     );

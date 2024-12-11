@@ -128,9 +128,14 @@ class _OrderScreenState extends State<OrderScreen> {
       });
       _updatePoints(
         onUpdate: () async {
+          final length = polyline!.points.length;
           final point = polyline!.points.last;
           final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
           final bearing = Geolocator.bearingBetween(
+            // polyline!.points[length - 2].latitude,
+            // polyline!.points[length - 2].longitude,
+            // polyline!.points[length - 1].latitude,
+            // polyline!.points[length - 1].longitude,
             _lastDriverGeo.geoPoint!.latitude,
             _lastDriverGeo.geoPoint!.longitude,
             pickUpGeo.geoPoint!.latitude,
@@ -140,6 +145,8 @@ class _OrderScreenState extends State<OrderScreen> {
             'driver.currentGeoPoint': pointGeo.toJson(),
             "driver.bearing": bearing,
           });
+          _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
+
           setState(() {
             polyline!.points.removeLast();
           });
@@ -162,6 +169,7 @@ class _OrderScreenState extends State<OrderScreen> {
             MyFields.status: OrderStatus.inProgress,
             'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
           });
+
           _handleOrder(order: order, status: OrderStatus.inProgress);
         },
       );
@@ -178,7 +186,7 @@ class _OrderScreenState extends State<OrderScreen> {
         'arrivalPointsLength': polyline!.points.length,
       });
       _updatePoints(
-        onUpdate: () {
+        onUpdate: () async {
           final point = polyline!.points.last;
           final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
           final bearing = Geolocator.bearingBetween(
@@ -191,6 +199,7 @@ class _OrderScreenState extends State<OrderScreen> {
             'driver.currentGeoPoint': pointGeo.toJson(),
             "driver.bearing": bearing,
           });
+          _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
           setState(() {
             polyline!.points.removeLast();
           });
@@ -258,6 +267,8 @@ class _OrderScreenState extends State<OrderScreen> {
                   MapBubble(
                     controller: _mapController,
                     showMyPin: false,
+                    // zoom: 20,
+                    zoomGesturesEnabled: true,
                     onMapCreated: () async {
                       _handleOrder(order: order, status: order.status);
                     },

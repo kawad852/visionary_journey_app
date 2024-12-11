@@ -46,6 +46,14 @@ mixin _$OrderModel {
   set driver(Driver? value) => throw _privateConstructorUsedError;
   double? get cost => throw _privateConstructorUsedError;
   set cost(double? value) => throw _privateConstructorUsedError;
+  List<PolyModel> get pickUpPolylinePoints =>
+      throw _privateConstructorUsedError;
+  set pickUpPolylinePoints(List<PolyModel> value) =>
+      throw _privateConstructorUsedError;
+  List<PolyModel> get arrivalPolylinePoints =>
+      throw _privateConstructorUsedError;
+  set arrivalPolylinePoints(List<PolyModel> value) =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this OrderModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -75,7 +83,9 @@ abstract class $OrderModelCopyWith<$Res> {
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
       Driver? driver,
-      double? cost});
+      double? cost,
+      List<PolyModel> pickUpPolylinePoints,
+      List<PolyModel> arrivalPolylinePoints});
 
   $GeoModelCopyWith<$Res>? get pickUp;
   $GeoModelCopyWith<$Res>? get arrivalGeoPoint;
@@ -109,6 +119,8 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
     Object? arrivalNameEn = freezed,
     Object? driver = freezed,
     Object? cost = freezed,
+    Object? pickUpPolylinePoints = null,
+    Object? arrivalPolylinePoints = null,
   }) {
     return _then(_value.copyWith(
       createdAt: freezed == createdAt
@@ -159,6 +171,14 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double?,
+      pickUpPolylinePoints: null == pickUpPolylinePoints
+          ? _value.pickUpPolylinePoints
+          : pickUpPolylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<PolyModel>,
+      arrivalPolylinePoints: null == arrivalPolylinePoints
+          ? _value.arrivalPolylinePoints
+          : arrivalPolylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<PolyModel>,
     ) as $Val);
   }
 
@@ -225,7 +245,9 @@ abstract class _$$OrderModelImplCopyWith<$Res>
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
       Driver? driver,
-      double? cost});
+      double? cost,
+      List<PolyModel> pickUpPolylinePoints,
+      List<PolyModel> arrivalPolylinePoints});
 
   @override
   $GeoModelCopyWith<$Res>? get pickUp;
@@ -260,6 +282,8 @@ class __$$OrderModelImplCopyWithImpl<$Res>
     Object? arrivalNameEn = freezed,
     Object? driver = freezed,
     Object? cost = freezed,
+    Object? pickUpPolylinePoints = null,
+    Object? arrivalPolylinePoints = null,
   }) {
     return _then(_$OrderModelImpl(
       createdAt: freezed == createdAt
@@ -310,6 +334,14 @@ class __$$OrderModelImplCopyWithImpl<$Res>
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
               as double?,
+      pickUpPolylinePoints: null == pickUpPolylinePoints
+          ? _value.pickUpPolylinePoints
+          : pickUpPolylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<PolyModel>,
+      arrivalPolylinePoints: null == arrivalPolylinePoints
+          ? _value.arrivalPolylinePoints
+          : arrivalPolylinePoints // ignore: cast_nullable_to_non_nullable
+              as List<PolyModel>,
     ));
   }
 }
@@ -329,7 +361,9 @@ class _$OrderModelImpl implements _OrderModel {
       this.arrivalGeoPoint,
       this.arrivalNameEn,
       this.driver,
-      this.cost});
+      this.cost,
+      this.pickUpPolylinePoints = const [],
+      this.arrivalPolylinePoints = const []});
 
   factory _$OrderModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderModelImplFromJson(json);
@@ -362,10 +396,16 @@ class _$OrderModelImpl implements _OrderModel {
   Driver? driver;
   @override
   double? cost;
+  @override
+  @JsonKey()
+  List<PolyModel> pickUpPolylinePoints;
+  @override
+  @JsonKey()
+  List<PolyModel> arrivalPolylinePoints;
 
   @override
   String toString() {
-    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUpPointsLength: $pickUpPointsLength, arrivalPointsLength: $arrivalPointsLength, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver, cost: $cost)';
+    return 'OrderModel(createdAt: $createdAt, id: $id, userId: $userId, status: $status, pickUpPointsLength: $pickUpPointsLength, arrivalPointsLength: $arrivalPointsLength, pickUp: $pickUp, pickUpNameEn: $pickUpNameEn, arrivalGeoPoint: $arrivalGeoPoint, arrivalNameEn: $arrivalNameEn, driver: $driver, cost: $cost, pickUpPolylinePoints: $pickUpPolylinePoints, arrivalPolylinePoints: $arrivalPolylinePoints)';
   }
 
   /// Create a copy of OrderModel
@@ -397,7 +437,9 @@ abstract class _OrderModel implements OrderModel {
       GeoModel? arrivalGeoPoint,
       String? arrivalNameEn,
       Driver? driver,
-      double? cost}) = _$OrderModelImpl;
+      double? cost,
+      List<PolyModel> pickUpPolylinePoints,
+      List<PolyModel> arrivalPolylinePoints}) = _$OrderModelImpl;
 
   factory _OrderModel.fromJson(Map<String, dynamic> json) =
       _$OrderModelImpl.fromJson;
@@ -440,6 +482,12 @@ abstract class _OrderModel implements OrderModel {
   @override
   double? get cost;
   set cost(double? value);
+  @override
+  List<PolyModel> get pickUpPolylinePoints;
+  set pickUpPolylinePoints(List<PolyModel> value);
+  @override
+  List<PolyModel> get arrivalPolylinePoints;
+  set arrivalPolylinePoints(List<PolyModel> value);
 
   /// Create a copy of OrderModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1351,5 +1399,161 @@ abstract class _GeoModel implements GeoModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GeoModelImplCopyWith<_$GeoModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PolyModel _$PolyModelFromJson(Map<String, dynamic> json) {
+  return _PolyModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PolyModel {
+  double get lat => throw _privateConstructorUsedError;
+  set lat(double value) => throw _privateConstructorUsedError;
+  double get lng => throw _privateConstructorUsedError;
+  set lng(double value) => throw _privateConstructorUsedError;
+
+  /// Serializes this PolyModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PolyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PolyModelCopyWith<PolyModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PolyModelCopyWith<$Res> {
+  factory $PolyModelCopyWith(PolyModel value, $Res Function(PolyModel) then) =
+      _$PolyModelCopyWithImpl<$Res, PolyModel>;
+  @useResult
+  $Res call({double lat, double lng});
+}
+
+/// @nodoc
+class _$PolyModelCopyWithImpl<$Res, $Val extends PolyModel>
+    implements $PolyModelCopyWith<$Res> {
+  _$PolyModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PolyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? lat = null,
+    Object? lng = null,
+  }) {
+    return _then(_value.copyWith(
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      lng: null == lng
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PolyModelImplCopyWith<$Res>
+    implements $PolyModelCopyWith<$Res> {
+  factory _$$PolyModelImplCopyWith(
+          _$PolyModelImpl value, $Res Function(_$PolyModelImpl) then) =
+      __$$PolyModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double lat, double lng});
+}
+
+/// @nodoc
+class __$$PolyModelImplCopyWithImpl<$Res>
+    extends _$PolyModelCopyWithImpl<$Res, _$PolyModelImpl>
+    implements _$$PolyModelImplCopyWith<$Res> {
+  __$$PolyModelImplCopyWithImpl(
+      _$PolyModelImpl _value, $Res Function(_$PolyModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PolyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? lat = null,
+    Object? lng = null,
+  }) {
+    return _then(_$PolyModelImpl(
+      lat: null == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double,
+      lng: null == lng
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PolyModelImpl implements _PolyModel {
+  _$PolyModelImpl({required this.lat, required this.lng});
+
+  factory _$PolyModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PolyModelImplFromJson(json);
+
+  @override
+  double lat;
+  @override
+  double lng;
+
+  @override
+  String toString() {
+    return 'PolyModel(lat: $lat, lng: $lng)';
+  }
+
+  /// Create a copy of PolyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PolyModelImplCopyWith<_$PolyModelImpl> get copyWith =>
+      __$$PolyModelImplCopyWithImpl<_$PolyModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PolyModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PolyModel implements PolyModel {
+  factory _PolyModel({required double lat, required double lng}) =
+      _$PolyModelImpl;
+
+  factory _PolyModel.fromJson(Map<String, dynamic> json) =
+      _$PolyModelImpl.fromJson;
+
+  @override
+  double get lat;
+  set lat(double value);
+  @override
+  double get lng;
+  set lng(double value);
+
+  /// Create a copy of PolyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PolyModelImplCopyWith<_$PolyModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
