@@ -75,42 +75,11 @@ class _OrderScreenState extends State<OrderScreen> {
       );
 
       return result.points.map((e) => PolyModel(lat: e.latitude, lng: e.longitude)).toList();
-
-      // setState(() {
-      //   polyline = Polyline(
-      //     polylineId: const PolylineId("polyline_1"),
-      //     color: Colors.blue,
-      //     width: 5,
-      //     points: result.points.map((e) => LatLng(e.latitude, e.longitude)).toList(),
-      //   );
-      // });
     } catch (e) {
       debugPrint("polylineError:: $e");
       throw [];
     }
   }
-
-  // void _updatePoints({
-  //   required Function() onUpdate,
-  //   required Function() onEnd,
-  // }) {
-  //   _timer = Timer.periodic(
-  //     const Duration(seconds: 1),
-  //     (Timer timer) {
-  //       if (polyline!.points.isEmpty) {
-  //         timer.cancel();
-  //         setState(() {
-  //           polyline = null;
-  //         });
-  //         onEnd();
-  //       } else {
-  //         onUpdate();
-  //       }
-  //     },
-  //   );
-  // }
-
-  late GeoModel _lastDriverGeo;
 
   Future<void> _handleOrder({
     required OrderModel order,
@@ -132,7 +101,7 @@ class _OrderScreenState extends State<OrderScreen> {
       _timer = Timer.periodic(
         const Duration(seconds: 1),
         (Timer timer) async {
-          if (order.pickUpIndex + 1 == order.pickUpPolylinePoints.length) {
+          if (order.pickUpIndex == order.pickUpPolylinePoints.length) {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.driverArrived,
             });
@@ -175,7 +144,7 @@ class _OrderScreenState extends State<OrderScreen> {
       _timer = Timer.periodic(
         const Duration(seconds: 1),
         (Timer timer) async {
-          if (order.arrivalIndex + 1 == order.arrivalPolylinePoints.length) {
+          if (order.arrivalIndex == order.arrivalPolylinePoints.length) {
             _timer!.cancel();
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inReview,
@@ -267,8 +236,6 @@ class _OrderScreenState extends State<OrderScreen> {
             final driverGeo = driver.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
 
-            _lastDriverGeo = driverGeo!;
-
             return Scaffold(
               extendBodyBehindAppBar: true,
               appBar: BaseAppBar(
@@ -314,7 +281,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         consumeTapEvents: true,
                       ),
                       Marker(
-                        markerId: MarkerId(driverGeo.geoHash),
+                        markerId: MarkerId(driverGeo!.geoHash),
                         position: LatLng(driverGeo.geoPoint!.latitude, driverGeo.geoPoint!.longitude),
                         rotation: driver.bearing,
                         icon: BitmapDescriptor.fromBytes(widget.carIcon),

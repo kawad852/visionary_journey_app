@@ -44,20 +44,19 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
     final time = UiHelper.calculateETA(distance.toInt());
 
     var length = 40;
+    var total = 40;
     if (order.status == OrderStatus.driverAssigned) {
-      // int currentLength = (order.pickUpPolylinePoints.length - order.pickUpIndex).clamp(0, order.pickUpPolylinePoints.length);
-      // length = order.pickUpPolylinePoints.take(currentLength).toList().length;
+      total = order.pickUpPolylinePoints.length;
       if (order.pickUpPolylinePoints.isNotEmpty) {
         length = order.pickUpPolylinePoints.length - order.pickUpIndex;
       }
-      // print("length::: ${length}");
-    } else {
-      // print("aklsfjaslfjalksfjalksfj");
-      // length = order.arrivalPolylinePoints.sublist(order.arrivalIndex).length ?? length;
+    } else if (order.status == OrderStatus.inProgress) {
+      total = order.arrivalPolylinePoints.length;
+      if (order.arrivalPolylinePoints.isNotEmpty) {
+        length = order.arrivalPolylinePoints.length - order.arrivalIndex;
+      }
     }
-    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : length, 0, order.pickUpPolylinePoints.length, 1, -1);
-    print("length:: $length");
-    print("sliderValue:: $sliderValue");
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : length, 0, total, 1, -1);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
