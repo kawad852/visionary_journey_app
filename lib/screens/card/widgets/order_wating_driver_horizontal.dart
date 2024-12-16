@@ -154,7 +154,14 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (order.status == OrderStatus.completed) CostBubble(cost: order.cost!),
+                    if (order.status == OrderStatus.completed)
+                      Center(
+                        child: SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: CostBubble(cost: order.cost!),
+                        ),
+                      ),
                   ],
                 ),
               ),

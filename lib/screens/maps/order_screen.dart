@@ -147,6 +147,10 @@ class _OrderScreenState extends State<OrderScreen> {
           if (order.arrivalIndex == order.arrivalPolylinePoints.length) {
             _timer!.cancel();
             await _firebaseFirestore.orders.doc(order.id).update({
+              MyFields.status: OrderStatus.completed,
+            });
+            await Future.delayed(const Duration(seconds: 10));
+            await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inReview,
             });
           } else {
@@ -196,6 +200,15 @@ class _OrderScreenState extends State<OrderScreen> {
     //       });
     //     },
     //   );
+    // }
+
+    // if (status == OrderStatus.inPayment) {
+    //   await await Future.delayed(
+    //     const Duration(seconds: 5),
+    //   );
+    //   await _firebaseFirestore.orders.doc(order.id).update({
+    //     MyFields.status: OrderStatus.inReview,
+    //   });
     // }
 
     if (status == OrderStatus.completed) {

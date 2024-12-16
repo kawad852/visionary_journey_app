@@ -29,6 +29,7 @@ class OrderStatus {
   static const String driverAssigned = 'DRIVER_ASSIGNED';
   static const String driverArrived = 'DRIVER_ARRIVED';
   static const String inProgress = 'IN_PROGRESS';
+  // static const String inPayment = 'IN_PAYMENT';
   static const String inReview = 'IN_REVIEW';
   static const String completed = 'COMPLETED';
   static const String cancelledByPassenger = 'CANCELLED_BY_PASSENGER';
