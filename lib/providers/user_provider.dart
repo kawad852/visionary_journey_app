@@ -137,7 +137,7 @@ class UserProvider extends ChangeNotifier {
         user.email = auth.user?.email;
         user.phoneCountryCode = kFallBackCountryCode;
         user.phone = phoneNumber;
-        // user.deviceToken = await _getDeviceToken();
+        user.deviceToken = await _getDeviceToken();
         user.languageCode = MySharedPreferences.language;
         final userDocument = await _firebaseFirestore.users.doc(user.id).get();
         if (!userDocument.exists) {
@@ -237,6 +237,7 @@ class UserProvider extends ChangeNotifier {
   Future<void> getFingerPrint(BuildContext context) async {
     ApiService.fetch(
       context,
+      withOverlayLoader: false,
       callBack: () async {
         final auth = LocalAuthentication();
         final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;

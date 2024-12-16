@@ -48,6 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // cloudMessagingService.requestPermission();
     // _userProvider.updateDeviceToken(context);
     // _orderProvider.getNearestDriver(32.10052482284217, 36.097777226987525);
+    cloudMessagingService.requestPermission();
+    cloudMessagingService.init(context);
+    context.userProvider.updateDeviceToken(context);
     _initialize();
   }
 
