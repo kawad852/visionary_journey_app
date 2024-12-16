@@ -187,11 +187,18 @@ async function sendNotification(tradeId, titleEn, titleAr,
 
     // Define the notification payload for Firebase Messaging
     const payload = {
+      token: deviceToken,
+      data: {
+        channel_id: "channel_id_2",
+      },
       notification: {
         title: title,
+        priority: "high",
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
         body: body,
+        sound: "end_match_helf.wav",
+        android_channel_id: "channel_id_2",
       },
-      topic: topic,
     };
 
     try {
