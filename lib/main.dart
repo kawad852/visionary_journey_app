@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +50,8 @@ Future<void> main() async {
   );
   GoRouter.optionURLReflectsImperativeAPIs = true;
   await MySharedPreferences.init();
-  // await FirebaseAuth.instance.signOut();
-  // MySharedPreferences.clearStorage();
+  await FirebaseAuth.instance.signOut();
+  MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
   // await FlutterBranchSdk.init(enableLogging: false, disableTracking: false);
   // FlutterBranchSdk.validateSDKIntegration();

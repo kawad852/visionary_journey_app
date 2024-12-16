@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/controllers/phone_controller.dart';
+import 'package:visionary_journey_app/screens/login/widgets/otp_editor.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
@@ -11,17 +12,20 @@ import 'package:visionary_journey_app/widgets/phone_field.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
 class LoginSide extends StatelessWidget {
-  final PhoneController controller;
+  final PhoneController? controller;
   final VoidCallback onSubmit;
+  final Function(String? value)? onChanged;
 
   const LoginSide({
     super.key,
     required this.controller,
     required this.onSubmit,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isVerify = controller == null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,43 +51,56 @@ class LoginSide extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: PhoneField(
-                    controller: controller,
+                if (isVerify)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: OtpEditor(
+                      onChanged: onChanged!,
+                    ),
+                  )
+                else ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: PhoneField(
+                      controller: controller!,
+                    ),
                   ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: StretchedButton(
-                        onPressed: onSubmit,
-                        child: Text(
-                          context.appLocalization.login,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: context.colorPalette.white,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: StretchedButton(
+                          onPressed: onSubmit,
+                          child: Text(
+                            context.appLocalization.login,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: context.colorPalette.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.black1D,
-                          borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                      if (MySharedPreferences.fingerPrintId.isNotEmpty) ...[
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            context.userProvider.getFingerPrint(context);
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: context.colorPalette.black1D,
+                              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                            ),
+                            child: const CustomSvg(MyIcons.fingerprint),
+                          ),
                         ),
-                        child: const CustomSvg(MyIcons.fingerprint),
-                      ),
-                    ),
-                  ],
-                ),
+                      ],
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

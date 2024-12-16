@@ -47,6 +47,9 @@ class MySharedPreferences {
   static String get language => _sharedPreferences.getString('language') ?? LanguageEnum.english;
   static set language(String value) => _sharedPreferences.setString('language', value);
 
+  static String get fingerPrintId => _sharedPreferences.getString('fingerPrintId') ?? "";
+  static set fingerPrintId(String value) => _sharedPreferences.setString('fingerPrintId', value);
+
   static String get theme => _sharedPreferences.getString('theme') ?? ThemeEnum.light;
   static set theme(String value) => _sharedPreferences.setString('theme', value);
 

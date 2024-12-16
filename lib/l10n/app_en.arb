@@ -229,5 +229,7 @@
     "fingerPrintError": "Fingerprint not support on this device.",
     "home": "Home",
     "gym": "Gym",
-    "coffeeHouse": "Coffee house"
+    "coffeeHouse": "Coffee house",
+    "codeHintText": "Enter OTP here",
+    "enterOtp": "Enter OTP"
 }

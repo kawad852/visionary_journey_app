@@ -5,11 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/utils/color_palette.dart';
 
 import '../alerts/loading/app_loading_indicators.dart';
+import '../models/country/country_model.dart';
 import '../providers/app_provider.dart';
 import '../providers/location_provider.dart';
 import '../providers/order_provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/enums.dart';
+import 'app_constants.dart';
+import 'countries.dart';
 
 extension LanguageExtension on BuildContext {
   AppLocalizations get appLocalization => AppLocalizations.of(this)!;
@@ -53,6 +56,7 @@ extension CommonExtensions on BuildContext {
   String get currentRoutePath => GoRouter.of(this).routeInformationProvider.value.uri.path;
   String get currency => isLTR ? 'JD' : 'د.أ';
   String? get countryCode => AppProvider.countryCode;
+  String getDialCode(String code) => kCountries.singleWhere((element) => element.code == code, orElse: () => CountryModel(code: kFallBackCountryCode)).dialCode!;
 
   Future<dynamic> navigate(
     Widget Function(BuildContext context) builder, {

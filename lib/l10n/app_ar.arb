@@ -229,6 +229,7 @@
     "fingerPrintError": "البصمة غير مدعومة على هذا الجهاز",
     "home": "المنزل",
     "gym": "النادي الرياضي",
-    "coffeeHouse": "المقهى"
-
+    "coffeeHouse": "المقهى",
+    "codeHintText": "ادخل الرمز هنا",
+    "enterOtp": "ادخل الرمز"
 }

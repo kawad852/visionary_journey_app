@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/controllers/phone_controller.dart';
+import 'package:visionary_journey_app/screens/login/widgets/otp_editor.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
@@ -8,18 +9,23 @@ import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/phone_field.dart';
 import 'package:visionary_journey_app/widgets/stretch_button.dart';
 
+import '../../../utils/shared_pref.dart';
+
 class LoginNormal extends StatelessWidget {
-  final PhoneController controller;
+  final PhoneController? controller;
   final VoidCallback onSubmit;
+  final Function(String? value)? onChanged;
 
   const LoginNormal({
     super.key,
     required this.controller,
     required this.onSubmit,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isVerify = controller == null;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -40,39 +46,51 @@ class LoginNormal extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.appLocalization.login,
+                  isVerify ? context.appLocalization.enterOtp : context.appLocalization.login,
                   style: TextStyle(
                     color: context.colorPalette.black1D,
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: PhoneField(
-                          controller: controller,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: context.colorPalette.black1D,
-                            borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                if (isVerify)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: OtpEditor(
+                      onChanged: onChanged!,
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: PhoneField(
+                            controller: controller!,
                           ),
-                          child: const CustomSvg(MyIcons.fingerprint),
                         ),
-                      ),
-                    ],
+                        if (MySharedPreferences.fingerPrintId.isNotEmpty) ...[
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              context.userProvider.getFingerPrint(context);
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context.colorPalette.black1D,
+                                borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                              ),
+                              child: const CustomSvg(MyIcons.fingerprint),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                ),
                 StretchedButton(
                   onPressed: onSubmit,
                   child: Text(

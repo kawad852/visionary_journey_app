@@ -8,6 +8,8 @@ const kBranchWebURL = 'https://flutter.dev';
 const String kOrderIdDocument = 'bpDRfCR3EP8ZjFWnToZX';
 const kOfferPrice = 999999999.99999;
 const kGoogleClientId = '92761318572-frnn7lvvevk49gh6a6ej04tf5uol6lpf.apps.googleusercontent.com';
+const kOtpId = "7420357483";
+const kOtpToken = "268|uyNFOauOd1gKanzGqLWW4AmDMxTPoeXZU5hxaLwrqztc6aV8sdT43ewA19Sx";
 
 const kWhiteHex = "#FFFFFF";
 

@@ -21,10 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-      context.userProvider.login(
+      context.userProvider.sendPinCode(
         context,
-        code: phoneController.countryCode!,
-        phoneNum: phoneController.getPhoneNumber,
+        countryCode: phoneController.countryCode!,
+        phoneNum: phoneController.phoneNum!,
       );
     }
   }
