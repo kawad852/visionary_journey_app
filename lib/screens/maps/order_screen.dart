@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:visionary_journey_app/helper/services.dart';
@@ -221,6 +222,25 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
+  (double? bearing, PolyModel? nextPoint) _bearingInfo({
+    required List<PolyModel> points,
+    required int index,
+  }) {
+    if (points.isNotEmpty && (index < points.length - 1)) {
+      final currentPoint = points[index];
+      final nexPoint = points[index + 1];
+      final bearing = Geolocator.bearingBetween(
+        currentPoint.lat,
+        currentPoint.lng,
+        nexPoint.lat,
+        nexPoint.lng,
+      );
+      debugPrint("BEARING::: $bearing");
+      return (bearing, nexPoint);
+    }
+    return (null, null);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -249,6 +269,10 @@ class _OrderScreenState extends State<OrderScreen> {
             final driverGeo = driver.currentGeoPoint;
             final arrivalGeo = order.arrivalGeoPoint;
 
+            final bearingInfo = _bearingInfo(
+              index: order.status == OrderStatus.driverAssigned ? order.pickUpIndex : order.arrivalIndex,
+              points: order.status == OrderStatus.driverAssigned ? order.pickUpPolylinePoints : order.arrivalPolylinePoints,
+            );
             return Scaffold(
               extendBodyBehindAppBar: true,
               appBar: BaseAppBar(
@@ -274,14 +298,14 @@ class _OrderScreenState extends State<OrderScreen> {
                       if (order.status == OrderStatus.driverAssigned)
                         Polyline(
                           polylineId: const PolylineId("polyline_1"),
-                          color: Colors.blue,
+                          color: context.colorPalette.black,
                           width: 5,
                           points: order.pickUpPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
                         ),
                       if (order.status == OrderStatus.inProgress)
                         Polyline(
                           polylineId: const PolylineId("polyline_2"),
-                          color: Colors.blue,
+                          color: context.colorPalette.black,
                           width: 5,
                           points: order.arrivalPolylinePoints.map((e) => LatLng(e.lat, e.lng)).toList(),
                         )
@@ -299,6 +323,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         rotation: driver.bearing,
                         icon: BitmapDescriptor.fromBytes(widget.carIcon),
                         consumeTapEvents: true,
+                      ).copyWith(
+                        rotationParam: bearingInfo.$1,
+                        // positionParam: bearingInfo.$2 != null ? LatLng(bearingInfo.$2!.lat, bearingInfo.$2!.lng) : null,
                       ),
                       if (order.status == OrderStatus.inProgress && arrivalGeo != null)
                         Marker(
