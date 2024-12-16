@@ -1,1 +1,57 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"visionary-journey-app","appId":"1:976674345292:android:9b20b3dbc285708d52ffe9","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"visionary-journey-app","appId":"1:976674345292:ios:c3721c70f1e4cfab52ffe9","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"visionary-journey-app","appId":"1:976674345292:ios:c3721c70f1e4cfab52ffe9","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"visionary-journey-app","configurations":{"android":"1:976674345292:android:9b20b3dbc285708d52ffe9","ios":"1:976674345292:ios:c3721c70f1e4cfab52ffe9","macos":"1:976674345292:ios:c3721c70f1e4cfab52ffe9","web":"1:976674345292:web:02feb7004b00a82a52ffe9","windows":"1:976674345292:web:f71fbfb8d3823a5c52ffe9"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "visionary-journey-app",
+          "appId": "1:976674345292:android:9b20b3dbc285708d52ffe9",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "visionary-journey-app",
+          "appId": "1:976674345292:ios:c3721c70f1e4cfab52ffe9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "visionary-journey-app",
+          "appId": "1:976674345292:ios:c3721c70f1e4cfab52ffe9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "visionary-journey-app",
+          "configurations": {
+            "android": "1:976674345292:android:9b20b3dbc285708d52ffe9",
+            "ios": "1:976674345292:ios:c3721c70f1e4cfab52ffe9",
+            "macos": "1:976674345292:ios:c3721c70f1e4cfab52ffe9",
+            "web": "1:976674345292:web:02feb7004b00a82a52ffe9",
+            "windows": "1:976674345292:web:f71fbfb8d3823a5c52ffe9"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}
