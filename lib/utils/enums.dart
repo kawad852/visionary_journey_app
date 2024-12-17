@@ -47,3 +47,11 @@ class DriverStatus {
   static const String offline = 'OFFLINE'; // Driver is not available for rides.
   static const String cancelledRide = 'CANCELLED_RIDE'; // Driver has canceled the ride before pickup.
 }
+
+//const OrderEnum = {
+//  driverAssigned: "DRIVER_ASSIGNED",
+//  driverArrived: "DRIVER_ARRIVED",
+//  inProgress: "IN_PROGRESS",
+//  inReview: "IN_REVIEW",
+//  completed: "COMPLETED",
+//};
