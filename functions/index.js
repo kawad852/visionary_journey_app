@@ -57,19 +57,37 @@ async function sendNotification(tradeId, titleEn, titleAr,
   const isEnglish = true;
   const title = isEnglish ? titleEn : titleAr;
   const body = isEnglish ? bodyEn : bodyAr;
+  const sound = "end_match_helf.wav";
+  const channelId = "channel_id_2";
 
-  // Define the notification payload for Firebase Messaging
-  const payload = {
-    token: deviceToken,
+  const message = {
     notification: {
       title: title,
       body: body,
     },
+    android: {
+      notification: {
+        channelId: channelId,
+        sound: sound,
+      },
+    },
+    apns: {
+      payload: {
+        aps: {
+          alert: {
+            title: title,
+            body: body,
+          },
+          sound: sound,
+        },
+      },
+    },
+    token: deviceToken,
   };
 
   try {
-    await admin.messaging().send(payload);
-    console.log("Notification Sent!", payload);
+    await admin.messaging().send(message);
+    console.log("Notification Sent!", message);
   } catch (error) {
     console.error(`Error sending notification to Firestore:`, error);
   }

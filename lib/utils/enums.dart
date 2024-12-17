@@ -55,3 +55,23 @@ class DriverStatus {
 //  inReview: "IN_REVIEW",
 //  completed: "COMPLETED",
 //};
+
+// // Define the notification payload for Firebase Messaging
+// const payload = {
+//   token: deviceToken,
+//   android: {
+//     priority: "high",
+//     notification: {
+//       click_action: "FLUTTER_NOTIFICATION_CLICK",
+//       sound: "end_match_helf.wav",
+//       channelId: "channel_id_2",
+//     },
+//   },
+//   notification: {
+//     title: title,
+//     body: body,
+//   },
+//   data: {
+//     channel_id: "channel_id_2",
+//   },
+// };
