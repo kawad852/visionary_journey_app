@@ -54,66 +54,23 @@ exports.onOrderCreate = onDocumentCreated({
  */
 async function sendNotification(tradeId, titleEn, titleAr,
     bodyEn, bodyAr, nTopic, deviceToken) {
-  for (let i = 0; i < 2; i++) {
-    const isEnglish = i === 0;
-    const title = isEnglish ? titleEn : titleAr;
-    const body = isEnglish ? bodyEn : bodyAr;
-    const topic = isEnglish ? `${nTopic}_en` : `${nTopic}_ar`;
+  const isEnglish = true;
+  const title = isEnglish ? titleEn : titleAr;
+  const body = isEnglish ? bodyEn : bodyAr;
 
-    // Define the notification data for Firestore
-    const notificationData = {
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      data: {
-        id: tradeId,
-        type: "trade",
-      },
-      topic: topic,
-      notification: {
-        title: title,
-        body: body,
-      },
-      priority: "high",
-      apns: {
-        aps: {
-          sound: "default",
-        },
-      },
-      click_action: "FLUTTER_NOTIFICATION_CLICK",
-    };
+  // Define the notification payload for Firebase Messaging
+  const payload = {
+    token: deviceToken,
+    notification: {
+      title: title,
+      body: body,
+    },
+  };
 
-    // Define the notification payload for Firebase Messaging
-    const payload = {
-      token: deviceToken,
-      data: {
-        id: tradeId,
-        type: "trade",
-        channel_id: "channel_id_2",
-      },
-      notification: {
-        title: title,
-        body: body,
-        priority: "high",
-        apns: {
-          aps: {
-            sound: "default",
-          },
-        },
-        click_action: "FLUTTER_NOTIFICATION_CLICK",
-        sound: "end_match_helf.wav",
-        android_channel_id: "channel_id_2",
-      },
-    };
-
-    try {
-      admin.messaging().send(payload);
-      console.log(`Successfully sent ${isEnglish ?
-      "English" : "Arabic"} notification.`);
-
-      admin.firestore().collection("notifications").add(notificationData);
-      console.log(`Notification document added ${isEnglish ?
-      "English" : "Arabic"} notification. --topic: ${topic}`);
-    } catch (error) {
-      console.error(`Error sending notification to Firestore:`, error);
-    }
+  try {
+    await admin.messaging().send(payload);
+    console.log("Notification Sent!", payload);
+  } catch (error) {
+    console.error(`Error sending notification to Firestore:`, error);
   }
 }
