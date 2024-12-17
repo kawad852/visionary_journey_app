@@ -6,8 +6,8 @@ exports.onOrderCreate = onDocumentCreated({
   region: "europe-west3",
   document: "orders/{id}",
 }, async (event) => {
-  const snapshot = event.rawValue;
-  const data = snapshot || {};
+  const snapshot = event.data;
+  const data = snapshot.data();
   const orderId = data.id;
   const userId = data.userId;
 
@@ -85,13 +85,20 @@ async function sendNotification(tradeId, titleEn, titleAr,
     const payload = {
       token: deviceToken,
       data: {
+        id: tradeId,
+        type: "trade",
         channel_id: "channel_id_2",
       },
       notification: {
         title: title,
-        priority: "high",
-        click_action: "FLUTTER_NOTIFICATION_CLICK",
         body: body,
+        priority: "high",
+        apns: {
+          aps: {
+            sound: "default",
+          },
+        },
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
         sound: "end_match_helf.wav",
         android_channel_id: "channel_id_2",
       },
