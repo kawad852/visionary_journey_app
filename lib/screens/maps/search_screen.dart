@@ -26,7 +26,7 @@ import '../../utils/enums.dart';
 import '../../widgets/map_bubble.dart';
 import '../card/widgets/home_card.dart';
 import '../card/widgets/order_loading.dart';
-import '../card/widgets/settings.dart';
+import '../card/widgets/settings_screen.dart';
 import '../places_search_screen.dart';
 
 class SearchScreen extends StatefulWidget {

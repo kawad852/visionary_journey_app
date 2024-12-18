@@ -36,6 +36,8 @@ mixin _$UserModel {
   set phoneCountryCode(String? value) => throw _privateConstructorUsedError;
   String? get orderId => throw _privateConstructorUsedError;
   set orderId(String? value) => throw _privateConstructorUsedError;
+  String get gender => throw _privateConstructorUsedError;
+  set gender(String value) => throw _privateConstructorUsedError;
   String? get fingerPrint => throw _privateConstructorUsedError;
   set fingerPrint(String? value) => throw _privateConstructorUsedError;
   bool get blocked => throw _privateConstructorUsedError;
@@ -66,6 +68,7 @@ abstract class $UserModelCopyWith<$Res> {
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String gender,
       String? fingerPrint,
       bool blocked,
       String languageCode});
@@ -93,6 +96,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? deviceToken = freezed,
     Object? phoneCountryCode = freezed,
     Object? orderId = freezed,
+    Object? gender = null,
     Object? fingerPrint = freezed,
     Object? blocked = null,
     Object? languageCode = null,
@@ -126,6 +130,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       fingerPrint: freezed == fingerPrint
           ? _value.fingerPrint
           : fingerPrint // ignore: cast_nullable_to_non_nullable
@@ -158,6 +166,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String gender,
       String? fingerPrint,
       bool blocked,
       String languageCode});
@@ -183,6 +192,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? deviceToken = freezed,
     Object? phoneCountryCode = freezed,
     Object? orderId = freezed,
+    Object? gender = null,
     Object? fingerPrint = freezed,
     Object? blocked = null,
     Object? languageCode = null,
@@ -216,6 +226,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String?,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       fingerPrint: freezed == fingerPrint
           ? _value.fingerPrint
           : fingerPrint // ignore: cast_nullable_to_non_nullable
@@ -243,9 +257,10 @@ class _$UserModelImpl implements _UserModel {
       this.deviceToken,
       this.phoneCountryCode,
       this.orderId,
+      this.gender = "MALE",
       this.fingerPrint,
       this.blocked = false,
-      this.languageCode = LanguageEnum.english});
+      this.languageCode = LanguageEnum.arabic});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -266,6 +281,9 @@ class _$UserModelImpl implements _UserModel {
   @override
   String? orderId;
   @override
+  @JsonKey()
+  String gender;
+  @override
   String? fingerPrint;
   @override
   @JsonKey()
@@ -276,7 +294,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, fingerPrint: $fingerPrint, blocked: $blocked, languageCode: $languageCode)';
+    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, gender: $gender, fingerPrint: $fingerPrint, blocked: $blocked, languageCode: $languageCode)';
   }
 
   /// Create a copy of UserModel
@@ -304,6 +322,7 @@ abstract class _UserModel implements UserModel {
       String? deviceToken,
       String? phoneCountryCode,
       String? orderId,
+      String gender,
       String? fingerPrint,
       bool blocked,
       String languageCode}) = _$UserModelImpl;
@@ -334,6 +353,9 @@ abstract class _UserModel implements UserModel {
   @override
   String? get orderId;
   set orderId(String? value);
+  @override
+  String get gender;
+  set gender(String value);
   @override
   String? get fingerPrint;
   set fingerPrint(String? value);

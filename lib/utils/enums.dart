@@ -25,17 +25,11 @@ class NotificationsType {
 }
 
 class OrderStatus {
-  static const String pending = 'PENDING';
   static const String driverAssigned = 'DRIVER_ASSIGNED';
   static const String driverArrived = 'DRIVER_ARRIVED';
   static const String inProgress = 'IN_PROGRESS';
-  // static const String inPayment = 'IN_PAYMENT';
   static const String inReview = 'IN_REVIEW';
   static const String completed = 'COMPLETED';
-  static const String cancelledByPassenger = 'CANCELLED_BY_PASSENGER';
-  static const String cancelledByDriver = 'CANCELLED_BY_DRIVER';
-  static const String noDriverAvailable = 'NO_DRIVER_AVAILABLE';
-  static const String failedPayment = 'FAILED_PAYMENT';
 }
 
 class DriverStatus {
@@ -47,14 +41,6 @@ class DriverStatus {
   static const String offline = 'OFFLINE'; // Driver is not available for rides.
   static const String cancelledRide = 'CANCELLED_RIDE'; // Driver has canceled the ride before pickup.
 }
-
-//const OrderEnum = {
-//  driverAssigned: "DRIVER_ASSIGNED",
-//  driverArrived: "DRIVER_ARRIVED",
-//  inProgress: "IN_PROGRESS",
-//  inReview: "IN_REVIEW",
-//  completed: "COMPLETED",
-//};
 
 // // Define the notification payload for Firebase Messaging
 // const payload = {

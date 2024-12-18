@@ -16,9 +16,10 @@ class UserModel with _$UserModel {
     String? deviceToken,
     String? phoneCountryCode,
     String? orderId,
+    @Default("MALE") String gender,
     String? fingerPrint,
     @Default(false) bool blocked,
-    @Default(LanguageEnum.english) String languageCode,
+    @Default(LanguageEnum.arabic) String languageCode,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

@@ -84,12 +84,59 @@ class LocalNotificationsService {
     plugin?.createNotificationChannel(channel5);
   }
 
+  String _getSoundByChannelId(String channelId) {
+    switch (channelId) {
+      case 'channel_id_1':
+        return 'male_en_1.wav';
+      case 'channel_id_2':
+        return 'female_en_1.wav';
+      case 'channel_id_3':
+        return 'male_ar_1.wav';
+      case 'channel_id_4':
+        return 'female_ar_1.wav';
+      case 'channel_id_5':
+        return 'male_en_2.wav';
+      case 'channel_id_6':
+        return 'female_en_2.wav';
+      case 'channel_id_7':
+        return 'male_ar_2.wav';
+      case 'channel_id_8':
+        return 'female_ar_2.wav';
+      case 'channel_id_9':
+        return 'male_en_3.wav';
+      case 'channel_id_10':
+        return 'female_en_3.wav';
+      case 'channel_id_11':
+        return 'male_ar_3.wav';
+      case 'channel_id_12':
+        return 'female_ar_3.wav';
+      case 'channel_id_13':
+        return 'male_en_4.wav';
+      case 'channel_id_14':
+        return 'female_en_4.wav';
+      case 'channel_id_15':
+        return 'male_ar_4.wav';
+      case 'channel_id_16':
+        return 'female_ar_4.wav';
+      case 'channel_id_17':
+        return 'male_en_5.wav';
+      case 'channel_id_18':
+        return 'female_en_5.wav';
+      case 'channel_id_19':
+        return 'male_ar_5.wav';
+      case 'channel_id_20':
+        return 'female_ar_5.wav';
+      default:
+        return 'default_sound.wav';
+    }
+  }
+
   String _getSound(String id) {
     switch (id) {
       case 'channel_id_1':
         return 'any_event_in_match';
       case 'channel_id_2':
-        return 'end_match_helf';
+        return 'driver_assigned_female';
       case 'channel_id_3':
         return 'goal';
       case 'channel_id_4':

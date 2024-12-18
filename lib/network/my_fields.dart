@@ -86,4 +86,5 @@ class MyFields {
   static const String currentGeoPoint = "currentGeoPoint";
   static const String orderId = "orderId";
   static const String bearing = "bearing";
+  static const String gender = "gender";
 }

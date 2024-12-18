@@ -14,7 +14,7 @@ import 'package:visionary_journey_app/providers/order_provider.dart';
 import 'package:visionary_journey_app/providers/user_provider.dart';
 import 'package:visionary_journey_app/screens/card/widgets/order_wating_driver_vertical.dart';
 import 'package:visionary_journey_app/screens/card/widgets/review_card.dart';
-import 'package:visionary_journey_app/screens/card/widgets/settings.dart';
+import 'package:visionary_journey_app/screens/card/widgets/settings_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';

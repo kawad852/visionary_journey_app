@@ -39,10 +39,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Align(
             alignment: MySharedPreferences.appDirction == AppDirction.right
-               ? AlignmentDirectional.centerEnd
-               : MySharedPreferences.appDirction == AppDirction.left
-                   ? AlignmentDirectional.centerStart
-                   : AlignmentDirectional.center,
+                ? AlignmentDirectional.centerEnd
+                : MySharedPreferences.appDirction == AppDirction.left
+                    ? AlignmentDirectional.centerStart
+                    : AlignmentDirectional.center,
             child: SizedBox(
               width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.65,
               child: Column(
@@ -119,6 +119,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           setState(() {
                             MySharedPreferences.isVoiceMale = true;
                           });
+                          context.userProvider.userDocRef.update({
+                            MyFields.gender: "MALE",
+                          });
                         },
                         child: Container(
                           width: 90,
@@ -143,6 +146,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onTap: () {
                           setState(() {
                             MySharedPreferences.isVoiceMale = false;
+                          });
+                          context.userProvider.userDocRef.update({
+                            MyFields.gender: "FEMALE",
                           });
                         },
                         child: Container(

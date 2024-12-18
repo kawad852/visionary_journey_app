@@ -8,6 +8,7 @@ import '../../utils/base_extensions.dart';
 import '../../utils/enums.dart';
 import '../../utils/my_theme.dart';
 import '../../utils/shared_pref.dart';
+import '../network/my_fields.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({
@@ -33,6 +34,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
       _selectedLanguage = langCode;
     });
     _appProvider.setLanguage(context, languageCode: _selectedLanguage!);
+    _updateUserLanguage();
+  }
+
+  void _updateUserLanguage() {
+    _userProvider.userDocRef.update({
+      MyFields.languageCode: _selectedLanguage,
+    });
   }
 
   @override
