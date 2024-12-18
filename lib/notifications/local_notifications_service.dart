@@ -25,7 +25,7 @@ class LocalNotificationsService {
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('end_match_helf'),
+    sound: RawResourceAndroidNotificationSound('female_en_1'),
   );
 
   final channel3 = const AndroidNotificationChannel(
@@ -89,7 +89,7 @@ class LocalNotificationsService {
       case 'channel_id_1':
         return 'male_en_1.wav';
       case 'channel_id_2':
-        return 'female_en_1.wav';
+        return 'female_en_1';
       case 'channel_id_3':
         return 'male_ar_1.wav';
       case 'channel_id_4':
@@ -131,22 +131,22 @@ class LocalNotificationsService {
     }
   }
 
-  String _getSound(String id) {
-    switch (id) {
-      case 'channel_id_1':
-        return 'any_event_in_match';
-      case 'channel_id_2':
-        return 'driver_assigned_female';
-      case 'channel_id_3':
-        return 'goal';
-      case 'channel_id_4':
-        return 'start_match_half';
-      case 'channel_id_5':
-        return 'all_other_notification';
-      default:
-        return 'all_other_notification';
-    }
-  }
+  // String _getSound(String id) {
+  //   switch (id) {
+  //     case 'channel_id_1':
+  //       return 'any_event_in_match';
+  //     case 'channel_id_2':
+  //       return 'driver_assigned_female';
+  //     case 'channel_id_3':
+  //       return 'goal';
+  //     case 'channel_id_4':
+  //       return 'start_match_half';
+  //     case 'channel_id_5':
+  //       return 'all_other_notification';
+  //     default:
+  //       return 'all_other_notification';
+  //   }
+  // }
 
   //for notifications in foreground
   void display(BuildContext context, RemoteMessage message) async {
@@ -156,7 +156,7 @@ class LocalNotificationsService {
       final pLoad = json.encode(message.data);
       Map<String, dynamic> nData = json.decode(pLoad);
       final channelId = nData['channel_id'] ?? '';
-      final sound = _getSound(channelId);
+      final sound = _getSoundByChannelId(channelId);
       debugPrint("channelId::: $channelId\nsound:: $sound");
       final androidChannel1 = AndroidNotificationChannel(
         channelId, // id

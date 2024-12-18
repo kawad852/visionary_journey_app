@@ -1,4 +1,5 @@
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
+const {onDocumentUpdated} = require("firebase-functions/v2/firestore");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
@@ -31,7 +32,7 @@ exports.onOrderCreate = onDocumentCreated({
   const userData = userDoc.data();
   const deviceToken = userData.deviceToken;
   const language = userData.languageCode;
-  const gender = data.gender;
+  const gender = userData.gender;
 
   if (!deviceToken) {
     console.error(`No token found fo userId ${userId}.`);
@@ -41,6 +42,49 @@ exports.onOrderCreate = onDocumentCreated({
   console.log(`Device Token fo User ID ${userId}:`, deviceToken);
 
   await sendNotification(status, language, gender, deviceToken);
+
+  return null;
+});
+
+exports.onOrderUpdate = onDocumentUpdated({
+  region: "europe-west3",
+  document: "orders/{id}",
+}, async (event) => {
+  const beforeData = event.data.before.data();
+  const afterData = event.data.after.data();
+
+  const orderId = afterData.id;
+  const userId = afterData.userId;
+  const statusBefore = beforeData.status;
+  const statusAfter = afterData.status;
+
+  console.log("Order ID:", orderId);
+
+  // Check if the status has changed
+  if (statusBefore === statusAfter) {
+    console.log("Status has not changed. No notification will be sent.");
+    return null;
+  }
+
+  const userDoc = await admin.firestore().collection("users").doc(userId).get();
+  if (!userDoc.exists) {
+    console.error(`User document for userId ${userId} does not exist.`);
+    return null;
+  }
+
+  const userData = userDoc.data();
+  const deviceToken = userData.deviceToken;
+  const language = userData.languageCode;
+  const gender = userData.gender;
+
+  if (!deviceToken) {
+    console.error(`No token found for userId ${userId}.`);
+    return null;
+  }
+
+  console.log(`Device Token for User ID ${userId}:`, deviceToken);
+
+  await sendNotification(statusAfter, language, gender, deviceToken);
 
   return null;
 });
