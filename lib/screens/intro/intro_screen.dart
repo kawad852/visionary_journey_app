@@ -59,7 +59,10 @@ class _IntroScreenState extends State<IntroScreen> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 60, bottom: 10),
-                  child: Image.asset(MyImages.visionaryJourney),
+                  child: Image.asset(
+                    MyImages.visionaryJourney,
+                    color: context.colorPalette.black1D,
+                  ),
                 ),
               ),
               Text(

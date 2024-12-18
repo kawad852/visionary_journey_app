@@ -85,10 +85,13 @@ class _PhoneFieldState extends State<PhoneField> {
               _showCountriesSheet(context);
             },
             label: Text(_controller.getDialCode()),
-            icon: const Row(
+            icon: Row(
               children: [
-                CustomSvg(MyIcons.person),
-                Icon(Icons.arrow_drop_down_rounded),
+                CustomSvg(
+                  MyIcons.person,
+                  color: context.colorPalette.black1D,
+                ),
+                const Icon(Icons.arrow_drop_down_rounded),
               ],
             ),
           ),

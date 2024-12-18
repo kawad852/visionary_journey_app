@@ -106,9 +106,12 @@ class _PlacesSearchScreenState extends State<PlacesSearchScreen> {
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: context.colorPalette.borderColor),
           ),
-          prefixIcon: const IconButton(
+          prefixIcon: IconButton(
             onPressed: null,
-            icon: CustomSvg(MyIcons.location),
+            icon: CustomSvg(
+              MyIcons.location,
+              color: context.colorPalette.black1D,
+            ),
           ),
           onChanged: (value) {},
         );

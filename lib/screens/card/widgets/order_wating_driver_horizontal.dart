@@ -145,11 +145,16 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                             ),
                             Align(
                               alignment: AlignmentDirectional(sliderValue, 0),
-                              child: Image.asset(MyImages.car),
+                              child: Image.asset(
+                                MyImages.car,
+                              ),
                             ),
-                            const Align(
+                            Align(
                               alignment: AlignmentDirectional.centerEnd,
-                              child: CustomSvg(MyIcons.location),
+                              child: CustomSvg(
+                                MyIcons.location,
+                                color: context.colorPalette.black1D,   
+                              ),
                             ),
                           ],
                         ),

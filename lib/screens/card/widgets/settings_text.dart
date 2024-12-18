@@ -10,6 +10,7 @@ class SettingsText extends StatelessWidget {
     return Text(
       data,
       overflow: TextOverflow.ellipsis,
+      maxLines: 2,
       style: TextStyle(
         color: context.colorPalette.black,
         fontSize: 14,

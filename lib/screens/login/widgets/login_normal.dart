@@ -34,7 +34,10 @@ class LoginNormal extends StatelessWidget {
             alignment: AlignmentDirectional.topCenter,
             child: Padding(
               padding: const EdgeInsets.only(top: 60),
-              child: Image.asset(MyImages.visionaryJourney),
+              child: Image.asset(
+                MyImages.visionaryJourney,
+                color: context.colorPalette.black1D,
+              ),
             ),
           ),
         ),

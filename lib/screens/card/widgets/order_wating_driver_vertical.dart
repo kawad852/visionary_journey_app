@@ -121,7 +121,10 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                                   color: context.colorPalette.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const CustomSvg(MyIcons.calling),
+                                child: CustomSvg(
+                                  MyIcons.calling,
+                                  color: context.colorPalette.black1D,
+                                ),
                               ),
                             ),
                           ),
@@ -191,7 +194,10 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                               onPressed: () {
                                 UiHelper.read(pickLabelText);
                               },
-                              icon: const CustomSvg(MyIcons.volume),
+                              icon: CustomSvg(
+                                MyIcons.volume,
+                                color: context.colorPalette.black1D,
+                              ),
                             ),
                           ),
                           if (order.status != OrderStatus.inReview && order.status != OrderStatus.completed)
@@ -231,9 +237,12 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                                       child: Image.asset(MyImages.car),
                                     ),
                                   ),
-                                  const Align(
+                                  Align(
                                     alignment: AlignmentDirectional.topCenter,
-                                    child: CustomSvg(MyIcons.location),
+                                    child: CustomSvg(
+                                      MyIcons.location,
+                                      color: context.colorPalette.black1D,
+                                    ),
                                   ),
                                 ],
                               ),

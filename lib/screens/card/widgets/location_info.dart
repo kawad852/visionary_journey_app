@@ -19,11 +19,17 @@ class LocationInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Column(
+        Column(
           children: [
-            CustomSvg(MyIcons.location),
-            CustomSvg(MyIcons.dash),
-            CustomSvg(MyIcons.location),
+            CustomSvg(
+              MyIcons.location,
+              color: context.colorPalette.black1D,
+            ),
+            const CustomSvg(MyIcons.dash),
+            CustomSvg(
+              MyIcons.location,
+              color: context.colorPalette.black1D,
+            ),
           ],
         ),
         const SizedBox(width: 11),
@@ -50,7 +56,10 @@ class LocationInfo extends StatelessWidget {
                             onTap: () {
                               UiHelper.read(pickLabelText);
                             },
-                            child: const CustomSvg(MyIcons.volume),
+                            child: CustomSvg(
+                              MyIcons.volume,
+                              color: context.colorPalette.black1D,
+                            ),
                           ),
                         )
                       : const SizedBox.shrink(),
