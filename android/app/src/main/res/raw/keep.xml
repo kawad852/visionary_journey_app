@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools"
-    tools:keep="@raw/any_event_in_match,@raw/female_en_1,@raw/goal,@raw/start_match_half,@raw/all_other_notification"
+    tools:keep="@raw/female_en_1,@raw/female_ar_1,@raw/all_other_notification"
     />

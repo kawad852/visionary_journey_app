@@ -43,7 +43,7 @@ class LocalNotificationsService {
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('start_match_half'),
+    sound: RawResourceAndroidNotificationSound('female_ar_1'),
   );
 
   final channel5 = const AndroidNotificationChannel(
@@ -93,7 +93,7 @@ class LocalNotificationsService {
       case 'channel_id_3':
         return 'male_ar_1.wav';
       case 'channel_id_4':
-        return 'female_ar_1.wav';
+        return 'female_ar_1';
       case 'channel_id_5':
         return 'male_en_2.wav';
       case 'channel_id_6':
