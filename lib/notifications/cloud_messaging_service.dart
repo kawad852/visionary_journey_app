@@ -36,6 +36,7 @@ class CloudMessagingService {
   }
 
   void _handleLocalMessage(BuildContext context, RemoteMessage? message) {
+    // print("Message::: ${message?.notification.}");
     final data = message?.notification;
     log("ReceivedNotification::\nType:: ForegroundMessage\nTitle:: ${data?.title}\nBody:: ${data?.body}\nData:: ${message?.data}");
     LocalNotificationsService().display(context, message!);

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_card.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_text.dart';
@@ -6,6 +7,8 @@ import 'package:visionary_journey_app/screens/langauge_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+
+import '../../../network/my_fields.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,6 +24,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: kDebugMode
+          ? FloatingActionButton(
+              onPressed: () {
+                context.userProvider.userDocRef.update({
+                  MyFields.orderId: null,
+                });
+              },
+            )
+          : null,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -65,6 +65,9 @@ async function sendNotification(tradeId, titleEn, titleAr,
       title: title,
       body: body,
     },
+    data: {
+      channel_id: channelId,
+    },
     android: {
       notification: {
         channelId: channelId,
