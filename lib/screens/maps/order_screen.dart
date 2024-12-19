@@ -106,13 +106,13 @@ class _OrderScreenState extends State<OrderScreen> {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.driverArrived,
             });
-            await Future.delayed(
-              const Duration(seconds: 3),
-            );
             if (order.arrivalGeoPoint == null) {
               final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
               order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
             }
+            await Future.delayed(
+              const Duration(seconds: 10),
+            );
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inProgress,
               'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),

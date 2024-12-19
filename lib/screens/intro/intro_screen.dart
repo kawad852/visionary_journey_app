@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/intro/select_color_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
@@ -28,6 +29,18 @@ class _IntroScreenState extends State<IntroScreen> {
         return const SelectColorScreen();
       });
     }
+  }
+
+  Future<void> _startAudio() async {
+    final audioPlayer = AudioPlayer();
+    await audioPlayer.play(AssetSource('intro_en.mp3'));
+    await audioPlayer.setReleaseMode(ReleaseMode.loop);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _startAudio();
   }
 
   @override

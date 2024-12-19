@@ -16,7 +16,7 @@ class LocalNotificationsService {
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('any_event_in_match'),
+    sound: RawResourceAndroidNotificationSound('male_en_1'),
   );
 
   final channel2 = const AndroidNotificationChannel(
@@ -34,7 +34,7 @@ class LocalNotificationsService {
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('goal'),
+    sound: RawResourceAndroidNotificationSound('male_ar_1'),
   );
 
   final channel4 = const AndroidNotificationChannel(
@@ -52,7 +52,106 @@ class LocalNotificationsService {
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('all_other_notification'),
+    sound: RawResourceAndroidNotificationSound('male_en_2'),
+  );
+
+  final channel6 = const AndroidNotificationChannel(
+    'channel_id_6', // id
+    'channel_id_6', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_en_2'),
+  );
+
+  final channel7 = const AndroidNotificationChannel(
+    'channel_id_7', // id
+    'channel_id_7', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('male_ar_2'),
+  );
+
+  final channel8 = const AndroidNotificationChannel(
+    'channel_id_8', // id
+    'channel_id_8', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_ar_2'),
+  );
+
+  final channel9 = const AndroidNotificationChannel(
+    'channel_id_9', // id
+    'channel_id_9', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('male_en_3'),
+  );
+
+  final channel10 = const AndroidNotificationChannel(
+    'channel_id_10', // id
+    'channel_id_10', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_en_3'),
+  );
+
+  final channel11 = const AndroidNotificationChannel(
+    'channel_id_11', // id
+    'channel_id_11', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('male_ar_3'),
+  );
+
+  final channel12 = const AndroidNotificationChannel(
+    'channel_id_12', // id
+    'channel_id_12', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_ar_3'),
+  );
+
+  final channel13 = const AndroidNotificationChannel(
+    'channel_id_13', // id
+    'channel_id_13', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('male_en_4'),
+  );
+
+  final channel14 = const AndroidNotificationChannel(
+    'channel_id_14', // id
+    'channel_id_14', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_en_4'),
+  );
+
+  final channel15 = const AndroidNotificationChannel(
+    'channel_id_15', // id
+    'channel_id_15', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('male_ar_4'),
+  );
+
+  final channel16 = const AndroidNotificationChannel(
+    'channel_id_16', // id
+    'channel_id_16', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('female_ar_4'),
   );
 
   Future<void> initialize() async {
@@ -82,71 +181,65 @@ class LocalNotificationsService {
     plugin?.createNotificationChannel(channel3);
     plugin?.createNotificationChannel(channel4);
     plugin?.createNotificationChannel(channel5);
+    plugin?.createNotificationChannel(channel6);
+    plugin?.createNotificationChannel(channel7);
+    plugin?.createNotificationChannel(channel8);
+    plugin?.createNotificationChannel(channel9);
+    plugin?.createNotificationChannel(channel10);
+    plugin?.createNotificationChannel(channel11);
+    plugin?.createNotificationChannel(channel12);
+    plugin?.createNotificationChannel(channel13);
+    plugin?.createNotificationChannel(channel14);
+    plugin?.createNotificationChannel(channel15);
+    plugin?.createNotificationChannel(channel16);
   }
 
   String _getSoundByChannelId(String channelId) {
     switch (channelId) {
       case 'channel_id_1':
-        return 'male_en_1.wav';
+        return 'male_en_1';
       case 'channel_id_2':
         return 'female_en_1';
       case 'channel_id_3':
-        return 'male_ar_1.wav';
+        return 'male_ar_1';
       case 'channel_id_4':
         return 'female_ar_1';
       case 'channel_id_5':
-        return 'male_en_2.wav';
+        return 'male_en_2';
       case 'channel_id_6':
-        return 'female_en_2.wav';
+        return 'female_en_2';
       case 'channel_id_7':
-        return 'male_ar_2.wav';
+        return 'male_ar_2';
       case 'channel_id_8':
-        return 'female_ar_2.wav';
+        return 'female_ar_2';
       case 'channel_id_9':
-        return 'male_en_3.wav';
+        return 'male_en_3';
       case 'channel_id_10':
-        return 'female_en_3.wav';
+        return 'female_en_3';
       case 'channel_id_11':
-        return 'male_ar_3.wav';
+        return 'male_ar_3';
       case 'channel_id_12':
-        return 'female_ar_3.wav';
+        return 'female_ar_3';
       case 'channel_id_13':
-        return 'male_en_4.wav';
+        return 'male_en_4';
       case 'channel_id_14':
-        return 'female_en_4.wav';
+        return 'female_en_4';
       case 'channel_id_15':
-        return 'male_ar_4.wav';
+        return 'male_ar_4';
       case 'channel_id_16':
-        return 'female_ar_4.wav';
+        return 'female_ar_4';
       case 'channel_id_17':
-        return 'male_en_5.wav';
+        return 'male_en_5';
       case 'channel_id_18':
-        return 'female_en_5.wav';
+        return 'female_en_5';
       case 'channel_id_19':
-        return 'male_ar_5.wav';
+        return 'male_ar_5';
       case 'channel_id_20':
-        return 'female_ar_5.wav';
+        return 'female_ar_5';
       default:
-        return 'default_sound.wav';
+        return 'default_sound';
     }
   }
-
-  // String _getSound(String id) {
-  //   switch (id) {
-  //     case 'channel_id_1':
-  //       return 'any_event_in_match';
-  //     case 'channel_id_2':
-  //       return 'driver_assigned_female';
-  //     case 'channel_id_3':
-  //       return 'goal';
-  //     case 'channel_id_4':
-  //       return 'start_match_half';
-  //     case 'channel_id_5':
-  //       return 'all_other_notification';
-  //     default:
-  //       return 'all_other_notification';
-  //   }
-  // }
 
   //for notifications in foreground
   void display(BuildContext context, RemoteMessage message) async {

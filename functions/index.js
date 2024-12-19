@@ -181,7 +181,7 @@ async function sendNotification(status, language, gender, deviceToken) {
       }
       break;
 
-    case OrderEnum.inReview:
+    case OrderEnum.completed:
       if (isMale && isEnglish) {
         channelId = "channel_id_13";
         sound = "male_en_4.wav";
@@ -204,37 +204,7 @@ async function sendNotification(status, language, gender, deviceToken) {
         body = "طلبك قيد المراجعة.";
       }
       break;
-
-    case OrderEnum.completed:
-      if (isMale && isEnglish) {
-        channelId = "channel_id_17";
-        sound = "male_en_5.wav";
-        title = "Order Completed";
-        body = "Your order has been successfully completed.";
-      } else if (!isMale && isEnglish) {
-        channelId = "channel_id_18";
-        sound = "female_en_5.wav";
-        title = "Order Completed";
-        body = "Your order has been successfully completed.";
-      } else if (isMale && !isEnglish) {
-        channelId = "channel_id_19";
-        sound = "male_ar_5.wav";
-        title = "اكتمل الطلب";
-        body = "تم اكتمال طلبك بنجاح.";
-      } else {
-        channelId = "channel_id_20";
-        sound = "female_ar_5.wav";
-        title = "اكتمل الطلب";
-        body = "تم اكتمال طلبك بنجاح.";
-      }
-      break;
-
     default:
-      channelId = "default_channel";
-      sound = "default_sound.wav";
-      title = isEnglish ? "Notification" : "إشعار";
-      body = isEnglish ? "You have a new notification." :
-                         "لديك إشعار جديد.";
       break;
   }
 
@@ -266,10 +236,14 @@ async function sendNotification(status, language, gender, deviceToken) {
     token: deviceToken,
   };
 
-  try {
-    await admin.messaging().send(message);
-    console.log("Notification Sent!", message);
-  } catch (error) {
-    console.error(`Error sending notification to Firestore:`, error);
+  if (title.trim() === "") {
+    console.log("Title is empty. Notification will not be sent.");
+  } else {
+    try {
+      await admin.messaging().send(message);
+      console.log("Notification Sent!", message);
+    } catch (error) {
+      console.error("Error sending notification to Firestore:", error);
+    }
   }
 }

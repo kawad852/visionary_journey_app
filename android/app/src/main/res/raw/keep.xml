@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools"
-    tools:keep="@raw/female_en_1,@raw/female_ar_1,@raw/all_other_notification"
-    />
+    tools:keep="@raw/female_en_1,@raw/female_ar_1,@raw/male_en_1,@raw/male_ar_1,
+                @raw/female_en_2,@raw/female_ar_2,@raw/male_en_2,@raw/male_ar_2,
+                @raw/female_en_3,@raw/female_ar_3,@raw/male_en_3,@raw/male_ar_3,
+                @raw/female_en_4,@raw/female_ar_4,@raw/male_en_4,@raw/male_ar_4,
+                @raw/female_en_5,@raw/female_ar_5,@raw/male_en_5,@raw/male_ar_5,
+                @raw/all_other_notification" />
