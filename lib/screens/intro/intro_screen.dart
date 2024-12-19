@@ -33,8 +33,9 @@ class _IntroScreenState extends State<IntroScreen> {
 
   Future<void> _startAudio() async {
     final audioPlayer = AudioPlayer();
-    await audioPlayer.play(AssetSource('intro_en.mp3'));
-    await audioPlayer.setReleaseMode(ReleaseMode.loop);
+    await audioPlayer.play(AssetSource('intro_${MySharedPreferences.language}.mp3'));
+    // await audioPlayer.setReleaseMode(ReleaseMode.loop);
+    // audioPlayer.stop();
   }
 
   @override
