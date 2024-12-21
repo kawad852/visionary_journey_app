@@ -61,7 +61,7 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Please enable the location feature and activate notifications for the app",
+                          context.appLocalization.enableLocation1,
                           style: TextStyle(
                             color: context.colorPalette.black,
                             fontSize: 25,
@@ -71,7 +71,7 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Text(
-                            "Our system will automatically determine your location when requesting a taxi and will send audio notifications to keep you updated on your journey with us.",
+                            context.appLocalization.enableLocation2,
                             style: TextStyle(
                               color: context.colorPalette.black1D,
                               fontSize: 16,
@@ -99,7 +99,7 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                           },
                           margin: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            "Allow location and notifications",
+                            context.appLocalization.enableLocation3,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: context.colorPalette.white,
