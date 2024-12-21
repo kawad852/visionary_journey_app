@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:visionary_journey_app/utils/app_constants.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
+import 'package:visionary_journey_app/utils/shared_pref.dart';
 
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -195,6 +197,9 @@ class LocalNotificationsService {
   }
 
   String _getSoundByChannelId(String channelId) {
+    if (!MySharedPreferences.soundNotifications) {
+      return "default";
+    }
     switch (channelId) {
       case 'channel_id_1':
         return 'male_en_1';
@@ -251,13 +256,14 @@ class LocalNotificationsService {
       final channelId = nData['channel_id'] ?? '';
       final sound = _getSoundByChannelId(channelId);
       debugPrint("channelId::: $channelId\nsound:: $sound");
+      final hasSound = sound != "default";
       final androidChannel1 = AndroidNotificationChannel(
-        channelId, // id
-        channelId, // title
+        hasSound ? channelId : kDefaultChanelId, // id
+        hasSound ? channelId : kDefaultChanelId, // title
         description: 'This channel is used for important notifications.',
         importance: Importance.max,
         playSound: true,
-        sound: RawResourceAndroidNotificationSound(sound),
+        sound: hasSound ? RawResourceAndroidNotificationSound(sound) : null,
       );
       await _flutterLocalNotificationsPlugin.show(
         id,
@@ -272,10 +278,10 @@ class LocalNotificationsService {
             playSound: androidChannel1.playSound,
             icon: '@mipmap/ic_launcher',
             color: context.colorScheme.primary,
-            sound: androidChannel1.sound,
+            sound: hasSound ? androidChannel1.sound : null,
           ),
           iOS: DarwinNotificationDetails(
-            sound: '$sound.wav',
+            sound: hasSound ? '$sound.wav' : null,
           ),
         ),
         payload: json.encode(message.data),

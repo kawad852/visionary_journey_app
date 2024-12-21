@@ -8,6 +8,7 @@ import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+import 'package:visionary_journey_app/widgets/user_selector.dart';
 
 import '../../../network/my_fields.dart';
 
@@ -83,29 +84,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ],
                     ),
                   ),
-                  SettingsCard(
-                    onTap: () {
-                      setState(() {
-                        MySharedPreferences.soundNotifications = !MySharedPreferences.soundNotifications;
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SettingsText(context.appLocalization.activatedSound),
-                        ),
-                        Switch(
-                          value: MySharedPreferences.soundNotifications,
-                          activeTrackColor: context.colorPalette.black1D,
-                          onChanged: (value) {
-                            setState(() {
-                              MySharedPreferences.soundNotifications = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  UserSelector(builder: (context, user) {
+                    if (user == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return SettingsCard(
+                      onTap: () {
+                        setState(() {
+                          MySharedPreferences.soundNotifications = !MySharedPreferences.soundNotifications;
+                        });
+                        context.userProvider.userDocRef.update({
+                          MyFields.activateSounds: MySharedPreferences.soundNotifications,
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SettingsText(context.appLocalization.activatedSound),
+                          ),
+                          Switch(
+                            value: MySharedPreferences.soundNotifications,
+                            activeTrackColor: context.colorPalette.black1D,
+                            onChanged: (value) {
+                              setState(() {
+                                MySharedPreferences.soundNotifications = value;
+                                context.userProvider.userDocRef.update({
+                                  MyFields.activateSounds: MySharedPreferences.soundNotifications,
+                                });
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                   Row(
                     children: [
                       Expanded(

@@ -42,6 +42,8 @@ mixin _$UserModel {
   set fingerPrint(String? value) => throw _privateConstructorUsedError;
   bool get blocked => throw _privateConstructorUsedError;
   set blocked(bool value) => throw _privateConstructorUsedError;
+  bool get activateSounds => throw _privateConstructorUsedError;
+  set activateSounds(bool value) => throw _privateConstructorUsedError;
   String get languageCode => throw _privateConstructorUsedError;
   set languageCode(String value) => throw _privateConstructorUsedError;
 
@@ -71,6 +73,7 @@ abstract class $UserModelCopyWith<$Res> {
       String gender,
       String? fingerPrint,
       bool blocked,
+      bool activateSounds,
       String languageCode});
 }
 
@@ -99,6 +102,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? gender = null,
     Object? fingerPrint = freezed,
     Object? blocked = null,
+    Object? activateSounds = null,
     Object? languageCode = null,
   }) {
     return _then(_value.copyWith(
@@ -142,6 +146,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool,
+      activateSounds: null == activateSounds
+          ? _value.activateSounds
+          : activateSounds // ignore: cast_nullable_to_non_nullable
+              as bool,
       languageCode: null == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -169,6 +177,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String gender,
       String? fingerPrint,
       bool blocked,
+      bool activateSounds,
       String languageCode});
 }
 
@@ -195,6 +204,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? gender = null,
     Object? fingerPrint = freezed,
     Object? blocked = null,
+    Object? activateSounds = null,
     Object? languageCode = null,
   }) {
     return _then(_$UserModelImpl(
@@ -238,6 +248,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool,
+      activateSounds: null == activateSounds
+          ? _value.activateSounds
+          : activateSounds // ignore: cast_nullable_to_non_nullable
+              as bool,
       languageCode: null == languageCode
           ? _value.languageCode
           : languageCode // ignore: cast_nullable_to_non_nullable
@@ -260,6 +274,7 @@ class _$UserModelImpl implements _UserModel {
       this.gender = "MALE",
       this.fingerPrint,
       this.blocked = false,
+      this.activateSounds = true,
       this.languageCode = LanguageEnum.arabic});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -290,11 +305,14 @@ class _$UserModelImpl implements _UserModel {
   bool blocked;
   @override
   @JsonKey()
+  bool activateSounds;
+  @override
+  @JsonKey()
   String languageCode;
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, gender: $gender, fingerPrint: $fingerPrint, blocked: $blocked, languageCode: $languageCode)';
+    return 'UserModel(createdAt: $createdAt, id: $id, email: $email, phone: $phone, deviceToken: $deviceToken, phoneCountryCode: $phoneCountryCode, orderId: $orderId, gender: $gender, fingerPrint: $fingerPrint, blocked: $blocked, activateSounds: $activateSounds, languageCode: $languageCode)';
   }
 
   /// Create a copy of UserModel
@@ -325,6 +343,7 @@ abstract class _UserModel implements UserModel {
       String gender,
       String? fingerPrint,
       bool blocked,
+      bool activateSounds,
       String languageCode}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -362,6 +381,9 @@ abstract class _UserModel implements UserModel {
   @override
   bool get blocked;
   set blocked(bool value);
+  @override
+  bool get activateSounds;
+  set activateSounds(bool value);
   @override
   String get languageCode;
   set languageCode(String value);

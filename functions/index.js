@@ -33,6 +33,7 @@ exports.onOrderCreate = onDocumentCreated({
   const deviceToken = userData.deviceToken;
   const language = userData.languageCode;
   const gender = userData.gender;
+  const activateSounds = userData.activateSounds;
 
   if (!deviceToken) {
     console.error(`No token found fo userId ${userId}.`);
@@ -41,7 +42,7 @@ exports.onOrderCreate = onDocumentCreated({
 
   console.log(`Device Token fo User ID ${userId}:`, deviceToken);
 
-  await sendNotification(status, language, gender, deviceToken);
+  await sendNotification(status, language, gender, deviceToken, activateSounds);
 
   return null;
 });
@@ -76,6 +77,7 @@ exports.onOrderUpdate = onDocumentUpdated({
   const deviceToken = userData.deviceToken;
   const language = userData.languageCode;
   const gender = userData.gender;
+  const activateSounds = userData.activateSounds;
 
   if (!deviceToken) {
     console.error(`No token found for userId ${userId}.`);
@@ -84,7 +86,8 @@ exports.onOrderUpdate = onDocumentUpdated({
 
   console.log(`Device Token for User ID ${userId}:`, deviceToken);
 
-  await sendNotification(statusAfter, language, gender, deviceToken);
+  await sendNotification(statusAfter, language, gender, deviceToken,
+      activateSounds);
 
   return null;
 });
@@ -97,8 +100,10 @@ exports.onOrderUpdate = onDocumentUpdated({
  * @param {string} language - The Status of the order related to the.
  * @param {string} gender - The Status of the.
  * @param {string} deviceToken - The Device Token.
+ * @param {string} activateSounds - Sounds.
  */
-async function sendNotification(status, language, gender, deviceToken) {
+async function sendNotification(status, language, gender, deviceToken,
+    activateSounds) {
   const isEnglish = language == "en";
   const isMale = gender == "MALE";
 
@@ -214,12 +219,14 @@ async function sendNotification(status, language, gender, deviceToken) {
       body: body,
     },
     data: {
-      channel_id: channelId,
+      channel_id: activateSounds ? channelId :
+          "default_notification_channel_id",
     },
     android: {
       notification: {
-        channelId: channelId,
-        sound: sound,
+        channelId: activateSounds ? channelId :
+            "default_notification_channel_id",
+        sound: activateSounds ? sound : "default",
       },
     },
     apns: {
@@ -229,7 +236,7 @@ async function sendNotification(status, language, gender, deviceToken) {
             title: title,
             body: body,
           },
-          sound: sound,
+          sound: activateSounds ? sound : "default",
         },
       },
     },

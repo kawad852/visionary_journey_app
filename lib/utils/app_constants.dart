@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 const kAlgoliaApplicationId = 'UKZNUY79IB';
 const kAlgoliaApiKey = '4c4f3fc3b4ee93d970a07d7e969fe529';
 const kGoogleMapKey = 'AIzaSyCwMia2EWKj_K77CLN1Ye5Zf0LW9K9Y5pU';
@@ -12,14 +14,14 @@ const kOtpId = "7420357483";
 const kOtpToken = "268|uyNFOauOd1gKanzGqLWW4AmDMxTPoeXZU5hxaLwrqztc6aV8sdT43ewA19Sx";
 
 const kWhiteHex = "#FFFFFF";
-
+const kDefaultChanelId = "default_notification_channel_id";
 const kFakeImage = 'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg';
 
 ///
 
-const kUpdateDriverTime = 3;
-const kCompletedTime = 10;
-const kDriverArrivedTime = 12;
+const kUpdateDriverTime = kDebugMode ? 1 : 3;
+const kCompletedTime = kDebugMode ? 5 : 10;
+const kDriverArrivedTime = kDebugMode ? 10 : 12;
 
 class FixedPosts {
   static const String offers = 'EA4F8360F11911EE9B8DCF2A3D225F08';

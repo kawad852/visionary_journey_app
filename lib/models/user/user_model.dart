@@ -19,6 +19,7 @@ class UserModel with _$UserModel {
     @Default("MALE") String gender,
     String? fingerPrint,
     @Default(false) bool blocked,
+    @Default(true) bool activateSounds,
     @Default(LanguageEnum.arabic) String languageCode,
   }) = _UserModel;
 

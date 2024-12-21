@@ -18,6 +18,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String? ?? "MALE",
       fingerPrint: json['fingerPrint'] as String?,
       blocked: json['blocked'] as bool? ?? false,
+      activateSounds: json['activateSounds'] as bool? ?? true,
       languageCode: json['languageCode'] as String? ?? LanguageEnum.arabic,
     );
 
@@ -33,5 +34,6 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'gender': instance.gender,
       'fingerPrint': instance.fingerPrint,
       'blocked': instance.blocked,
+      'activateSounds': instance.activateSounds,
       'languageCode': instance.languageCode,
     };

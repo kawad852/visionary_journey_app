@@ -87,4 +87,5 @@ class MyFields {
   static const String orderId = "orderId";
   static const String bearing = "bearing";
   static const String gender = "gender";
+  static const String activateSounds = "activateSounds";
 }
