@@ -39,8 +39,8 @@ class AppContactService {
 
   static String getPhoneNum() {
     final random = Random();
-    List<int> randomNumbers = List.generate(9, (_) => random.nextInt(100));
-    return 'tel://+962$randomNumbers';
+    List<int> randomNumbers = List.generate(9, (_) => random.nextInt(9));
+    return 'tel://+962${randomNumbers.join()}';
   }
 
   /// mobileNum, whatsapp and email
@@ -51,7 +51,7 @@ class AppContactService {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
     } catch (e) {
-      // log("UrlLauncherError:: $e");
+      debugPrint("UrlLauncherError:: $e");
       if (context.mounted) {
         Fluttertoast.showToast(msg: context.appLocalization.generalError);
       }

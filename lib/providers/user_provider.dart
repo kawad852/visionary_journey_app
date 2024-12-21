@@ -119,7 +119,6 @@ class UserProvider extends ChangeNotifier {
       }
     } catch (e) {
       if (context.mounted) {
-        print("eeeee::: $e");
         context.showSnackBar(context.appLocalization.generalError);
       }
     } finally {
