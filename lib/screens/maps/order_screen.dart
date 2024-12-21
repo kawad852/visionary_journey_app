@@ -91,6 +91,7 @@ class _OrderScreenState extends State<OrderScreen> {
     final driverGeo = driver.currentGeoPoint!;
     final arrivalGeo = order.arrivalGeoPoint;
 
+    ///
     if (status == OrderStatus.driverAssigned) {
       order.pickUpPolylinePoints = await _createPolyline(
         start: driverGeo.geoPoint!,
@@ -100,19 +101,19 @@ class _OrderScreenState extends State<OrderScreen> {
         "pickUpPolylinePoints": order.pickUpPolylinePoints.map((e) => e.toJson()).toList(),
       });
       _timer = Timer.periodic(
-        const Duration(seconds: 1),
+        const Duration(seconds: kUpdateDriverTime),
         (Timer timer) async {
           if (order.pickUpIndex == order.pickUpPolylinePoints.length) {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.driverArrived,
             });
+            await Future.delayed(
+              const Duration(seconds: kDriverArrivedTime),
+            );
             if (order.arrivalGeoPoint == null) {
               final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
               order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
             }
-            await Future.delayed(
-              const Duration(seconds: 10),
-            );
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inProgress,
               'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
@@ -143,17 +144,17 @@ class _OrderScreenState extends State<OrderScreen> {
         "arrivalPolylinePoints": order.arrivalPolylinePoints.map((e) => e.toJson()).toList(),
       });
       _timer = Timer.periodic(
-        const Duration(seconds: 1),
+        const Duration(seconds: kUpdateDriverTime),
         (Timer timer) async {
           if (order.arrivalIndex == order.arrivalPolylinePoints.length) {
-            _timer!.cancel();
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.completed,
             });
-            await Future.delayed(const Duration(seconds: 10));
+            await Future.delayed(const Duration(seconds: kDriverArrivedTime));
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inReview,
             });
+            _timer!.cancel();
           } else {
             final point = order.arrivalPolylinePoints[(order.arrivalPolylinePoints.length - 1) - order.arrivalIndex];
             final pointGeo = AppServices.getGeoModel(point.lat, point.lng);
@@ -168,50 +169,7 @@ class _OrderScreenState extends State<OrderScreen> {
       );
     }
 
-    // if (status == OrderStatus.inProgress && arrivalGeo != null) {
-    //   await _createPolyline(
-    //     start: pickUpGeo.geoPoint!,
-    //     end: arrivalGeo.geoPoint!,
-    //   );
-    //   await _firebaseFirestore.orders.doc(order.id).update({
-    //     'arrivalPointsLength': polyline!.points.length,
-    //   });
-    //   _updatePoints(
-    //     onUpdate: () async {
-    //       final point = polyline!.points.last;
-    //       final pointGeo = AppServices.getGeoModel(point.latitude, point.longitude);
-    //       final bearing = Geolocator.bearingBetween(
-    //         pointGeo.geoPoint!.latitude,
-    //         pointGeo.geoPoint!.longitude,
-    //         pickUpGeo.geoPoint!.latitude,
-    //         pickUpGeo.geoPoint!.longitude,
-    //       );
-    //       _firebaseFirestore.orders.doc(order.id).update({
-    //         'driver.currentGeoPoint': pointGeo.toJson(),
-    //         "driver.bearing": bearing,
-    //       });
-    //       _mapController.goToMyPosition(context, lat: pointGeo.geoPoint!.latitude, lng: pointGeo.geoPoint!.longitude);
-    //       setState(() {
-    //         polyline!.points.removeLast();
-    //       });
-    //     },
-    //     onEnd: () async {
-    //       await _firebaseFirestore.orders.doc(order.id).update({
-    //         MyFields.status: OrderStatus.inReview,
-    //       });
-    //     },
-    //   );
-    // }
-
-    // if (status == OrderStatus.inPayment) {
-    //   await await Future.delayed(
-    //     const Duration(seconds: 5),
-    //   );
-    //   await _firebaseFirestore.orders.doc(order.id).update({
-    //     MyFields.status: OrderStatus.inReview,
-    //   });
-    // }
-
+    ///
     if (status == OrderStatus.completed) {
       await await Future.delayed(
         const Duration(seconds: 5),

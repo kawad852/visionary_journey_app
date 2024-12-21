@@ -15,6 +15,12 @@ const kWhiteHex = "#FFFFFF";
 
 const kFakeImage = 'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg';
 
+///
+
+const kUpdateDriverTime = 3;
+const kCompletedTime = 10;
+const kDriverArrivedTime = 12;
+
 class FixedPosts {
   static const String offers = 'EA4F8360F11911EE9B8DCF2A3D225F08';
   static const String mostPopular = 'F66A7640F11A11EEB11183A17D53D492';
