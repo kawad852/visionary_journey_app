@@ -50,6 +50,7 @@ class _OrderScreenState extends State<OrderScreen> {
   late Stream<DocumentSnapshot<OrderModel>> _stream;
   // Polyline? polyline;
   Timer? _timer;
+  bool forceStopOrder = false;
 
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   LocationProvider get _locationProvider => context.locationProvider;
@@ -146,6 +147,10 @@ class _OrderScreenState extends State<OrderScreen> {
       _timer = Timer.periodic(
         const Duration(seconds: kUpdateDriverTime),
         (Timer timer) async {
+          if (forceStopOrder) {
+            _timer?.cancel();
+            return;
+          }
           if (order.arrivalIndex == order.arrivalPolylinePoints.length) {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.completed,
@@ -154,6 +159,7 @@ class _OrderScreenState extends State<OrderScreen> {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inReview,
             });
+            forceStopOrder = true;
             _timer!.cancel();
           } else {
             final point = order.arrivalPolylinePoints[(order.arrivalPolylinePoints.length - 1) - order.arrivalIndex];
