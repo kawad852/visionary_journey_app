@@ -6,18 +6,20 @@ import '../utils/my_theme.dart';
 class CostBubble extends StatelessWidget {
   final double cost;
   final double? width;
+  final double height;
 
   const CostBubble({
     super.key,
     required this.cost,
     this.width,
+    this.height = 130,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 130,
+        height: height,
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,

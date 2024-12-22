@@ -164,108 +164,109 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (order.status != OrderStatus.completed)
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: context.colorPalette.white,
-                        borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                      ),
-                      child: Column(
-                        children: [
-                          LocationInfo(
-                            isVolume: false,
-                            pickLabelText: pickLabelText,
-                            arrivalLabelText: arrivalLabelText,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              UiHelper.getText(
-                                context,
-                                status: order.status,
-                                time: time,
-                              ),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: context.colorPalette.black1D,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                  // if (order.status != OrderStatus.completed)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: context.colorPalette.white,
+                      borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                    ),
+                    child: Column(
+                      children: [
+                        LocationInfo(
+                          isVolume: false,
+                          pickLabelText: pickLabelText,
+                          arrivalLabelText: arrivalLabelText,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            UiHelper.getText(
+                              context,
+                              status: order.status,
+                              time: time,
+                            ),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: context.colorPalette.black1D,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Align(
-                            alignment: AlignmentDirectional.topEnd,
-                            child: IconButton(
-                              onPressed: () {
-                                UiHelper.read(pickLabelText);
-                              },
-                              icon: CustomSvg(
-                                MyIcons.volume,
-                                color: context.colorPalette.black1D,
-                              ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional.topEnd,
+                          child: IconButton(
+                            onPressed: () {
+                              UiHelper.read(pickLabelText);
+                            },
+                            icon: CustomSvg(
+                              MyIcons.volume,
+                              color: context.colorPalette.black1D,
                             ),
                           ),
-                          if (order.status != OrderStatus.inReview && order.status != OrderStatus.completed)
-                            Container(
-                              width: 50,
-                              height: 340,
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                border: Border.all(color: context.colorPalette.black),
-                                borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                              ),
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 15),
-                                      child: Column(
-                                        children: List.generate(
-                                          150 ~/ 2,
-                                          (index) => Expanded(
-                                            child: Container(
-                                              height: 2,
-                                              width: 1,
-                                              color: index % 2 == 0 ? Colors.transparent : Colors.black,
-                                            ),
+                        ),
+                        if (order.status != OrderStatus.inReview && order.status != OrderStatus.completed)
+                          Container(
+                            width: 50,
+                            height: 340,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(color: context.colorPalette.black),
+                              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 15),
+                                    child: Column(
+                                      children: List.generate(
+                                        150 ~/ 2,
+                                        (index) => Expanded(
+                                          child: Container(
+                                            height: 2,
+                                            width: 1,
+                                            color: index % 2 == 0 ? Colors.transparent : Colors.black,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: AlignmentDirectional(0, sliderValue),
-                                    child: Transform.rotate(
-                                      angle: -pi / 2,
-                                      child: Image.asset(MyImages.car),
-                                    ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional(0, sliderValue),
+                                  child: Transform.rotate(
+                                    angle: -pi / 2,
+                                    child: Image.asset(MyImages.car),
                                   ),
-                                  Align(
-                                    alignment: AlignmentDirectional.topCenter,
-                                    child: CustomSvg(
-                                      MyIcons.location,
-                                      color: context.colorPalette.black1D,
-                                    ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional.topCenter,
+                                  child: CustomSvg(
+                                    MyIcons.location,
+                                    color: context.colorPalette.black1D,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          if (order.status == OrderStatus.completed)
-                            CostBubble(
-                              cost: order.cost!,
-                              width: 50,
-                            ),
-                          if (order.status == OrderStatus.inReview)
-                            const ReviewBuilder(
-                              size: 25,
-                            ),
-                        ],
-                      ),
+                          ),
+                        if (order.status == OrderStatus.completed)
+                          CostBubble(
+                            cost: order.cost!,
+                            width: 150,
+                            height: 50,
+                          ),
+                        if (order.status == OrderStatus.inReview)
+                          const ReviewBuilder(
+                            size: 25,
+                          ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),
