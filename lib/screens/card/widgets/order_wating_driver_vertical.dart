@@ -141,11 +141,13 @@ class OrderWaitingDriverVertical extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              UserText("${driver.firstName} ${driver.lastName}"),
+                              UserText(context.translate(textEN: driver.nameEn, textAR: driver.nameAr)),
                               Row(
                                 children: [
                                   Expanded(
-                                    child: UserText(driver.carDetails!.name),
+                                    child: UserText(
+                                      context.translate(textEN: driver.carDetails!.nameEn, textAR: driver.carDetails!.nameAr),
+                                    ),
                                   ),
                                   Container(
                                     width: 18,

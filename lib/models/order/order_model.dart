@@ -49,9 +49,9 @@ class Driver with _$Driver {
     @Default('') String id,
     @Default(DriverStatus.available) String status,
     GeoModel? currentGeoPoint,
-    @Default('') String firstName,
+    @Default("") String nameEn,
+    @Default("") String nameAr,
     @Default(0.0) double bearing,
-    @Default('') String lastName,
     @Default('') String photoURL,
     CarDetails? carDetails,
   }) = _Driver;
@@ -62,7 +62,8 @@ class Driver with _$Driver {
 @unfreezed
 class CarDetails with _$CarDetails {
   factory CarDetails({
-    @Default('') String name,
+    @Default('') String nameEn,
+    @Default('') String nameAr,
     @Default('') String color,
     @Default('') String plateNum,
     @Default('') String phoneNum,

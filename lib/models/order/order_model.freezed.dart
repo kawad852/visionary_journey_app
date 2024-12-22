@@ -714,12 +714,12 @@ mixin _$Driver {
   set status(String value) => throw _privateConstructorUsedError;
   GeoModel? get currentGeoPoint => throw _privateConstructorUsedError;
   set currentGeoPoint(GeoModel? value) => throw _privateConstructorUsedError;
-  String get firstName => throw _privateConstructorUsedError;
-  set firstName(String value) => throw _privateConstructorUsedError;
+  String get nameEn => throw _privateConstructorUsedError;
+  set nameEn(String value) => throw _privateConstructorUsedError;
+  String get nameAr => throw _privateConstructorUsedError;
+  set nameAr(String value) => throw _privateConstructorUsedError;
   double get bearing => throw _privateConstructorUsedError;
   set bearing(double value) => throw _privateConstructorUsedError;
-  String get lastName => throw _privateConstructorUsedError;
-  set lastName(String value) => throw _privateConstructorUsedError;
   String get photoURL => throw _privateConstructorUsedError;
   set photoURL(String value) => throw _privateConstructorUsedError;
   CarDetails? get carDetails => throw _privateConstructorUsedError;
@@ -743,9 +743,9 @@ abstract class $DriverCopyWith<$Res> {
       {String id,
       String status,
       GeoModel? currentGeoPoint,
-      String firstName,
+      String nameEn,
+      String nameAr,
       double bearing,
-      String lastName,
       String photoURL,
       CarDetails? carDetails});
 
@@ -771,9 +771,9 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
     Object? id = null,
     Object? status = null,
     Object? currentGeoPoint = freezed,
-    Object? firstName = null,
+    Object? nameEn = null,
+    Object? nameAr = null,
     Object? bearing = null,
-    Object? lastName = null,
     Object? photoURL = null,
     Object? carDetails = freezed,
   }) {
@@ -790,18 +790,18 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      nameEn: null == nameEn
+          ? _value.nameEn
+          : nameEn // ignore: cast_nullable_to_non_nullable
+              as String,
+      nameAr: null == nameAr
+          ? _value.nameAr
+          : nameAr // ignore: cast_nullable_to_non_nullable
               as String,
       bearing: null == bearing
           ? _value.bearing
           : bearing // ignore: cast_nullable_to_non_nullable
               as double,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String,
       photoURL: null == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
@@ -853,9 +853,9 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
       {String id,
       String status,
       GeoModel? currentGeoPoint,
-      String firstName,
+      String nameEn,
+      String nameAr,
       double bearing,
-      String lastName,
       String photoURL,
       CarDetails? carDetails});
 
@@ -881,9 +881,9 @@ class __$$DriverImplCopyWithImpl<$Res>
     Object? id = null,
     Object? status = null,
     Object? currentGeoPoint = freezed,
-    Object? firstName = null,
+    Object? nameEn = null,
+    Object? nameAr = null,
     Object? bearing = null,
-    Object? lastName = null,
     Object? photoURL = null,
     Object? carDetails = freezed,
   }) {
@@ -900,18 +900,18 @@ class __$$DriverImplCopyWithImpl<$Res>
           ? _value.currentGeoPoint
           : currentGeoPoint // ignore: cast_nullable_to_non_nullable
               as GeoModel?,
-      firstName: null == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      nameEn: null == nameEn
+          ? _value.nameEn
+          : nameEn // ignore: cast_nullable_to_non_nullable
+              as String,
+      nameAr: null == nameAr
+          ? _value.nameAr
+          : nameAr // ignore: cast_nullable_to_non_nullable
               as String,
       bearing: null == bearing
           ? _value.bearing
           : bearing // ignore: cast_nullable_to_non_nullable
               as double,
-      lastName: null == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
-              as String,
       photoURL: null == photoURL
           ? _value.photoURL
           : photoURL // ignore: cast_nullable_to_non_nullable
@@ -931,9 +931,9 @@ class _$DriverImpl implements _Driver {
       {this.id = '',
       this.status = DriverStatus.available,
       this.currentGeoPoint,
-      this.firstName = '',
+      this.nameEn = "",
+      this.nameAr = "",
       this.bearing = 0.0,
-      this.lastName = '',
       this.photoURL = '',
       this.carDetails});
 
@@ -950,13 +950,13 @@ class _$DriverImpl implements _Driver {
   GeoModel? currentGeoPoint;
   @override
   @JsonKey()
-  String firstName;
+  String nameEn;
+  @override
+  @JsonKey()
+  String nameAr;
   @override
   @JsonKey()
   double bearing;
-  @override
-  @JsonKey()
-  String lastName;
   @override
   @JsonKey()
   String photoURL;
@@ -965,7 +965,7 @@ class _$DriverImpl implements _Driver {
 
   @override
   String toString() {
-    return 'Driver(id: $id, status: $status, currentGeoPoint: $currentGeoPoint, firstName: $firstName, bearing: $bearing, lastName: $lastName, photoURL: $photoURL, carDetails: $carDetails)';
+    return 'Driver(id: $id, status: $status, currentGeoPoint: $currentGeoPoint, nameEn: $nameEn, nameAr: $nameAr, bearing: $bearing, photoURL: $photoURL, carDetails: $carDetails)';
   }
 
   /// Create a copy of Driver
@@ -989,9 +989,9 @@ abstract class _Driver implements Driver {
       {String id,
       String status,
       GeoModel? currentGeoPoint,
-      String firstName,
+      String nameEn,
+      String nameAr,
       double bearing,
-      String lastName,
       String photoURL,
       CarDetails? carDetails}) = _$DriverImpl;
 
@@ -1007,14 +1007,14 @@ abstract class _Driver implements Driver {
   GeoModel? get currentGeoPoint;
   set currentGeoPoint(GeoModel? value);
   @override
-  String get firstName;
-  set firstName(String value);
+  String get nameEn;
+  set nameEn(String value);
+  @override
+  String get nameAr;
+  set nameAr(String value);
   @override
   double get bearing;
   set bearing(double value);
-  @override
-  String get lastName;
-  set lastName(String value);
   @override
   String get photoURL;
   set photoURL(String value);
@@ -1036,8 +1036,10 @@ CarDetails _$CarDetailsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CarDetails {
-  String get name => throw _privateConstructorUsedError;
-  set name(String value) => throw _privateConstructorUsedError;
+  String get nameEn => throw _privateConstructorUsedError;
+  set nameEn(String value) => throw _privateConstructorUsedError;
+  String get nameAr => throw _privateConstructorUsedError;
+  set nameAr(String value) => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
   set color(String value) => throw _privateConstructorUsedError;
   String get plateNum => throw _privateConstructorUsedError;
@@ -1061,7 +1063,12 @@ abstract class $CarDetailsCopyWith<$Res> {
           CarDetails value, $Res Function(CarDetails) then) =
       _$CarDetailsCopyWithImpl<$Res, CarDetails>;
   @useResult
-  $Res call({String name, String color, String plateNum, String phoneNum});
+  $Res call(
+      {String nameEn,
+      String nameAr,
+      String color,
+      String plateNum,
+      String phoneNum});
 }
 
 /// @nodoc
@@ -1079,15 +1086,20 @@ class _$CarDetailsCopyWithImpl<$Res, $Val extends CarDetails>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? nameEn = null,
+    Object? nameAr = null,
     Object? color = null,
     Object? plateNum = null,
     Object? phoneNum = null,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      nameEn: null == nameEn
+          ? _value.nameEn
+          : nameEn // ignore: cast_nullable_to_non_nullable
+              as String,
+      nameAr: null == nameAr
+          ? _value.nameAr
+          : nameAr // ignore: cast_nullable_to_non_nullable
               as String,
       color: null == color
           ? _value.color
@@ -1113,7 +1125,12 @@ abstract class _$$CarDetailsImplCopyWith<$Res>
       __$$CarDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String color, String plateNum, String phoneNum});
+  $Res call(
+      {String nameEn,
+      String nameAr,
+      String color,
+      String plateNum,
+      String phoneNum});
 }
 
 /// @nodoc
@@ -1129,15 +1146,20 @@ class __$$CarDetailsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
+    Object? nameEn = null,
+    Object? nameAr = null,
     Object? color = null,
     Object? plateNum = null,
     Object? phoneNum = null,
   }) {
     return _then(_$CarDetailsImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      nameEn: null == nameEn
+          ? _value.nameEn
+          : nameEn // ignore: cast_nullable_to_non_nullable
+              as String,
+      nameAr: null == nameAr
+          ? _value.nameAr
+          : nameAr // ignore: cast_nullable_to_non_nullable
               as String,
       color: null == color
           ? _value.color
@@ -1159,7 +1181,8 @@ class __$$CarDetailsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CarDetailsImpl implements _CarDetails {
   _$CarDetailsImpl(
-      {this.name = '',
+      {this.nameEn = '',
+      this.nameAr = '',
       this.color = '',
       this.plateNum = '',
       this.phoneNum = ''});
@@ -1169,7 +1192,10 @@ class _$CarDetailsImpl implements _CarDetails {
 
   @override
   @JsonKey()
-  String name;
+  String nameEn;
+  @override
+  @JsonKey()
+  String nameAr;
   @override
   @JsonKey()
   String color;
@@ -1182,7 +1208,7 @@ class _$CarDetailsImpl implements _CarDetails {
 
   @override
   String toString() {
-    return 'CarDetails(name: $name, color: $color, plateNum: $plateNum, phoneNum: $phoneNum)';
+    return 'CarDetails(nameEn: $nameEn, nameAr: $nameAr, color: $color, plateNum: $plateNum, phoneNum: $phoneNum)';
   }
 
   /// Create a copy of CarDetails
@@ -1203,7 +1229,8 @@ class _$CarDetailsImpl implements _CarDetails {
 
 abstract class _CarDetails implements CarDetails {
   factory _CarDetails(
-      {String name,
+      {String nameEn,
+      String nameAr,
       String color,
       String plateNum,
       String phoneNum}) = _$CarDetailsImpl;
@@ -1212,8 +1239,11 @@ abstract class _CarDetails implements CarDetails {
       _$CarDetailsImpl.fromJson;
 
   @override
-  String get name;
-  set name(String value);
+  String get nameEn;
+  set nameEn(String value);
+  @override
+  String get nameAr;
+  set nameAr(String value);
   @override
   String get color;
   set color(String value);

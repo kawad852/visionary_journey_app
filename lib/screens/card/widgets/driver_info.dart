@@ -43,12 +43,16 @@ class DriverInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                UserText("${driver.firstName} ${driver.lastName}"),
+                UserText(
+                  context.translate(textEN: driver.nameEn, textAR: driver.nameAr),
+                ),
                 UserText("${context.appLocalization.vehicleNumber}: ${driver.carDetails!.plateNum}"),
                 Row(
                   children: [
                     Flexible(
-                      child: UserText(driver.carDetails!.name),
+                      child: UserText(
+                        context.translate(textEN: driver.carDetails!.nameEn, textAR: driver.carDetails!.nameAr),
+                      ),
                     ),
                     Container(
                       width: 18,

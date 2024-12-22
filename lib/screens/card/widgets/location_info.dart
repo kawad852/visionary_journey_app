@@ -17,8 +17,15 @@ class LocationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pick = pickLabelText.contains(context.appLocalization.yourCurrentLocation) ? context.appLocalization.yourCurrentLocation : pickLabelText;
-    final drop = arrivalLabelText.contains(context.appLocalization.locationRequestedFromDriver) ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
+    late String pickUp;
+    late String dropOff;
+    if (context.isLTR) {
+      pickUp = pickLabelText.contains("موقعك الحالي") ? context.appLocalization.yourCurrentLocation : pickLabelText;
+      dropOff = arrivalLabelText.contains("إلى الموقع الذي تطلبه من السائق") ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
+    } else {
+      pickUp = pickLabelText.contains("Your current location") ? context.appLocalization.yourCurrentLocation : pickLabelText;
+      dropOff = arrivalLabelText.contains("To the location you request from the driver") ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
+    }
     return Row(
       children: [
         Column(
@@ -43,7 +50,7 @@ class LocationInfo extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      pick,
+                      pickUp,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: context.colorPalette.grey66,
@@ -56,7 +63,7 @@ class LocationInfo extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: GestureDetector(
                             onTap: () {
-                              UiHelper.read(pick);
+                              UiHelper.read(pickUp);
                             },
                             child: CustomSvg(
                               MyIcons.volume,
@@ -69,7 +76,7 @@ class LocationInfo extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               Text(
-                drop,
+                dropOff,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: context.colorPalette.grey66,
