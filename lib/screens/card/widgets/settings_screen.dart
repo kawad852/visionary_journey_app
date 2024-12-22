@@ -268,6 +268,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: SettingsText(context.appLocalization.language),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
+                      context.appLocalization.changeFontSize,
+                      style: TextStyle(
+                        color: context.colorPalette.grey66,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
