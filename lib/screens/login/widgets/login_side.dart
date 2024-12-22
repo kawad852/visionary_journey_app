@@ -68,42 +68,42 @@ class LoginSide extends StatelessWidget {
                       controller: controller!,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: StretchedButton(
-                          onPressed: onSubmit,
-                          child: Text(
-                            context.appLocalization.login,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: context.colorPalette.white,
-                            ),
+                ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: StretchedButton(
+                        onPressed: onSubmit,
+                        child: Text(
+                          context.appLocalization.login,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: context.colorPalette.white,
                           ),
                         ),
                       ),
-                      if (MySharedPreferences.fingerPrintId.isNotEmpty) ...[
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            context.userProvider.getFingerPrint(context);
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: context.colorPalette.black1D,
-                              borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                            ),
-                            child: const CustomSvg(MyIcons.fingerprint),
+                    ),
+                    if (MySharedPreferences.fingerPrintId.isNotEmpty) ...[
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          context.userProvider.getFingerPrint(context);
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.colorPalette.black1D,
+                            borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
                           ),
+                          child: const CustomSvg(MyIcons.fingerprint),
                         ),
-                      ],
+                      ),
                     ],
-                  ),
-                ],
+                  ],
+                ),
               ],
             ),
           ),

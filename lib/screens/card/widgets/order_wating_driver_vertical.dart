@@ -66,12 +66,19 @@ class OrderWaitingDriverVertical extends StatelessWidget {
     final time = UiHelper.calculateETA(distance.toInt());
 
     var length = 40;
+    var total = 40;
     if (order.status == OrderStatus.driverAssigned) {
-      length = order.pickUpPolylinePoints.sublist(order.pickUpIndex).length ?? length;
-    } else {
-      length = order.arrivalPolylinePoints.sublist(order.arrivalIndex).length ?? length;
+      total = order.pickUpPolylinePoints.length;
+      if (order.pickUpPolylinePoints.isNotEmpty) {
+        length = order.pickUpPolylinePoints.length - order.pickUpIndex;
+      }
+    } else if (order.status == OrderStatus.inProgress) {
+      total = order.arrivalPolylinePoints.length;
+      if (order.arrivalPolylinePoints.isNotEmpty) {
+        length = order.arrivalPolylinePoints.length - order.arrivalIndex;
+      }
     }
-    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : totalLength, 0, length, -1, 1);
+    final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : length, 0, total, -1, 1);
 
     return Align(
       alignment: MySharedPreferences.appDirction == AppDirction.right ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
