@@ -81,7 +81,7 @@ class OrderWaitingDriverVertical extends StatelessWidget {
     final sliderValue = UiHelper.mapToRange(distance == 0 ? 0 : length, 0, total, -1, 1);
 
     return Align(
-      alignment: MySharedPreferences.appDirction == AppDirction.right ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+      alignment: MySharedPreferences.appDirction == AppDirction.right ? Alignment.centerRight : Alignment.centerLeft,
       child: SizedBox(
         width: context.mediaQuery.width * 0.58,
         child: Column(

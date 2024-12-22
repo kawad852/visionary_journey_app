@@ -49,9 +49,9 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
               if (MySharedPreferences.appDirction == AppDirction.normal) const Spacer(),
               Align(
                 alignment: MySharedPreferences.appDirction == AppDirction.right
-                    ? AlignmentDirectional.centerEnd
+                    ? Alignment.centerRight
                     : MySharedPreferences.appDirction == AppDirction.left
-                        ? AlignmentDirectional.centerStart
+                        ? Alignment.centerLeft
                         : AlignmentDirectional.center,
                 child: Padding(
                   padding: EdgeInsets.only(top: MySharedPreferences.appDirction == AppDirction.normal ? 0 : 50),

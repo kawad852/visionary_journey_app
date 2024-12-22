@@ -39,7 +39,7 @@ class LoginSide extends StatelessWidget {
           ),
         ),
         Align(
-          alignment: MySharedPreferences.appDirction == AppDirction.left ? AlignmentDirectional.centerStart : AlignmentDirectional.centerEnd,
+          alignment: MySharedPreferences.appDirction == AppDirction.left ? Alignment.centerLeft : Alignment.centerRight,
           child: Container(
             width: context.mediaQuery.width * 0.5,
             margin: const EdgeInsetsDirectional.only(top: 50, start: 20, end: 20),

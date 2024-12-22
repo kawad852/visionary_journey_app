@@ -39,7 +39,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 60, bottom: 10),
                   child: Image.asset(
-                    MyImages.logoText, 
+                    MyImages.logoText,
                     color: context.colorPalette.black1D,
                   ),
                 ),
@@ -63,9 +63,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
               const SizedBox(height: 10),
               if (MySharedPreferences.appDirction != AppDirction.normal)
                 Align(
-                  alignment: MySharedPreferences.appDirction == AppDirction.right
-                  ? AlignmentDirectional.centerEnd
-                  : AlignmentDirectional.centerStart,
+                  alignment: MySharedPreferences.appDirction == AppDirction.right ? Alignment.centerRight : Alignment.centerLeft,
                   child: SizedBox(
                     width: context.mediaQuery.width * 0.75,
                     child: Row(
@@ -78,7 +76,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-                                gradient:  LinearGradient(
+                                gradient: LinearGradient(
                                   colors: [
                                     const Color(0xFF353535),
                                     context.colorPalette.black1D,
@@ -152,7 +150,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                               gradient: LinearGradient(
                                 colors: [
                                   const Color(0xFF353535),
-                                    context.colorPalette.black1D,
+                                  context.colorPalette.black1D,
                                 ],
                                 begin: AlignmentDirectional.centerStart,
                                 end: AlignmentDirectional.centerEnd,

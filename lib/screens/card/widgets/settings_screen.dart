@@ -43,9 +43,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Align(
             alignment: MySharedPreferences.appDirction == AppDirction.right
-                ? AlignmentDirectional.centerEnd
+                ? Alignment.centerRight
                 : MySharedPreferences.appDirction == AppDirction.left
-                    ? AlignmentDirectional.centerStart
+                    ? Alignment.centerLeft
                     : AlignmentDirectional.center,
             child: SizedBox(
               width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.65,

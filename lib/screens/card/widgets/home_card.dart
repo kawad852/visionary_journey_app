@@ -28,9 +28,9 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: MySharedPreferences.appDirction == AppDirction.right
-          ? AlignmentDirectional.centerEnd
+          ? Alignment.centerRight
           : MySharedPreferences.appDirction == AppDirction.left
-              ? AlignmentDirectional.centerStart
+              ? Alignment.centerLeft
               : AlignmentDirectional.center,
       child: SizedBox(
         width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.75,
