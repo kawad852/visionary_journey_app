@@ -17,6 +17,8 @@ class LocationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pick = pickLabelText.contains(context.appLocalization.yourCurrentLocation) ? context.appLocalization.yourCurrentLocation : pickLabelText;
+    final drop = arrivalLabelText.contains(context.appLocalization.locationRequestedFromDriver) ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
     return Row(
       children: [
         Column(
@@ -41,7 +43,7 @@ class LocationInfo extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      pickLabelText,
+                      pick,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: context.colorPalette.grey66,
@@ -54,7 +56,7 @@ class LocationInfo extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: GestureDetector(
                             onTap: () {
-                              UiHelper.read(pickLabelText);
+                              UiHelper.read(pick);
                             },
                             child: CustomSvg(
                               MyIcons.volume,
@@ -67,7 +69,7 @@ class LocationInfo extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               Text(
-                arrivalLabelText,
+                drop,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: context.colorPalette.grey66,

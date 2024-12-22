@@ -15,4 +15,5 @@ class MyIcons {
   static const String star = '${_path}star.svg';
   static const String gps = '${_path}gps.svg';
   static const String category = '${_path}category.svg';
+  static const String building = '${_path}building.svg';
 }

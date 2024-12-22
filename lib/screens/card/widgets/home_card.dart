@@ -10,6 +10,7 @@ class HomeCard extends StatelessWidget {
   final VoidCallback onBook;
   final List<Widget> children;
   final VoidCallback onHomePressed;
+  final VoidCallback onWorkPressed;
   final VoidCallback onGymPressed;
   final VoidCallback onCoffeeHousePressed;
 
@@ -20,6 +21,7 @@ class HomeCard extends StatelessWidget {
     required this.onHomePressed,
     required this.onGymPressed,
     required this.onCoffeeHousePressed,
+    required this.onWorkPressed,
   });
 
   @override
@@ -31,7 +33,7 @@ class HomeCard extends StatelessWidget {
               ? AlignmentDirectional.centerStart
               : AlignmentDirectional.center,
       child: SizedBox(
-        width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.65,
+        width: MySharedPreferences.appDirction == AppDirction.normal ? double.infinity : context.mediaQuery.width * 0.75,
         child: Column(
           mainAxisAlignment: MySharedPreferences.appDirction == AppDirction.normal ? MainAxisAlignment.end : MainAxisAlignment.center,
           children: [
@@ -53,6 +55,11 @@ class HomeCard extends StatelessWidget {
                   HomeBubble(
                     onTap: onGymPressed,
                     icon: MyIcons.weight,
+                  ),
+                  const SizedBox(width: 10),
+                  HomeBubble(
+                    onTap: onWorkPressed,
+                    icon: MyIcons.building,
                   ),
                 ],
               ),

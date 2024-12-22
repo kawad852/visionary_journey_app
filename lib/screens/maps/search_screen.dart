@@ -236,6 +236,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           onBook: () {
                             _order(drivers.map((e) => e.data()!).toList());
                           },
+                          onWorkPressed: () {
+                            _order(drivers.map((e) => e.data()!).toList());
+                          },
                           onHomePressed: () {
                             _preDefinedDestinationOrder(context.appLocalization.home);
                             _order(drivers.map((e) => e.data()!).toList());
