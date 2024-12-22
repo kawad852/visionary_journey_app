@@ -234,5 +234,6 @@
     "enterOtp": "Enter OTP",
     "enableLocation1": "Please enable the location feature and activate notifications for the app",
     "enableLocation2": "Our system will automatically determine your location when requesting a taxi and will send audio notifications to keep you updated on your journey with us.",
-    "enableLocation3": "Allow location and notifications"
+    "enableLocation3": "Allow location and notifications",
+    "work": "Work"
 }

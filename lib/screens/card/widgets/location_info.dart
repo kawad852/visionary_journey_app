@@ -15,16 +15,46 @@ class LocationInfo extends StatelessWidget {
     required this.arrivalLabelText,
   });
 
+  String _getDropOffEn(BuildContext context) {
+    if (arrivalLabelText.contains("إلى الموقع الذي تطلبه من السائق")) {
+      return context.appLocalization.locationRequestedFromDriver;
+    } else if (arrivalLabelText.contains("العمل")) {
+      return context.appLocalization.work;
+    } else if (arrivalLabelText.contains("المقهى")) {
+      return context.appLocalization.coffeeHouse;
+    } else if (arrivalLabelText.contains("المنزل")) {
+      return context.appLocalization.home;
+    } else if (arrivalLabelText.contains("النادي الرياضي")) {
+      return context.appLocalization.gym;
+    }
+    return arrivalLabelText;
+  }
+
+  String _getDropOffAr(BuildContext context) {
+    if (arrivalLabelText.contains("To the location you request from the driver")) {
+      return context.appLocalization.locationRequestedFromDriver;
+    } else if (arrivalLabelText.contains("Work")) {
+      return context.appLocalization.work;
+    } else if (arrivalLabelText.contains("coffeeHouse")) {
+      return context.appLocalization.coffeeHouse;
+    } else if (arrivalLabelText.contains("Home")) {
+      return context.appLocalization.home;
+    } else if (arrivalLabelText.contains("Gym")) {
+      return context.appLocalization.gym;
+    }
+    return arrivalLabelText;
+  }
+
   @override
   Widget build(BuildContext context) {
     late String pickUp;
     late String dropOff;
     if (context.isLTR) {
       pickUp = pickLabelText.contains("موقعك الحالي") ? context.appLocalization.yourCurrentLocation : pickLabelText;
-      dropOff = arrivalLabelText.contains("إلى الموقع الذي تطلبه من السائق") ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
+      dropOff = _getDropOffEn(context);
     } else {
       pickUp = pickLabelText.contains("Your current location") ? context.appLocalization.yourCurrentLocation : pickLabelText;
-      dropOff = arrivalLabelText.contains("To the location you request from the driver") ? context.appLocalization.locationRequestedFromDriver : arrivalLabelText;
+      dropOff = _getDropOffAr(context);
     }
     return Row(
       children: [
