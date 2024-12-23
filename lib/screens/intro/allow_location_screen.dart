@@ -78,6 +78,17 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            context.appLocalization.enableVibrationFeature,
+                            style: TextStyle(
+                              color: context.colorPalette.black1D,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         StretchedButton(
                           onPressed: () {
                             cloudMessaging.init(context);
@@ -108,6 +119,7 @@ class _AllowLocationScreenState extends State<AllowLocationScreen> {
                             ),
                           ),
                         ),
+                        
                       ],
                     ),
                   ),
