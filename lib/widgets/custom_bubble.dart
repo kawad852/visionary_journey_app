@@ -7,16 +7,40 @@ import 'custom_svg.dart';
 class CustomBubble extends StatelessWidget {
   final VoidCallback onTap;
   final String icon, label;
+  final bool only;
 
   const CustomBubble({
     super.key,
     required this.onTap,
     required this.icon,
     required this.label,
+    this.only = false,
   });
+
+  Widget _buildWidget(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: context.colorPalette.black1D,
+        borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
+      ),
+      child: Transform.flip(
+        flipX: !context.isLTR,
+        child: CustomSvg(icon),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (only) {
+      return GestureDetector(
+        onTap: onTap,
+        child: _buildWidget(context),
+      );
+    }
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -29,19 +53,7 @@ class CustomBubble extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: context.colorPalette.black1D,
-                borderRadius: BorderRadius.circular(MyTheme.radiusTertiary),
-              ),
-              child: Transform.flip(
-                flipX: !context.isLTR,
-                child: CustomSvg(icon),
-              ),
-            ),
+            _buildWidget(context),
             const SizedBox(width: 6),
             Text(
               label,

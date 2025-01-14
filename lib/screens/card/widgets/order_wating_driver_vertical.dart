@@ -19,6 +19,7 @@ import 'package:visionary_journey_app/widgets/help_bubble.dart';
 import '../../../helper/app_contact_service.dart';
 import '../../../helper/ui_helper.dart';
 import '../../../models/order/order_model.dart';
+import '../../../widgets/back_bubble.dart';
 import '../../../widgets/cost_bubble.dart';
 
 class OrderWaitingDriverVertical extends StatelessWidget {
@@ -88,7 +89,16 @@ class OrderWaitingDriverVertical extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HelpBubble(),
+            Row(
+              children: [
+                const HelpBubble(),
+                if (order.status == OrderStatus.completed || order.status == OrderStatus.inReview) ...[
+                  const BackBubble(
+                    only: true,
+                  ),
+                ],
+              ],
+            ),
             Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 10),
