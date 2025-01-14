@@ -22,13 +22,11 @@ class ReviewCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const HelpBubble(),
-            BackBubble(
-              onTap: () {},
-            ),
+            HelpBubble(),
+            BackBubble(),
           ],
         ),
         Container(

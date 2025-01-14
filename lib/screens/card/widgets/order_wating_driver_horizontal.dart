@@ -68,9 +68,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
           children: [
             const HelpBubble(),
             if (order.status == OrderStatus.completed) ...[
-              BackBubble(
-                onTap: () {},
-              ),
+              const BackBubble(),
             ],
           ],
         ),
