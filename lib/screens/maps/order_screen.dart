@@ -155,7 +155,7 @@ class _OrderScreenState extends State<OrderScreen> {
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.completed,
             });
-            await Future.delayed(const Duration(seconds: kDriverArrivedTime));
+            await Future.delayed(const Duration(seconds: kCompletedTime));
             await _firebaseFirestore.orders.doc(order.id).update({
               MyFields.status: OrderStatus.inReview,
             });

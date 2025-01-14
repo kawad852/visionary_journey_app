@@ -20,8 +20,8 @@ const kFakeImage = 'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=a
 ///
 
 const kUpdateDriverTime = kDebugMode ? 1 : 3;
-const kCompletedTime = kDebugMode ? 5 : 10;
-const kDriverArrivedTime = kDebugMode ? 10 : 12;
+const kCompletedTime = kDebugMode ? 10 : 12;
+const kDriverArrivedTime = kDebugMode ? 20 : 30;
 
 class FixedPosts {
   static const String offers = 'EA4F8360F11911EE9B8DCF2A3D225F08';
