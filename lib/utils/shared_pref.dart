@@ -44,7 +44,7 @@ class MySharedPreferences {
     _sharedPreferences.setString('extra', jsonEncode(value));
   }
 
-  static String get language => _sharedPreferences.getString('language') ?? LanguageEnum.arabic;
+  static String get language => _sharedPreferences.getString('language') ?? LanguageEnum.english;
   static set language(String value) => _sharedPreferences.setString('language', value);
 
   static String get fingerPrintId => _sharedPreferences.getString('fingerPrintId') ?? "";

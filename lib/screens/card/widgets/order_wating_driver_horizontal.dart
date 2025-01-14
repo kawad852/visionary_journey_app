@@ -9,6 +9,7 @@ import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
+import 'package:visionary_journey_app/widgets/back_bubble.dart';
 import 'package:visionary_journey_app/widgets/cost_bubble.dart';
 import 'package:visionary_journey_app/widgets/custom_svg.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
@@ -62,7 +63,17 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const HelpBubble(),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const HelpBubble(),
+            if (order.status == OrderStatus.completed) ...[
+              BackBubble(
+                onTap: () {},
+              ),
+            ],
+          ],
+        ),
         Container(
           width: double.infinity,
           height: 350,
@@ -153,7 +164,7 @@ class OrderWaitingDriverHorizontal extends StatelessWidget {
                               alignment: AlignmentDirectional.centerEnd,
                               child: CustomSvg(
                                 MyIcons.location,
-                                color: context.colorPalette.black1D,   
+                                color: context.colorPalette.black1D,
                               ),
                             ),
                           ],

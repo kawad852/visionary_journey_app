@@ -3,19 +3,20 @@ import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_icons.dart';
 import 'package:visionary_journey_app/widgets/custom_bubble.dart';
 
-import '../helper/app_contact_service.dart';
+class BackBubble extends StatelessWidget {
+  final VoidCallback onTap;
 
-class HelpBubble extends StatelessWidget {
-  const HelpBubble({super.key});
+  const BackBubble({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomBubble(
-      onTap: () {
-        AppContactService.lunch(context, AppContactService.whatsAppUrl);
-      },
-      icon: MyIcons.headphone,
-      label: context.appLocalization.needHelp,
+      onTap: onTap,
+      icon: MyIcons.arrowBack,
+      label: context.appLocalization.back,
     );
   }
 }

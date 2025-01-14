@@ -16,4 +16,6 @@ class MyIcons {
   static const String gps = '${_path}gps.svg';
   static const String category = '${_path}category.svg';
   static const String building = '${_path}building.svg';
+  static const String settings = '${_path}settings.svg';
+  static const String arrowBack = '${_path}arrow-back.svg';
 }

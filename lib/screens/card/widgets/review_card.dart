@@ -6,6 +6,8 @@ import 'package:visionary_journey_app/screens/card/widgets/review_builder.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/widgets/help_bubble.dart';
 
+import '../../../widgets/back_bubble.dart';
+
 class ReviewCard extends StatelessWidget {
   final OrderModel order;
 
@@ -20,7 +22,15 @@ class ReviewCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const HelpBubble(),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const HelpBubble(),
+            BackBubble(
+              onTap: () {},
+            ),
+          ],
+        ),
         Container(
           width: double.infinity,
           height: 410,

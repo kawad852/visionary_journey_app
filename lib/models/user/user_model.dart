@@ -20,7 +20,7 @@ class UserModel with _$UserModel {
     String? fingerPrint,
     @Default(false) bool blocked,
     @Default(true) bool activateSounds,
-    @Default(LanguageEnum.arabic) String languageCode,
+    @Default(LanguageEnum.english) String languageCode,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

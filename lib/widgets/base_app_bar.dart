@@ -21,7 +21,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           Scaffold.of(context).openDrawer();
         },
         icon: CustomSvg(
-          MyIcons.category,
+          MyIcons.settings,
           color: context.colorPalette.black,
         ),
       ),
