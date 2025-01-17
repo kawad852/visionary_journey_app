@@ -238,5 +238,7 @@
     "work": "العمل",
     "enableVibrationFeature":"يوصى بتمكين ميزة الاهتزاز على جهازك.",
     "changeFontSize":"يمكنك تغيير حجم الخط من خلال إعدادات هاتفك.",
-    "back": "رجوع"
+    "back": "رجوع",
+    "adjustColorContrast": "اختر درجة التباين"
+
 }

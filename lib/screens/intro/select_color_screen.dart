@@ -3,12 +3,18 @@ import 'package:visionary_journey_app/screens/intro/widgets/forward_bubble.dart'
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+import 'package:visionary_journey_app/widgets/custom_back_button.dart';
 
 import '../../utils/enums.dart';
 import '../../utils/my_images.dart';
 
 class SelectColorScreen extends StatefulWidget {
-  const SelectColorScreen({super.key});
+  final bool isEdit;
+
+  const SelectColorScreen({
+    super.key,
+    this.isEdit = false,
+  });
 
   @override
   State<SelectColorScreen> createState() => _SelectColorScreenState();
@@ -18,6 +24,14 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: widget.isEdit
+          ? AppBar(
+              forceMaterialTransparency: true,
+              automaticallyImplyLeading: false,
+              title: const CustomBackButton(),
+            )
+          : null,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -101,7 +115,7 @@ class _SelectColorScreenState extends State<SelectColorScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            ForwardBubble(key: UniqueKey())
+                            if (!widget.isEdit) ForwardBubble(key: UniqueKey())
                           ],
                         ),
                         const SizedBox(width: 10),

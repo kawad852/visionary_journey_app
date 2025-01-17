@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_card.dart';
 import 'package:visionary_journey_app/screens/card/widgets/settings_text.dart';
 import 'package:visionary_journey_app/screens/intro/intro_screen.dart';
+import 'package:visionary_journey_app/screens/intro/select_color_screen.dart';
 import 'package:visionary_journey_app/screens/langauge_screen.dart';
 import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
@@ -258,6 +259,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Align(
                       alignment: AlignmentDirectional.centerStart,
                       child: SettingsText(context.appLocalization.adjustViewAngel),
+                    ),
+                  ),
+                  SettingsCard(
+                    onTap: () {
+                      context.navigate((context) {
+                        return SelectColorScreen(isEdit: true);
+                      }).then((value) {
+                        setState(() {});
+                      });
+                    },
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: SettingsText(context.appLocalization.adjustColorContrast),
                     ),
                   ),
                   SettingsCard(

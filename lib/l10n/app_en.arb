@@ -238,5 +238,6 @@
     "work": "Work",
     "enableVibrationFeature":"It is recommended to enable the vibration feature on your device.",
     "changeFontSize":"You can change the font size through your phone settings.",
-    "back": "Back"
+    "back": "Back",
+    "adjustColorContrast": "Adjust Color Contrast"
 }
