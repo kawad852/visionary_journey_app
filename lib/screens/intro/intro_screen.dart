@@ -41,7 +41,9 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     super.initState();
-    _startAudio();
+    if (!widget.isEdit) {
+      _startAudio();
+    }
   }
 
   @override
