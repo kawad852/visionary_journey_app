@@ -8,6 +8,7 @@ import 'package:visionary_journey_app/utils/base_extensions.dart';
 import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+import 'package:visionary_journey_app/widgets/custom_back_button.dart';
 import 'package:visionary_journey_app/widgets/user_selector.dart';
 
 import '../../../network/my_fields.dart';
@@ -27,7 +28,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        title: CustomBackButton(
+          key: ValueKey(MySharedPreferences.appDirction),
+        ),
       ),
       floatingActionButton: kDebugMode
           ? FloatingActionButton(
@@ -261,6 +264,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onTap: () {
                       context.navigate((context) {
                         return const LanguageScreen();
+                      }).then((value) {
+                        setState(() {});
                       });
                     },
                     child: Align(

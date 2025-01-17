@@ -6,6 +6,7 @@ import 'package:visionary_journey_app/utils/enums.dart';
 import 'package:visionary_journey_app/utils/my_images.dart';
 import 'package:visionary_journey_app/utils/my_theme.dart';
 import 'package:visionary_journey_app/utils/shared_pref.dart';
+import 'package:visionary_journey_app/widgets/custom_back_button.dart';
 
 class IntroScreen extends StatefulWidget {
   final bool isEdit;
@@ -21,7 +22,14 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   void _select(String direction) {
-    MySharedPreferences.appDirction = direction;
+    final isEnglish = MySharedPreferences.language == LanguageEnum.english;
+    if (direction == AppDirction.right) {
+      MySharedPreferences.appDirction = isEnglish ? direction : AppDirction.left;
+    } else if (direction == AppDirction.left) {
+      MySharedPreferences.appDirction = isEnglish ? direction : AppDirction.right;
+    } else {
+      MySharedPreferences.appDirction = direction;
+    }
     if (widget.isEdit) {
       Navigator.pop(context);
     } else {
@@ -53,6 +61,8 @@ class _IntroScreenState extends State<IntroScreen> {
       appBar: widget.isEdit
           ? AppBar(
               forceMaterialTransparency: true,
+              automaticallyImplyLeading: false,
+              title: CustomBackButton(),
             )
           : null,
       body: Container(

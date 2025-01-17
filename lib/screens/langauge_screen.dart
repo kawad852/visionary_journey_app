@@ -9,6 +9,7 @@ import '../../utils/enums.dart';
 import '../../utils/my_theme.dart';
 import '../../utils/shared_pref.dart';
 import '../network/my_fields.dart';
+import '../widgets/custom_back_button.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({
@@ -54,7 +55,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const CustomBackButton(),
+      ),
       body: Theme(
         data: Theme.of(context).copyWith(
           listTileTheme: ListTileThemeData(
