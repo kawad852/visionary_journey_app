@@ -4,10 +4,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:local_auth/local_auth.dart';
+// import 'package:local_auth/local_auth.dart';
 import 'package:visionary_journey_app/helper/ui_helper.dart';
 import 'package:visionary_journey_app/screens/home/home_screen.dart';
 import 'package:visionary_journey_app/utils/app_constants.dart';
@@ -54,21 +53,21 @@ class UserProvider extends ChangeNotifier {
       callBack: () async {
         debugPrint("PhoneNumber:: ${context.getDialCode(countryCode)}$phoneNum");
         late http.Response response;
-        if (kDebugMode) {
-          await Future.delayed(const Duration(seconds: 1));
-          response = http.Response(jsonEncode(OtpModel().toJson()), 200);
-        } else {
-          response = await http.post(
-            Uri.parse('https://api.doverifyit.com/api/otp-send/$kOtpId'),
-            headers: {
-              'Content-Type': 'application/json',
-              "Authorization": kOtpToken,
-            },
-            body: jsonEncode({
-              "contact": "${context.getDialCode(countryCode)}$phoneNum",
-            }),
-          );
-        }
+        // if (kDebugMode) {
+        await Future.delayed(const Duration(seconds: 1));
+        response = http.Response(jsonEncode(OtpModel().toJson()), 200);
+        // } else {
+        //   response = await http.post(
+        //     Uri.parse('https://api.doverifyit.com/api/otp-send/$kOtpId'),
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       "Authorization": kOtpToken,
+        //     },
+        //     body: jsonEncode({
+        //       "contact": "${context.getDialCode(countryCode)}$phoneNum",
+        //     }),
+        //   );
+        // }
         final body = OtpModel.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
         if (response.statusCode == 200 && context.mounted) {
           context.navigate((context) {
@@ -238,39 +237,39 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> getFingerPrint(BuildContext context) async {
-    ApiService.fetch(
-      context,
-      withOverlayLoader: false,
-      callBack: () async {
-        final auth = LocalAuthentication();
-        final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-        final bool canAuthenticate = canAuthenticateWithBiometrics || await auth.isDeviceSupported();
-        if (canAuthenticate) {
-          try {
-            final bool didAuthenticate = await auth.authenticate(
-              localizedReason: 'Please authenticate to access your account',
-            );
-            if (didAuthenticate) {
-              print("aklsfjaslkjfjklasfkjlsa ${MySharedPreferences.fingerPrintId}");
-              final userDoc = await _firebaseFirestore.users.doc(MySharedPreferences.fingerPrintId).get();
-              print("doc::: $userDoc");
-              if (context.mounted) {
-                login(
-                  context,
-                  code: userDoc.data()!.phoneCountryCode!,
-                  phoneNum: userDoc.data()!.phone!,
-                );
-              }
-            }
-          } catch (e) {
-            if (context.mounted) {
-              context.showSnackBar(context.appLocalization.generalError);
-            }
-          }
-        } else if (context.mounted) {
-          context.showSnackBar(context.appLocalization.fingerPrintError);
-        }
-      },
-    );
+    // ApiService.fetch(
+    //   context,
+    //   withOverlayLoader: false,
+    //   callBack: () async {
+    //     final auth = LocalAuthentication();
+    //     final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    //     final bool canAuthenticate = canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+    //     if (canAuthenticate) {
+    //       try {
+    //         final bool didAuthenticate = await auth.authenticate(
+    //           localizedReason: 'Please authenticate to access your account',
+    //         );
+    //         if (didAuthenticate) {
+    //           print("aklsfjaslkjfjklasfkjlsa ${MySharedPreferences.fingerPrintId}");
+    //           final userDoc = await _firebaseFirestore.users.doc(MySharedPreferences.fingerPrintId).get();
+    //           print("doc::: $userDoc");
+    //           if (context.mounted) {
+    //             login(
+    //               context,
+    //               code: userDoc.data()!.phoneCountryCode!,
+    //               phoneNum: userDoc.data()!.phone!,
+    //             );
+    //           }
+    //         }
+    //       } catch (e) {
+    //         if (context.mounted) {
+    //           context.showSnackBar(context.appLocalization.generalError);
+    //         }
+    //       }
+    //     } else if (context.mounted) {
+    //       context.showSnackBar(context.appLocalization.fingerPrintError);
+    //     }
+    //   },
+    // );
   }
 }
