@@ -93,11 +93,29 @@ class _OrderScreenState extends State<OrderScreen> {
     final arrivalGeo = order.arrivalGeoPoint;
 
     ///
-    if (status == OrderStatus.driverAssigned) {
-      order.pickUpPolylinePoints = await _createPolyline(
-        start: driverGeo.geoPoint!,
-        end: pickUpGeo.geoPoint!,
+    if (status == OrderStatus.driverArrived) {
+      await Future.delayed(
+        const Duration(seconds: 8),
       );
+      if (order.arrivalGeoPoint == null) {
+        final coordinates = MyFactory.generateRandomCoordinates(order.pickUp!.geoPoint!.latitude, order.pickUp!.geoPoint!.longitude);
+        order.arrivalGeoPoint = AppServices.getGeoModel(coordinates.latitude, coordinates.longitude);
+      }
+      await _firebaseFirestore.orders.doc(order.id).update({
+        MyFields.status: OrderStatus.inProgress,
+        'arrivalGeoPoint': order.arrivalGeoPoint?.toJson(),
+      });
+      _handleOrder(order: order, status: OrderStatus.inProgress);
+    }
+
+    ///
+    if (status == OrderStatus.driverAssigned) {
+      if (order.pickUpPolylinePoints.isEmpty) {
+        order.pickUpPolylinePoints = await _createPolyline(
+          start: driverGeo.geoPoint!,
+          end: pickUpGeo.geoPoint!,
+        );
+      }
       await _firebaseFirestore.orders.doc(order.id).update({
         "pickUpPolylinePoints": order.pickUpPolylinePoints.map((e) => e.toJson()).toList(),
       });
@@ -137,10 +155,12 @@ class _OrderScreenState extends State<OrderScreen> {
 
     ///
     if (status == OrderStatus.inProgress && arrivalGeo != null) {
-      order.arrivalPolylinePoints = await _createPolyline(
-        start: pickUpGeo.geoPoint!,
-        end: arrivalGeo.geoPoint!,
-      );
+      if (order.arrivalPolylinePoints.isEmpty) {
+        order.arrivalPolylinePoints = await _createPolyline(
+          start: pickUpGeo.geoPoint!,
+          end: arrivalGeo.geoPoint!,
+        );
+      }
       await _firebaseFirestore.orders.doc(order.id).update({
         "arrivalPolylinePoints": order.arrivalPolylinePoints.map((e) => e.toJson()).toList(),
       });
