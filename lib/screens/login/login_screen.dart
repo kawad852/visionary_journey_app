@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context.userProvider.sendPinCode(
         context,
         countryCode: phoneController.countryCode!,
-        phoneNum: phoneController.phoneNum!,
+        phoneNum: phoneController.getPhoneNumber,
       );
     }
   }
